@@ -1,0 +1,33 @@
+#accordion .btn-link {
+  text-decoration: none;
+  font-weight: bold;
+  color: #343a40;
+}
+
+#accordion .btn-link:hover {
+  color: #5d696f;
+}
+
+#accordion .card-header-primary {
+  border-left: 5px solid #3c8dbc;
+}
+
+#accordion .card-header-success {
+  border-left: 5px solid #00a65a;
+}
+
+#accordion .card-header-info {
+  border-left: 5px solid #00c0ef;
+}
+
+#accordion .card-header-warning {
+  border-left: 5px solid #f39c12;
+}
+
+#accordion .card-header-danger {
+  border-left: 5px solid #f56954;
+}
+
+#accordion .card-body {
+  text-align: justify;
+}
