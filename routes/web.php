@@ -22,4 +22,13 @@ Route::get('/error',function (){
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    Route::get('/mydata', [HomeController::class, 'myData']);
+    Route::post('/mydata', [HomeController::class, 'myData']);
+
+    //update x-editable
+    Route::post('/mydata/update/user', [HomeController::class, 'userUpdate']);
+    Route::post('/mydata/update/personal', [HomeController::class, 'personalUpdate']);
+    Route::post('/mydata/update/data', [HomeController::class, 'dataUpdate']);
+    Route::post('/mydata/update/table/{table}', [HomeController::class, 'tableUpdate']);
 });

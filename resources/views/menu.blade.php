@@ -9,6 +9,9 @@
                 <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a>
                 </li>
+                <li class="nav-item {{ request()->is('mydata*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/mydata') }}"><i class="fa fa-database"></i> My Data</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
                 </li>

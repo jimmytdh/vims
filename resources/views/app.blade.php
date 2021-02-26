@@ -14,11 +14,13 @@
     <link href="{{ url('/') }}/css/bootstrap.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/font-awesome.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/loader.css" rel="stylesheet">
-    <link href="{{ url('/') }}/css/style.css" rel="stylesheet">
     @yield('css')
 </head>
 
 <body>
+<div id="loader-wrapper" style="visibility: hidden;">
+    <div id="loader"></div>
+</div>
 @include('menu')
 
 <!-- Header -->
@@ -53,6 +55,7 @@
 <!-- Bootstrap core JavaScript -->
 <script src="{{ url('/') }}/js/jquery.min.js"></script>
 <script src="{{ url('/') }}/js/bootstrap.bundle.min.js"></script>
+@include('loader')
 <script>
     $.ajaxSetup({
         headers: {
