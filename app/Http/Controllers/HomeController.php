@@ -6,11 +6,13 @@ use App\Models\Allergy;
 use App\Models\Categories;
 use App\Models\CategoryID;
 use App\Models\CivilStatus;
+use App\Models\Classification;
 use App\Models\Comorbidity;
 use App\Models\Confirmation;
 use App\Models\EmploymentStatus;
 use App\Models\PersonalInfo;
 use App\Models\Profession;
+use App\Models\Region;
 use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
@@ -42,6 +44,18 @@ class HomeController extends Controller
         $civil_status = CivilStatus::get();
         $employment_status = EmploymentStatus::get();
         $profession = Profession::get();
+        $classification = Classification::get();
+
+        $region = Region::get();
+        $provinces = array();
+        $muncity = array();
+        $brgy = array();
+        if($personal->address_region)
+            $provinces = AreaController::getProvinces($personal->address_region);
+        if($personal->address_province)
+            $muncity = AreaController::getMuncity($personal->address_province);
+        if($personal->address_muncity)
+            $brgy = AreaController::getBrgy($personal->address_muncity);
 
         return view('page.data',compact(
             'data',
@@ -54,7 +68,12 @@ class HomeController extends Controller
             'categoryID',
             'civil_status',
             'employment_status',
-            'profession'
+            'profession',
+            'classification',
+            'region',
+            'provinces',
+            'muncity',
+            'brgy'
         ));
     }
 
@@ -88,7 +107,7 @@ class HomeController extends Controller
         $user->employer_province = 'City of Talisay';
         $user->employer_address = 'San Isidro, Talisay City, Cebu';
         $user->employer_contact = '(032) 273-3226';
-        $user->pregnancy_status = 'No';
+        $user->pregnancy_status = 'Not Pregnant';
         $user->was_diagnosed = 'No';
         $user->date_result = null;
         $user->classification = null;
@@ -111,12 +130,13 @@ class HomeController extends Controller
         $com->with_comorbidity = 'No';
         $com->hypertension = 'No';
         $com->heart_disease = 'No';
+        $com->kidney_disease = 'No';
         $com->diabetes = 'No';
         $com->asthma = 'No';
         $com->immunodeficiency = 'No';
         $com->cancer = 'No';
         $com->others = 'No';
-        $com->others_info = 'No';
+        $com->others_info = '';
         $com->save();
 
         return redirect('/mydata');
@@ -134,10 +154,14 @@ class HomeController extends Controller
 
     public function personalUpdate(Request $req)
     {
-        PersonalInfo::find($req->pk)
+        PersonalInfo::where('id',$req->pk)
             ->update([
                 $req->name => $req->value
             ]);
+
+        if($req->name=='address_region' || $req->name=='address_province' || $req->name=='address_muncity'){
+            return $req->value;
+        }
         return 'success';
     }
 
@@ -147,7 +171,7 @@ class HomeController extends Controller
             ->update([
                 $req->name => $req->value
             ]);
-        return 'success';
+        return $req;
     }
 
     public function tableUpdate(Request $req, $table)
@@ -155,6 +179,15 @@ class HomeController extends Controller
         $user_id = Auth::id();
         DB::table($table)
             ->where('user_id',$user_id)
+            ->update([
+                $req->name => $req->value
+            ]);
+        return 'success';
+    }
+
+    public function dataComorbidity(Request $req)
+    {
+        Comorbidity::find($req->pk)
             ->update([
                 $req->name => $req->value
             ]);

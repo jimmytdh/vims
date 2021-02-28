@@ -13,6 +13,7 @@ class Comorbidity extends Model
         'with_comorbidity',
         'hypertension',
         'heart_disease',
+        'kidney_disease',
         'diabetes',
         'asthma',
         'immunodeficiency',

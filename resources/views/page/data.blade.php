@@ -133,6 +133,29 @@
                        <small class="label">Contact Number of Employer</small>
                    </td>
                </tr>
+
+               <tr>
+                   <td>
+                       <a href="#" title="Region" id="address_region" data-value="{{ $personal->address_region }}" data-type="select" data-pk="{{ $personal->id }}">{{ optional(\App\Models\Region::where('regCode',$personal->address_region)->first())->regDesc }}</a>
+                       <small class="label">Region</small>
+                   </td>
+                   <td>
+                       <a href="#" title="Province" id="address_province" data-value="{{ $personal->address_province }}" data-type="select" data-pk="{{ $personal->id }}">{{ optional(\App\Models\Province::where('provCode',$personal->address_province)->first())->provDesc }}</a>
+                       <small class="label">Province</small>
+                   </td>
+                   <td>
+                       <a href="#" title="Municipality/City" id="address_muncity" data-value="{{ $personal->address_muncity }}" data-type="select" data-pk="{{ $personal->id }}">{{ optional(\App\Models\Muncity::where('citymunCode',$personal->address_muncity)->first())->citymunDesc }}</a>
+                       <small class="label">Municipality/City</small>
+                   </td>
+                   <td>
+                       <a href="#" title="Barangay" id="address_brgy" data-value="{{ $personal->address_brgy }}" data-type="select" data-pk="{{ $personal->id }}">{{ optional(\App\Models\Brgy::where('brgyCode',$personal->address_muncity)->first())->brgyDesc }}</a>
+                       <small class="label">Barangay</small>
+                   </td>
+                   <td>
+                       <a href="#" class="personal" title="Unit/Building/House#/Street" id="address_street" data-value="{{ $personal->address_street }}" data-pk="{{ $personal->id }}">{{ $personal->address_street }}</a>
+                       <small class="label">Unit/Building/House#/Street</small>
+                   </td>
+               </tr>
            </table>
         </div>
         <!-- /.box-body -->
@@ -160,38 +183,38 @@
                     </tr>
                     <tr>
                         <td>Drug Allergy</td>
-                        <td><input type="radio" name="drug" value="Yes"></td>
-                        <td><input type="radio" name="drug" value="No"></td>
+                        <td><input type="radio" name="drug" data-table="allergies" value="Yes" {{ ($allergy->drug=='Yes') ? 'checked':'' }}></td>
+                        <td><input type="radio" name="drug" data-table="allergies" value="No" {{ ($allergy->drug=='No') ? 'checked':'' }}></td>
                     </tr>
                     <tr>
                         <td>Food Allergy</td>
-                        <td><input type="radio" name="food" value="Yes"></td>
-                        <td><input type="radio" name="food" value="No"></td>
+                        <td><input type="radio" name="food" data-table="allergies" value="Yes" {{ ($allergy->food=='Yes') ? 'checked':'' }}></td>
+                        <td><input type="radio" name="food" data-table="allergies" value="No" {{ ($allergy->food=='No') ? 'checked':'' }}></td>
                     </tr>
                     <tr>
                         <td>Insect Allergy</td>
-                        <td><input type="radio" name="insect" value="Yes"></td>
-                        <td><input type="radio" name="insect" value="No"></td>
+                        <td><input type="radio" name="insect" data-table="allergies" value="Yes" {{ ($allergy->insect=='Yes') ? 'checked':'' }}></td>
+                        <td><input type="radio" name="insect" data-table="allergies" value="No" {{ ($allergy->insect=='No') ? 'checked':'' }}></td>
                     </tr>
                     <tr>
                         <td>Latex Allergy</td>
-                        <td><input type="radio" name="latex" value="Yes"></td>
-                        <td><input type="radio" name="latex" value="No"></td>
+                        <td><input type="radio" name="latex" data-table="allergies" value="Yes" {{ ($allergy->latex=='Yes') ? 'checked':'' }}></td>
+                        <td><input type="radio" name="latex" data-table="allergies" value="No" {{ ($allergy->latex=='No') ? 'checked':'' }}></td>
                     </tr>
                     <tr>
                         <td>Mold Allergy</td>
-                        <td><input type="radio" name="mold" value="Yes"></td>
-                        <td><input type="radio" name="mold" value="No"></td>
+                        <td><input type="radio" name="mold" data-table="allergies" value="Yes" {{ ($allergy->mold=='Yes') ? 'checked':'' }}></td>
+                        <td><input type="radio" name="mold" data-table="allergies" value="No" {{ ($allergy->mold=='No') ? 'checked':'' }}></td>
                     </tr>
                     <tr>
                         <td>Pet Allergy</td>
-                        <td><input type="radio" name="pet" value="Yes"></td>
-                        <td><input type="radio" name="pet" value="No"></td>
+                        <td><input type="radio" name="pet" data-table="allergies" value="Yes" {{ ($allergy->pet=='Yes') ? 'checked':'' }}></td>
+                        <td><input type="radio" name="pet" data-table="allergies" value="No" {{ ($allergy->pet=='No') ? 'checked':'' }}></td>
                     </tr>
                     <tr>
                         <td>Pollen Allergy</td>
-                        <td><input type="radio" name="pollen" value="Yes"></td>
-                        <td><input type="radio" name="pollen" value="No"></td>
+                        <td><input type="radio" name="pollen" data-table="allergies" value="Yes" {{ ($allergy->pollen=='Yes') ? 'checked':'' }}></td>
+                        <td><input type="radio" name="pollen" data-table="allergies" value="No" {{ ($allergy->pollen=='No') ? 'checked':'' }}></td>
                     </tr>
                 </tbody>
             </table>
@@ -215,54 +238,54 @@
                 <tbody>
                 <tr>
                     <td>With Comorbidity</td>
-                    <td><input type="radio" name="comorbidity" value="Yes"></td>
-                    <td><input type="radio" name="comorbidity" value="No"></td>
+                    <td><input type="radio" name="with_comorbidity" data-table="comorbidities" value="Yes" {{ ($com->with_comorbidity=='Yes') ? 'checked':'' }}></td>
+                    <td><input type="radio" name="with_comorbidity" data-table="comorbidities" value="No" {{ ($com->with_comorbidity=='No') ? 'checked':'' }}></td>
                 </tr>
                 <tr>
                     <td>Hypertension</td>
-                    <td><input type="radio" name="hypertension" value="Yes"></td>
-                    <td><input type="radio" name="hypertension" value="No"></td>
+                    <td><input type="radio" name="hypertension" data-table="comorbidities" value="Yes" {{ ($com->hypertension=='Yes') ? 'checked':'' }}></td>
+                    <td><input type="radio" name="hypertension" data-table="comorbidities" value="No" {{ ($com->hypertension=='No') ? 'checked':'' }}></td>
                 </tr>
                 <tr>
                     <td>Heart Disease</td>
-                    <td><input type="radio" name="heart_disease" value="Yes"></td>
-                    <td><input type="radio" name="heart_disease" value="No"></td>
+                    <td><input type="radio" name="heart_disease" data-table="comorbidities" value="Yes" {{ ($com->heart_disease=='Yes') ? 'checked':'' }}></td>
+                    <td><input type="radio" name="heart_disease" data-table="comorbidities" value="No" {{ ($com->heart_disease=='No') ? 'checked':'' }}></td>
                 </tr>
                 <tr>
                     <td>Kidney Disease</td>
-                    <td><input type="radio" name="kidney_disease" value="Yes"></td>
-                    <td><input type="radio" name="kidney_disease" value="No"></td>
+                    <td><input type="radio" name="kidney_disease" data-table="comorbidities" value="Yes" {{ ($com->kidney_disease=='Yes') ? 'checked':'' }}></td>
+                    <td><input type="radio" name="kidney_disease" data-table="comorbidities" value="No" {{ ($com->kidney_disease=='No') ? 'checked':'' }}></td>
                 </tr>
                 <tr>
                     <td>Diabetes Mellitus</td>
-                    <td><input type="radio" name="diabetes" value="Yes"></td>
-                    <td><input type="radio" name="diabetes" value="No"></td>
+                    <td><input type="radio" name="diabetes" data-table="comorbidities" value="Yes" {{ ($com->diabetes=='Yes') ? 'checked':'' }}></td>
+                    <td><input type="radio" name="diabetes" data-table="comorbidities" value="No" {{ ($com->diabetes=='No') ? 'checked':'' }}></td>
                 </tr>
                 <tr>
                     <td>Bronchial Asthma</td>
-                    <td><input type="radio" name="asthma" value="Yes"></td>
-                    <td><input type="radio" name="asthma" value="No"></td>
+                    <td><input type="radio" name="asthma" data-table="comorbidities" value="Yes" {{ ($com->asthma=='Yes') ? 'checked':'' }}></td>
+                    <td><input type="radio" name="asthma" data-table="comorbidities" value="No" {{ ($com->asthma=='No') ? 'checked':'' }}></td>
                 </tr>
                 <tr>
                     <td>Immunodeficiency</td>
-                    <td><input type="radio" name="immunodeficiency" value="Yes"></td>
-                    <td><input type="radio" name="immunodeficiency" value="No"></td>
+                    <td><input type="radio" name="immunodeficiency" data-table="comorbidities" value="Yes" {{ ($com->immunodeficiency=='Yes') ? 'checked':'' }}></td>
+                    <td><input type="radio" name="immunodeficiency" data-table="comorbidities" value="No" {{ ($com->immunodeficiency=='No') ? 'checked':'' }}></td>
                 </tr>
                 <tr>
                     <td>Cancer</td>
-                    <td><input type="radio" name="cancer" value="Yes"></td>
-                    <td><input type="radio" name="cancer" value="No"></td>
+                    <td><input type="radio" name="cancer" data-table="comorbidities" value="Yes" {{ ($com->cancer=='Yes') ? 'checked':'' }}></td>
+                    <td><input type="radio" name="cancer" data-table="comorbidities" value="No" {{ ($com->cancer=='No') ? 'checked':'' }}></td>
                 </tr>
                 <tr>
                     <td>Others</td>
-                    <td><input type="radio" name="others" value="Yes"></td>
-                    <td><input type="radio" name="others" value="No"></td>
+                    <td><input type="radio" name="others" data-table="comorbidities" value="Yes" {{ ($com->others=='Yes') ? 'checked':'' }}></td>
+                    <td><input type="radio" name="others" data-table="comorbidities" value="No" {{ ($com->others=='No') ? 'checked':'' }}></td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         Please Specify:
                         <br>
-                        <textarea name="others_info" rows="3" style="resize: none" class="form-control"></textarea>
+                        <a href="#" class="comorbidityEdit" title="Please Specify(if others):" id="others_info" data-pk="{{ $com->id }}">{{ $com->others_info }}</a>
                     </td>
                 </tr>
                 </tbody>
@@ -280,15 +303,15 @@
             <table class="table table-striped table-hover table-sm">
                 <tr>
                     <td>
-                        No
+                        <a href="#" title="diagnosed with COVID19?" id="was_diagnosed" data-value="{{ $data->was_diagnosed }}" data-type="select" data-pk="{{ $data->id }}">{{ optional(\App\Models\Confirmation::find($data->was_diagnosed))->name }}</a>
                         <small class="label">Patient was diagnosed with COVID19?</small>
                     </td>
                     <td>
-                        N/A
+                        <a href="#" id="date_result" data-value="{{ ($data->date_result) ? $data->date_result:'' }}" data-type="date" data-pk="{{ $personal->id }}" data-title="Date of Result/Specimen Collection">{{ ($data->date_result) ? date('M d, Y',strtotime($data->date_result)):'' }}</a>
                         <small class="label">Date of Result/Specimen Collection</small>
                     </td>
                     <td>
-                        N/A
+                        <a href="#" title="Classification of COVID19" id="classification" data-value="{{ $data->classification }}" data-type="select" data-pk="{{ $data->id }}">{{ optional(\App\Models\Classification::find($data->classification))->name }}</a>
                         <small class="label">Classification of COVID19</small>
                     </td>
                 </tr>
@@ -300,7 +323,7 @@
     <!-- /.box -->
     <div class="alert alert-danger">
         <label>
-            <input type="checkbox" name="willing_to_vaccinated">
+            <input type="checkbox" name="willing_to_vaccinated" id="willing_to_vaccinated" {{ ($data->willing_to_vaccinated=='Yes') ? 'checked' : '' }} data-pk="{{ $data->id }}">
             Willing to be Vaccinated? <small><em>(Put check if YES!)</em></small>
         </label>
     </div>
@@ -336,17 +359,17 @@
     <script>
         $('.user').editable({
             url: "{{ url('/mydata/update/user') }}",
-            type: 'text',
-            success: function(data){
-                console.log(data);
-            }
+            type: 'text'
         });
+
+        $('.comorbidityEdit').editable({
+            url: "{{ url('/mydata/update/comorbidity') }}",
+            type: 'textarea'
+        });
+
         $('.personal').editable({
             url: "{{ url('/mydata/update/personal') }}",
-            type: 'text',
-            success: function(data){
-                console.log(data);
-            }
+            type: 'text'
         });
         $('#suffix').editable({
             url: "{{ url('/mydata/update/personal') }}",
@@ -386,6 +409,15 @@
             }
         });
 
+        $('#date_result').editable({
+            url: "{{ url('/mydata/update/data') }}",
+            format: 'yyyy-mm-dd',
+            viewformat: 'M dd, yyyy',
+            datepicker: {
+                weekStart: 0
+            }
+        });
+
         $('#employment_status').editable({
             url: "{{ url('/mydata/update/data') }}",
             source: [
@@ -407,6 +439,29 @@
                 @endforeach
             ]
         });
+        $('#was_diagnosed').editable({
+            url: "{{ url('/mydata/update/data') }}",
+            source: [
+                @foreach($confirmation as $row)
+                    {value: "{{ $row->id }}", text: "{{ $row->name }}"},
+                @endforeach
+            ],
+            success: function (){
+                $('#date_result').editable('setValue', null);
+                $.ajax({
+                    url: "{{ url('/mydata/update/data') }}",
+                    type: "POST",
+                    data: {
+                        pk: $(this).data('pk'),
+                        name: 'date_result',
+                        value: null
+                    },
+                    success: function (data){
+                        console.log(data);
+                    }
+                })
+            }
+        });
         $('#category').editable({
             url: "{{ url('/mydata/update/data') }}",
             source: [
@@ -424,11 +479,22 @@
                 @endforeach
             ]
         });
+
         $('#profession').editable({
             url: "{{ url('/mydata/update/data') }}",
             source: [
                 @foreach($profession as $row)
                     {value: "{{ $row->id }}", text: "{{ $row->name }}"},
+                @endforeach
+            ]
+        });
+
+        $('#classification').editable({
+            url: "{{ url('/mydata/update/data') }}",
+            source: [
+                { value: null, text: "None"},
+                @foreach($classification as $row)
+                    { value: "{{ $row->id }}", text: "{{ $row->name }}"},
                 @endforeach
             ]
         });
@@ -443,11 +509,176 @@
                 data: {
                     name: name,
                     value: value
-                },
-                success: function(data){
-                    console.log(data);
                 }
             })
         });
+
+        $("#willing_to_vaccinated").on('change',function (){
+            var ans = null;
+            if (this.checked) {
+                ans = "Yes";
+            } else {
+                ans = "No";
+            }
+            $.ajax({
+                url: "{{ url('/mydata/update/data') }}",
+                type: "POST",
+                data: {
+                    pk: $(this).data('pk'),
+                    name: 'willing_to_vaccinated',
+                    value: ans
+                }
+            })
+        });
+    </script>
+
+    <script>
+        {{--showProvinces("{{ $personal->address_region }}");--}}
+        var provinces = [
+            @foreach($provinces as $row)
+                { value: "{{ $row->provCode }}", text: "{{ $row->provDesc }}"},
+            @endforeach
+        ];
+
+        var muncity = [
+            @foreach($muncity as $row)
+                { value: "{{ $row->citymunCode }}", text: "{{ $row->citymunDesc }}"},
+            @endforeach
+        ];
+
+        var brgy = [
+            @foreach($brgy as $row)
+                { value: "{{ $row->brgyCode }}", text: "{{ $row->brgyDesc }}"},
+            @endforeach
+        ];
+
+        $('#address_region').editable({
+            url: "{{ url('/mydata/update/personal') }}",
+            source: [
+                @foreach($region as $row)
+                    { value: "{{ $row->regCode }}", text: "{{ $row->regDesc }}"},
+                @endforeach
+            ],
+            success: function (data){
+                var regCode = data;
+                showProvinces(regCode);
+            }
+        });
+
+        $('#address_province').editable({
+            url: "{{ url('/mydata/update/personal') }}",
+            source: function(){
+                return provinces;
+            },
+            success: function (data){
+                var provCode = data;
+                showMuncity(provCode);
+            }
+        });
+
+        $('#address_muncity').editable({
+            url: "{{ url('/mydata/update/personal') }}",
+            source: function(){
+                return muncity;
+            },
+            success: function (data){
+                var citymunCode = data;
+                showBrgy(citymunCode);
+            }
+        });
+
+        $('#address_brgy').editable({
+            url: "{{ url('/mydata/update/personal') }}",
+            source: function(){
+                return brgy;
+            }
+        });
+
+
+
+        function showProvinces(regCode)
+        {
+            selectedEmpty('address_province');
+            selectedEmpty('address_muncity');
+            selectedEmpty('address_brgy');
+            var url = "{{ url('/provinces/') }}/"+regCode;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (data) {
+                    var tmp = [];
+                    jQuery.each( data, function( i, val ) {
+                        tmp.push({
+                            value: val.provCode, text: val.provDesc
+                        });
+                    });
+                    provinces = tmp;
+                }
+            });
+        }
+
+        function showMuncity(provCode)
+        {
+            selectedEmpty('address_muncity');
+            selectedEmpty('address_brgy');
+            var url = "{{ url('/muncity/') }}/"+provCode;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (data) {
+                    var tmp = [];
+                    jQuery.each( data, function( i, val ) {
+                        tmp.push({
+                            value: val.citymunCode, text: val.citymunDesc
+                        });
+                    });
+                    muncity = tmp;
+                }
+            });
+        }
+
+        function showBrgy(citymunCode)
+        {
+            selectedEmpty('address_brgy');
+            var url = "{{ url('/barangay/') }}/"+citymunCode;
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (data) {
+                    var tmp = [];
+                    jQuery.each( data, function( i, val ) {
+                        tmp.push({
+                            value: val.brgyCode, text: val.brgyDesc
+                        });
+                    });
+                    brgy = tmp;
+                }
+            });
+        }
+
+        function selectedEmpty(name)
+        {
+            $('#'+name).editable('setValue', null);
+            if(name === 'address_region')
+            {
+                provinces = [];
+                muncity = [];
+                brgy = [];
+            }
+
+            if(name === 'address_province'){
+                muncity = [];
+                brgy = [];
+            }
+            $.ajax({
+                url: "{{ url('/mydata/update/personal') }}",
+                type: "POST",
+                data: {
+                    pk: "{{ $personal->id }}",
+                    name: name,
+                    value: "null"
+                }
+            })
+        }
     </script>
 @endsection

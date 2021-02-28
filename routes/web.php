@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AreaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,5 +31,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/mydata/update/user', [HomeController::class, 'userUpdate']);
     Route::post('/mydata/update/personal', [HomeController::class, 'personalUpdate']);
     Route::post('/mydata/update/data', [HomeController::class, 'dataUpdate']);
+    Route::post('/mydata/update/comorbidity', [HomeController::class, 'dataComorbidity']);
     Route::post('/mydata/update/table/{table}', [HomeController::class, 'tableUpdate']);
+
+    Route::get('/provinces/{regCode}',[AreaController::class,'getProvinces']);
+    Route::get('/muncity/{provCode}',[AreaController::class,'getMuncity']);
+    Route::get('/barangay/{citymunCode}',[AreaController::class,'getBrgy']);
 });
