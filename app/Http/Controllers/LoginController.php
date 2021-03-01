@@ -2,6 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
+use App\Models\CategoryID;
+use App\Models\CivilStatus;
+use App\Models\Classification;
+use App\Models\Confirmation;
+use App\Models\EmploymentStatus;
+use App\Models\PersonalInfo;
+use App\Models\Profession;
+use App\Models\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
