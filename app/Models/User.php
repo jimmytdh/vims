@@ -34,7 +34,14 @@ class User extends Authenticatable
     protected $fillable = [
         'lname',
         'fname',
-        'mname'
+        'mname',
+        'username',
+        'password',
+        'designation',
+        'division',
+        'section',
+        'user_priv',
+        'status',
     ];
 
     public function roles()

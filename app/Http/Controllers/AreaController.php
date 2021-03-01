@@ -11,17 +11,23 @@ class AreaController extends Controller
 {
     public static function getProvinces($regCode)
     {
-        $provinces = Province::where('regCode',$regCode)->get();
+        $provinces = Province::where('regCode',$regCode)
+                        ->orderBy('provDesc','asc')
+                        ->get();
         return $provinces;
     }
 
     public static function getMuncity($provCode)
     {
-        return Muncity::where('provCode',$provCode)->get();
+        return Muncity::where('provCode',$provCode)
+            ->orderBy('citymunDesc','asc')
+            ->get();
     }
 
     public static function getBrgy($citymunCode)
     {
-        return Brgy::where('citymunCode',$citymunCode)->get();
+        return Brgy::where('citymunCode',$citymunCode)
+            ->orderBy('brgyDesc','asc')
+            ->get();
     }
 }
