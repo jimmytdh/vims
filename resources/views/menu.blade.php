@@ -10,7 +10,13 @@
                 <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a>
                 </li>
-                <li class="nav-item {{ request()->is('mydata*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('list*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/list') }}"><i class="fa fa-pencil-square"></i> Encoded List</a>
+                </li>
+                <li class="nav-item {{ request()->is('masterlist*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/masterlist') }}"><i class="fa fa-database"></i> Master List</a>
+                </li>
+                <li class="nav-item {{ request()->is('mydata*') ? 'active' : '' }} hidden">
                     <a class="nav-link" href="{{ url('/mydata') }}"><i class="fa fa-database"></i> My Data</a>
                 </li>
                 <li class="nav-item">

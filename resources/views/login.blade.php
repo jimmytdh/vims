@@ -47,6 +47,11 @@
                         Login Failed! Please try or register a new account.
                     </div>
                     @endif
+                    @if(session('denied'))
+                    <div class="alert alert-danger alert-circle text-center">
+                        Access Denied!
+                    </div>
+                    @endif
                     <form class="form-signin" method="post" action="{{ route('validate.login') }}">
                         {{ csrf_field() }}
                         <div class="form-label-group">

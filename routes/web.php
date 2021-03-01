@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ListController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,4 +42,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/mydata/update/data', [HomeController::class, 'dataUpdate']);
     Route::post('/mydata/update/comorbidity', [HomeController::class, 'dataComorbidity']);
     Route::post('/mydata/update/table/{table}', [HomeController::class, 'tableUpdate']);
+
+    //manage list
+    Route::get('/list',[ListController::class,'index']);
 });
