@@ -65,7 +65,7 @@
                         </div>
 
                         <button class="btn btn-lg btn-success btn-block text-uppercase" type="submit">Login</button>
-                        <a class="d-block text-center mt-2 small" href="{{ url('/register') }}/">Don't have account? Register Now!</a>
+                        <a class="d-block text-center mt-2 small" href="{{ url('/register') }}/">Register New Record!</a>
                     </form>
                 </div>
             </div>
