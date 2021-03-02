@@ -10,26 +10,28 @@
     </style>
 @endsection
 @section('content')
-    <h2 class="title-header text-success">Update Record</h2>
-    @if(session('success'))
-        <div class="alert alert-success">
-            <i class="fa fa-check"></i>
-            Successfully updated!
-        </div>
-    @endif
-    @if(session('duplicate'))
-        <div class="alert alert-info">
-            <i class="fa fa-exclamation-circle"></i>
-            Your data was successfully updated!
-        </div>
-    @endif
+    <h2 class="title-header text-success">Registration</h2>
 
-    @if(session('saved'))
-        <div class="alert alert-success">
-            <i class="fa fa-check-circle"></i>
-            Your data was successfully saved!
-        </div>
-    @endif
+        @if(session('success'))
+            <div class="alert alert-success">
+                <i class="fa fa-check"></i>
+                Successfully updated!
+            </div>
+        @endif
+        @if(session('duplicate'))
+            <div class="alert alert-info">
+                <i class="fa fa-exclamation-circle"></i>
+                Your data was successfully updated!
+            </div>
+        @endif
+
+        @if(session('saved'))
+            <div class="alert alert-success">
+                <i class="fa fa-check-circle"></i>
+                Your data was successfully saved!
+            </div>
+        @endif
+
     <form action="{{ url('/register') }}" method="post">
         {{ csrf_field() }}
         <h4 class="title-header text-danger">Category</h4>
@@ -44,7 +46,7 @@
                         $str = "$_id $row->name";
                         $value = str_replace(" ", "_", $str)
                         ?>
-                        <option value="{{ $value }}">{{ $row->name }}</option>
+                        <option {{ ($value=='01_Health_Care_Worker') ? 'selected':'' }} value="{{ $value }}">{{ $row->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -58,7 +60,7 @@
                         $str = "$_id $row->name";
                         $value = str_replace(" ", "_", $str)
                         ?>
-                        <option value="{{ $value }}">{{ $row->name }}</option>
+                        <option {{ ($value=='03_Facility_ID_number') ? 'selected':'' }} value="{{ $value }}">{{ $row->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -74,7 +76,7 @@
             </div>
             <div class="form-group col-md-6">
                 <label>PWD ID</label>
-                <input type="text" name="pwd_id" value="" class="form-control">
+                <input type="text" name="pwd_id" value="NA" class="form-control">
             </div>
         </div>
 
@@ -97,7 +99,7 @@
                 <label>Extension Name</label>
                 <select name="suffix" class="custom-select" required>
                     <option value="">Select Here...</option>
-                    <option>NA</option>
+                    <option selected>NA</option>
                     <option>SR</option>
                     <option>JR</option>
                     <option>I</option>
@@ -151,7 +153,7 @@
                         $str = "$_id $row->name";
                         $value = str_replace(" ", "_", $str)
                         ?>
-                        <option value="{{ $value }}">{{ $row->name }}</option>
+                        <option {{ ($value=='01_Government_Employed') ? 'selected':'' }} value="{{ $value }}">{{ $row->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -227,7 +229,7 @@
                 <select name="preg_status" class="custom-select" required>
                     <option value="">Select Here...</option>
                     <option value="01_Pregnant">Pregnant</option>
-                    <option value="02_Not_Pregnant">Not Pregnant</option>
+                    <option selected value="02_Not_Pregnant">Not Pregnant</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
@@ -435,11 +437,10 @@
             </div>
         </div>
         <hr>
-        <button class="btn btn-success btn-lg" type="submit">
-            <i class="fa fa-send"></i> Update Record
+        <button class="btn btn-success btn-lg btn-block" type="submit">
+            <i class="fa fa-send"></i> Submit Data
         </button>
     </form>
-
 @endsection
 
 @section('js')

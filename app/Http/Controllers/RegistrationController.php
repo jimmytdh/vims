@@ -68,10 +68,10 @@ class RegistrationController extends Controller
             'lastname' => $row['lastname'],
             'middlename' => $row['middlename'],
         );
-        $check = FinalList::where($match)->count();
+        $check = FinalList::where($match)->first();
 
         FinalList::updateOrCreate($match,$row);
-        $status = ($check>0) ? 'duplicate': 'saved';
-        return redirect()->back()->with($status,$check);
+        $status = ($check) ? 'duplicate': 'saved';
+        return redirect()->back()->with($status,true);
     }
 }
