@@ -83,7 +83,7 @@
                     <h3>{{ $per }}<sup style="font-size: 20px">%</sup></h3>
                     <p class="text-white">
                         {{ $total }} out of {{ $target }} Employees
-                        <br>0 Female | 0 Male
+                        <br>{{ $female }} Female | {{ $male }} Male
                     </p>
                 </div>
                 <div class="icon">
