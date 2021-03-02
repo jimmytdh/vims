@@ -11,6 +11,7 @@ use App\Models\EmploymentStatus;
 use App\Models\PersonalInfo;
 use App\Models\Profession;
 use App\Models\Region;
+use App\Models\UserAccess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,6 +26,13 @@ class LoginController extends Controller
     {
         $remember = ($req->remember) ? true: false;
         if(Auth::attempt(['username' => $req->username, 'password' => $req->password], $remember )){
+            $login = UserAccess::where('user_id',Auth::id())
+                        ->where('level','admin')
+                        ->exists();
+            if(!$login){
+                Auth::logout();
+                return redirect()->back()->with('denied',true);
+            }
             return redirect()->intended('/');
         }
         return redirect()->back()->with('error',true);
