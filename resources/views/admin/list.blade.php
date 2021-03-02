@@ -95,7 +95,8 @@
                     { className: 'text-center' , targets: [2,3,4]},
                     { className: 'text-right' , targets: []},
                 ],
-                "pageLength": 25
+                "pageLength": 25,
+                "order": [[ 1, "asc" ]]
             });
 
             $('#dataTable tbody').on( 'click', 'tr', function () {
