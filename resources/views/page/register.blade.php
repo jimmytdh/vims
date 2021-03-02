@@ -266,9 +266,9 @@
                     <option value="02_No">No</option>
                 </select>
             </div>
-            <div class="form-group col-md-6">
-                <label>Provided Electronic Informed Consent <span class="required">*</span></label>
-                <select name="consent" class="custom-select" required>
+            <div class="form-group col-md-6 has-error">
+                <label class="text-danger font-weight-bold">Willing to be Vaccinated?<span class="required">*</span></label>
+                <select name="consent" class="custom-select form-control" required>
                     <option value="">Select Here...</option>
                     <option value="01_Yes">Yes</option>
                     <option value="02_No">No</option>
