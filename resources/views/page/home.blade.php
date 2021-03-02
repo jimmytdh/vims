@@ -57,7 +57,7 @@
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box bg-green">
-                <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
+                <span class="info-box-icon"><i class="fa fa-wheelchair"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">With Direct Contact</span>
                     <span class="info-box-number">{{ $countDirect }}</span>
@@ -81,7 +81,10 @@
             <div class="small-box bg-green">
                 <div class="inner">
                     <h3>{{ $per }}<sup style="font-size: 20px">%</sup></h3>
-                    <p class="text-white">{{ $total }} out of {{ $target }} Employees</p>
+                    <p class="text-white">
+                        {{ $total }} out of {{ $target }} Employees
+                        <br>0 Female | 0 Male
+                    </p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-users"></i>
@@ -97,7 +100,7 @@
             <div class="small-box bg-yellow">
                 <div class="inner">
                     <h3>{{ $consent }}</h3>
-                    <p class="text-white">Willing to be Vaccinated</p>
+                    <p class="text-white">Willing to be Vaccinated<br>&nbsp;</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-thumbs-up"></i>
