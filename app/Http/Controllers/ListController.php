@@ -72,7 +72,7 @@ class ListController extends Controller
                     if($allergy)
                         return '<span class="text-danger">With Allergy</span>';
                 }
-                return 'No Allergy';
+                return 'No';
             })
             ->addColumn('with_comorbidity', function($data){
                 $header = array(
@@ -92,7 +92,7 @@ class ListController extends Controller
                     if($comorbidity)
                         return '<span class="text-danger">With Comorbidity</span>';
                 }
-                return 'No Allergy';
+                return 'No';
             })
             ->addColumn('action', function($data){
                 $url = route('list.edit',$data->id);
