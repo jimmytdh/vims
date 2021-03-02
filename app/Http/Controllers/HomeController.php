@@ -61,6 +61,8 @@ class HomeController extends Controller
         $total = FinalList::count();
         $target = 722;
         $per = 0;
+        $male = number_format(FinalList::where('sex','02_Male')->count());
+        $female = number_format(FinalList::where('sex','01_Female')->count());
         if($total > 0){
             $per = number_format(($total / $target) * 100,1);
         }
@@ -73,7 +75,9 @@ class HomeController extends Controller
             'total',
             'target',
             'per',
-            'consent'
+            'consent',
+            'male',
+            'female'
         ));
     }
 
