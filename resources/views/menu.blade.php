@@ -11,10 +11,10 @@
                     <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a>
                 </li>
                 <li class="nav-item {{ request()->is('list*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/list') }}"><i class="fa fa-pencil-square"></i> Encoded List</a>
+                    <a class="nav-link" href="{{ url('/list') }}"><i class="fa fa-database"></i> Master List</a>
                 </li>
-                <li class="nav-item {{ request()->is('masterlist*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/masterlist') }}"><i class="fa fa-database"></i> Master List</a>
+                <li class="nav-item {{ request()->is('upload') ? 'active' : '' }}">
+                    <a class="nav-link" href="#uploadModal" data-toggle="modal" data-backdrop="static"><i class="fa fa-cloud-upload"></i> Upload CSV</a>
                 </li>
                 <li class="nav-item {{ request()->is('mydata*') ? 'active' : '' }} hidden">
                     <a class="nav-link" href="{{ url('/mydata') }}"><i class="fa fa-database"></i> My Data</a>
