@@ -10,6 +10,7 @@ use App\Models\Classification;
 use App\Models\Comorbidity;
 use App\Models\Confirmation;
 use App\Models\EmploymentStatus;
+use App\Models\FinalList;
 use App\Models\PersonalInfo;
 use App\Models\Profession;
 use App\Models\Region;
@@ -23,7 +24,57 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('page.home');
+        $allergy = array(
+            'allergy_01',
+            'allergy_02',
+            'allergy_03',
+            'allergy_04',
+            'allergy_05',
+            'allergy_06',
+            'allergy_07',
+        );
+
+        $countAllergy = FinalList::select("*");
+        foreach($allergy as $a){
+            $countAllergy = $countAllergy->orwhere($a,'01_Yes');
+        }
+        $countAllergy = $countAllergy->count();
+
+        $comorbidity = array(
+            'comorbidity_01',
+            'comorbidity_02',
+            'comorbidity_03',
+            'comorbidity_04',
+            'comorbidity_05',
+            'comorbidity_06',
+            'comorbidity_07',
+            'comorbidity_08',
+        );
+        $countComorbidity = FinalList::select("*");
+        foreach($comorbidity as $c){
+            $countComorbidity = $countComorbidity->orwhere($c,'01_Yes');
+        }
+        $countComorbidity = $countComorbidity->count();
+        $countHistory = FinalList::where('covid_history','01_Yes')->count();
+        $countDirect = FinalList::where('direct_covid','01_Yes')->count();
+        $consent = FinalList::where('consent','01_Yes')->count();
+        $total = FinalList::count();
+        $target = 800;
+        $per = 0;
+        if($total > 0){
+            $per = number_format(($total / $target) * 100,1);
+        }
+
+        return view('page.home',compact(
+            'countAllergy',
+            'countComorbidity',
+            'countHistory',
+            'countDirect',
+            'total',
+            'target',
+            'per',
+            'consent'
+        ));
     }
 
     public function myData(Request $request)

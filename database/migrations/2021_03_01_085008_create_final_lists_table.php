@@ -31,7 +31,7 @@ class CreateFinalListsTable extends Migration
             $table->string("muncity")->nullable();
             $table->string("barangay")->nullable();
             $table->string("sex")->nullable();
-            $table->string("birthdate_")->nullable();
+            $table->date("birthdate")->nullable();
             $table->string("civilstatus")->nullable();
             $table->string("employed")->nullable();
             $table->string("direct_covid")->nullable();

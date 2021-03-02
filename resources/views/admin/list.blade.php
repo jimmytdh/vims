@@ -1,5 +1,114 @@
 @extends('app')
 
+@section('css')
+    <link href="{{ url('/plugins/DataTables/datatables.min.css') }}" rel="stylesheet">
+    <style>
+        .modal {
+            text-align: center;
+        }
+
+        @media screen and (min-width: 768px) {
+            .modal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+            }
+        }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+    </style>
+
+@endsection
+
 @section('content')
     <h2 class="text-success title-header">Encoded List</h2>
+    @if($countRecords > 0)
+    <div class="alert alert-warning">
+        <i class="fa fa-exclamation-triangle"></i> {{ $countRecords }} new records found!
+        <a href="#deleteModal" data-url="{{ url('/list/delete') }}" data-title="Delete Files?" data-backdrop="static" data-toggle="modal" class="btnDelete btn btn-default btn-sm float-right" style="margin-top: -3px;">
+            <i class="fa fa-trash"></i> Remove Data
+        </a>
+        <a href="{{ url('/list/upload') }}" class="btn btn-default btn-sm float-right mr-2" style="margin-top: -3px;">
+            <i class="fa fa-upload"></i> Upload Data
+        </a>
+
+
+    </div>
+    @endif
+
+    @if(session('duplicate'))
+        <div class="alert alert-warning">
+            <i class="fa fa-exclamation-triangle"></i> {{ session('duplicate') }} duplicate records.
+        </div>
+    @endif
+    @if(session('delete'))
+        <div class="alert alert-success">
+            <i class="fa fa-check-circle"></i> Successfully deleted from the list.
+        </div>
+    @endif
+    <div class="table-responsive">
+        <table id="dataTable" class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Date of Birth</th>
+                    <th>COVID History</th>
+                    <th>With Allergy?</th>
+                    <th>With Comorbidity?</th>
+                    <th>Consent</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    @include('modal')
+@endsection
+
+@section('js')
+    <script src="{{ url('/plugins/DataTables/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('list.data') }}",
+                columns: [
+                    { data: 'fullname', name: 'fullname'},
+                    { data: 'gender', name: 'gender'},
+                    { data: 'age', name: 'age'},
+                    { data: 'dob', name: 'dob'},
+                    { data: 'history', name: 'history'},
+                    { data: 'with_allergy', name: 'with_allergy'},
+                    { data: 'with_comorbidity', name: 'with_comorbidity'},
+                    { data: 'consent', name: 'consent'},
+                    { data: 'action', name: 'action'},
+                ],
+                drawCallback: function (settings) {
+                    deleteModal();
+                },
+                columnDefs: [
+                    { className: 'text-center' , targets: [2,3,4]},
+                    { className: 'text-right' , targets: []},
+                ]
+            });
+
+            function deleteModal(){
+                $('.btnDelete').on('click',function(e){
+                    e.preventDefault();
+                    var url = $(this).data('url');
+                    var title = $(this).data('title');
+                    $('.btnYes').attr('href',url);
+                    $('.modal-title').html(title);
+                });
+            }
+
+        });
+    </script>
 @endsection

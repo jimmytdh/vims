@@ -25,7 +25,7 @@ class FinalList extends Model
         'muncity',
         'barangay',
         'sex',
-        'birthdate_',
+        'birthdate',
         'civilstatus',
         'employed',
         'direct_covid',
