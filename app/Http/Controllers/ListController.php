@@ -127,7 +127,9 @@ class ListController extends Controller
 //                FinalList::create($row);
             FinalList::updateOrCreate($match,$row);
         }
-        return redirect('/list')->with('duplicate',$countDuplicate);
+        $this->deleteFiles();
+        $status = ($countDuplicate>0) ? 'duplicate': 'saved';
+        return redirect('/list')->with($status,$countDuplicate);
     }
 
     public function edit($id)
@@ -192,7 +194,7 @@ class ListController extends Controller
 
     function readFiles()
     {
-        $path = public_path('/upload');
+        $path = storage_path()."/app/upload/";
         $files = File::allFiles($path);
         $data = array();
         foreach($files as $file)
@@ -205,7 +207,7 @@ class ListController extends Controller
 
     function deleteFiles()
     {
-        $path = public_path('/upload');
+        $path = storage_path()."/app/upload/";
         $files = File::allFiles($path);
         foreach($files as $file)
         {
@@ -245,6 +247,17 @@ class ListController extends Controller
         }
 
         return $data;
+    }
+
+    public function uploadCSV(Request $request)
+    {
+        if($request->hasFile('file'))
+        {
+            $file_name = $request->file('file')->getClientOriginalName();
+            $request->file('file')->storeAs('upload',$file_name);
+        }
+
+        return redirect('/list')->with('upload',true);
     }
 
     function headerKey()

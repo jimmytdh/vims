@@ -3,26 +3,10 @@
 @section('css')
     <link href="{{ url('/plugins/DataTables/datatables.min.css') }}" rel="stylesheet">
     <style>
-        .modal {
-            text-align: center;
-        }
-
-        @media screen and (min-width: 768px) {
-            .modal:before {
-                display: inline-block;
-                vertical-align: middle;
-                content: " ";
-                height: 100%;
-            }
-        }
-
-        .modal-dialog {
-            display: inline-block;
-            text-align: left;
-            vertical-align: middle;
+        td {
+            white-space: nowrap;
         }
     </style>
-
 @endsection
 
 @section('content')
@@ -30,22 +14,36 @@
     @if($countRecords > 0)
     <div class="alert alert-warning">
         <i class="fa fa-exclamation-triangle"></i> {{ $countRecords }} new records found!
-        <a href="#deleteModal" data-url="{{ url('/list/delete') }}" data-title="Delete Files?" data-backdrop="static" data-toggle="modal" class="btnDelete btn btn-default btn-sm float-right" style="margin-top: -3px;">
-            <i class="fa fa-trash"></i> Remove Data
-        </a>
-        <a href="{{ url('/list/upload') }}" class="btn btn-default btn-sm float-right mr-2" style="margin-top: -3px;">
-            <i class="fa fa-upload"></i> Upload Data
-        </a>
-
-
+        <div class="form-group float-right">
+            <a href="#deleteModal" data-url="{{ url('/list/delete') }}" data-title="Delete Files?" data-backdrop="static" data-toggle="modal" class="btnDelete btn btn-danger btn-sm" style="margin-top: -3px;">
+                <i class="fa fa-times"></i>
+            </a>
+            <a href="{{ url('/list/upload') }}" class="btn btn-success btn-sm" style="margin-top: -3px;">
+                <i class="fa fa-upload"></i> Sync
+            </a>
+        </div>
     </div>
+    <div class="clearfix"></div>
     @endif
 
     @if(session('duplicate'))
-        <div class="alert alert-warning">
-            <i class="fa fa-exclamation-triangle"></i> {{ session('duplicate') }} duplicate records.
+        <div class="alert alert-info">
+            <i class="fa fa-exclamation-triangle"></i> Successfully saved and {{ session('duplicate') }} records updated.
         </div>
     @endif
+
+    @if(session('saved'))
+        <div class="alert alert-success">
+            <i class="fa fa-check-circle"></i> Successfully Saved.
+        </div>
+    @endif
+
+    @if(session('upload'))
+        <div class="alert alert-success">
+            <i class="fa fa-check-circle"></i> CSV File Successfully upload. Please click the sync button!
+        </div>
+    @endif
+
     @if(session('delete'))
         <div class="alert alert-success">
             <i class="fa fa-check-circle"></i> Successfully deleted from the list.
@@ -68,14 +66,14 @@
             </thead>
         </table>
     </div>
-    @include('modal')
+
 @endsection
 
 @section('js')
     <script src="{{ url('/plugins/DataTables/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $('#dataTable').DataTable({
+            var table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('list.data') }}",
@@ -96,8 +94,19 @@
                 columnDefs: [
                     { className: 'text-center' , targets: [2,3,4]},
                     { className: 'text-right' , targets: []},
-                ]
+                ],
+                "pageLength": 25
             });
+
+            $('#dataTable tbody').on( 'click', 'tr', function () {
+                if ( $(this).hasClass('selected') ) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            } );
 
             function deleteModal(){
                 $('.btnDelete').on('click',function(e){

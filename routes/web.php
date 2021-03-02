@@ -51,4 +51,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/list/delete/{id}',[ListController::class,'deleteRecord']);
     Route::get('/list/edit/{id}',[ListController::class,'edit'])->name('list.edit');
     Route::post('/list/update/{id}',[ListController::class,'update'])->name('list.update');
+
+    //upload csv
+    Route::post('/upload/file',[ListController::class,'uploadCSV']);
 });

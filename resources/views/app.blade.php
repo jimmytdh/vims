@@ -14,6 +14,26 @@
     <link href="{{ url('/') }}/css/bootstrap.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/font-awesome.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/loader.css" rel="stylesheet">
+    <style>
+        .modal {
+            text-align: center;
+        }
+
+        @media screen and (min-width: 768px) {
+            .modal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+            }
+        }
+
+        .modal-dialog {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+    </style>
     @yield('css')
 </head>
 
@@ -43,6 +63,7 @@
     </div>
 </div>
 @yield('modal')
+@include('modal')
 <!-- /.container -->
 <!-- Footer -->
 <footer class="py-md-3 bg-dark footer">
