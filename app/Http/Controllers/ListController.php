@@ -26,18 +26,31 @@ class ListController extends Controller
 
     public function data()
     {
-        $data = FinalList::orderBy('lastname','asc')->get();
+        $data = FinalList::select(
+                                'firstname',
+                                'middlename',
+                                'lastname',
+                                'suffix',
+                                'birthdate',
+                                'covid_history',
+                                'consent',
+                                'id',
+                                'updated_at',
+                            )
+                            ->orderBy('lastname','asc')->get();
         return DataTables::of($data)
             ->addColumn('fullname',function ($data){
                 $middlename = substr($data->middlename,0,1);
                 $suffix = ($data->suffix!='NA') ? $data->suffix: '';
-                return "$data->lastname, $data->firstname $middlename. $suffix";
+                $name = "$data->lastname, $data->firstname $middlename. $suffix";
+                return "<span class='text-success'>$name</span>";
             })
             ->addColumn('gender',function ($data){
                 return ($data->sex=='02_Male') ? 'Male' : 'Female';
             })
-            ->addColumn('dob',function ($data){
-                return Carbon::parse($data->birthdate)->format('M d, Y');
+            ->addColumn('date_updated',function ($data){
+                $date = Carbon::parse($data->updated_at)->format('m/d h:ia');
+                return "<span class='text-danger'>$date</span>";
             })
             ->addColumn('history',function ($data){
                 return ($data->covid_history=='02_No') ? 'No' : '<span class="text-danger">Yes</span>';
@@ -101,8 +114,57 @@ class ListController extends Controller
                 $btn2 = "<a href='#deleteModal' data-toggle='modal' data-backdrop='static' data-url='$deleteUrl' data-title='Delete Record?' data-id='$data->id' class='btnDelete btn btn-sm btn-danger'><i class='fa fa-trash'></i></a>";
                 return "$btn1 $btn2";
             })
-            ->rawColumns(['with_allergy','with_comorbidity','history','consent','action'])
+            ->rawColumns(['date_updated','fullname','with_allergy','with_comorbidity','history','consent','action'])
             ->toJson();
+    }
+
+    public function fix()
+    {
+        if(request()->ajax()) {
+            $data = FinalList::select(
+                            'id',
+                            'firstname',
+                            'middlename',
+                            'lastname',
+                            'suffix',
+                            'philhealthid',
+                            'region',
+                            'province',
+                            'muncity',
+                            'barangay',
+                        )
+                        ->where('philhealthid','LIKE',"%+%")
+                        ->orwhere('muncity','NOT LIKE',"%7%")
+                        ->orwhere('barangay','NOT LIKE',"%7%")
+                        ->orderBy('lastname','asc')->get();
+            return DataTables::of($data)
+                ->addColumn('fullname',function ($data){
+                    $middlename = substr($data->middlename,0,1);
+                    $suffix = ($data->suffix!='NA') ? $data->suffix: '';
+                    return "<span class='text-success'>$data->lastname, $data->firstname $middlename. $suffix</span>";
+                })
+                ->addColumn('philhealthid',function ($data){
+                    return "<span class='edit' data-pk='$data->id' id='philhealthid' data-title='PhilHealth ID'>$data->philhealthid</span>";
+                })
+                ->addColumn('muncity',function ($data){
+                    return "<span class='edit' data-pk='$data->id' id='muncity' data-title='Municipality/City'>$data->muncity</span>";
+                })
+                ->addColumn('barangay',function ($data){
+                    return "<span class='edit' data-pk='$data->id' id='barangay' data-title='Barangay'>$data->barangay</span>";
+                })
+                ->rawColumns(['fullname','philhealthid','muncity','barangay'])
+                ->toJson();
+        }
+        return view('admin.fix');
+    }
+
+    public function fixUpdate(Request $req)
+    {
+        FinalList::find($req->pk)
+            ->update([
+                $req->name => $req->value
+            ]);
+        return 'success';
     }
 
     public function upload()
@@ -129,7 +191,7 @@ class ListController extends Controller
         }
         $this->deleteFiles();
         $status = ($countDuplicate>0) ? 'duplicate': 'saved';
-        return redirect('/list')->with($status,$countDuplicate);
+        return redirect('/list/master')->with($status,$countDuplicate);
     }
 
     public function edit($id)
@@ -257,7 +319,7 @@ class ListController extends Controller
             $request->file('file')->storeAs('upload',$file_name);
         }
 
-        return redirect('/list')->with('upload',true);
+        return redirect('/list/master')->with('upload',true);
     }
 
     function headerKey()

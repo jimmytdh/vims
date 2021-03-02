@@ -44,8 +44,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/mydata/update/table/{table}', [HomeController::class, 'tableUpdate']);
 
     //manage list
-    Route::get('/list',[ListController::class,'index']);
+    Route::get('/list/master',[ListController::class,'index']);
     Route::get('/list/data',[ListController::class,'data'])->name('list.data');
+    Route::get('/list/fix',[ListController::class,'fix'])->name('list.fix');
+    Route::post('/list/fix/update',[ListController::class,'fixUpdate']);
     Route::get('/list/upload',[ListController::class,'upload'])->name('list.upload');
     Route::get('/list/delete',[ListController::class,'deleteFiles']);
     Route::get('/list/delete/{id}',[ListController::class,'deleteRecord']);

@@ -16,7 +16,7 @@
         <i class="fa fa-exclamation-triangle"></i> {{ $countRecords }} new records found!
         <div class="form-group float-right">
             <a href="#deleteModal" data-url="{{ url('/list/delete') }}" data-title="Delete Files?" data-backdrop="static" data-toggle="modal" class="btnDelete btn btn-danger btn-sm" style="margin-top: -3px;">
-                <i class="fa fa-times"></i>
+                <i class="fa fa-times"></i> Ignore
             </a>
             <a href="{{ url('/list/upload') }}" class="btn btn-success btn-sm" style="margin-top: -3px;">
                 <i class="fa fa-upload"></i> Sync
@@ -53,10 +53,10 @@
         <table id="dataTable" class="table table-sm table-striped">
             <thead>
                 <tr>
+                    <th>Date Updated</th>
                     <th>Name</th>
                     <th>Gender</th>
                     <th>Age</th>
-                    <th>Date of Birth</th>
                     <th>COVID History</th>
                     <th>With Allergy?</th>
                     <th>With Comorbidity?</th>
@@ -78,10 +78,10 @@
                 serverSide: true,
                 ajax: "{{ route('list.data') }}",
                 columns: [
+                    { data: 'date_updated', name: 'date_updated'},
                     { data: 'fullname', name: 'fullname'},
                     { data: 'gender', name: 'gender'},
                     { data: 'age', name: 'age'},
-                    { data: 'dob', name: 'dob'},
                     { data: 'history', name: 'history'},
                     { data: 'with_allergy', name: 'with_allergy'},
                     { data: 'with_comorbidity', name: 'with_comorbidity'},
