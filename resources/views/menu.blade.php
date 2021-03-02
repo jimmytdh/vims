@@ -10,9 +10,12 @@
                 <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a>
                 </li>
-                <li class="nav-item {{ request()->is('list*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/list') }}"><i class="fa fa-database"></i> Master List</a>
+                <li class="nav-item {{ request()->is('list/master*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/list/master') }}"><i class="fa fa-database"></i> Master List</a>
                 </li>
+                    <li class="nav-item {{ request()->is('list/fix*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('/list/fix') }}"><i class="fa fa-wrench"></i> Fix Data</a>
+                    </li>
                 <li class="nav-item {{ request()->is('upload') ? 'active' : '' }}">
                     <a class="nav-link" href="#uploadModal" data-toggle="modal" data-backdrop="static"><i class="fa fa-cloud-upload"></i> Upload CSV</a>
                 </li>

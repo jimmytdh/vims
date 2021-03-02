@@ -59,7 +59,7 @@ class HomeController extends Controller
         $countDirect = FinalList::where('direct_covid','01_Yes')->count();
         $consent = FinalList::where('consent','01_Yes')->count();
         $total = FinalList::count();
-        $target = 800;
+        $target = 722;
         $per = 0;
         if($total > 0){
             $per = number_format(($total / $target) * 100,1);
