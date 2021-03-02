@@ -35,6 +35,7 @@ class ListController extends Controller
                                 'covid_history',
                                 'consent',
                                 'id',
+                                'sex',
                                 'updated_at',
                             )
                             ->orderBy('lastname','asc')->get();
