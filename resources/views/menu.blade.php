@@ -34,6 +34,9 @@
                 </li>
                 @else
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->is('verify') ? 'active' : '' }}" href="{{ url('/verify') }}"><i class="fa fa-search"></i> Verify</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url('/login') }}"><i class="fa fa-sign-in"></i> Login</a>
                 </li>
                 @endif

@@ -74,4 +74,22 @@ class RegistrationController extends Controller
         $status = ($check) ? 'duplicate': 'saved';
         return redirect()->back()->with($status,true);
     }
+
+    public function verify(Request $req)
+    {
+        $data = array();
+        $search = '';
+        if(request()->method()=='POST')
+        {
+
+            if(strlen($req->search) > 3){
+                $data = FinalList::where('firstname','like',"%$req->search%")
+                    ->orwhere('lastname','like',"%$req->search%")
+                    ->get();
+            }
+
+            $search = $req->search;
+        }
+        return view('page.verify',compact('data','search'));
+    }
 }
