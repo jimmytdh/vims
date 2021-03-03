@@ -55,7 +55,7 @@
                     makeEditable();
                 },
                 columnDefs: [
-                    { className: 'text-center' , targets: [2,3,4]},
+                    { className: 'text-center' , targets: []},
                     { className: 'text-right' , targets: []},
                 ],
                 "pageLength": 25
