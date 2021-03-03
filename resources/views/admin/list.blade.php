@@ -10,7 +10,14 @@
 @endsection
 
 @section('content')
-    <h2 class="text-success title-header">Encoded List</h2>
+    <h2 class="text-success title-header">
+        Master List
+        <span class="float-right">
+            <a href="{{ url('export') }}" class="btn btn-success btn-sm">
+                <i class="fa fa-file-excel-o"></i> Export
+            </a>
+        </span>
+    </h2>
     @if($countRecords > 0)
     <div class="alert alert-warning">
         <i class="fa fa-exclamation-triangle"></i> {{ $countRecords }} new records found!
