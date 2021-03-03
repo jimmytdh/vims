@@ -52,7 +52,8 @@ class ListController extends Controller
                             'id',
                             'sex',
                             'updated_at'
-                        )->orderBy('lastname','asc');
+                        )->orderBy('lastname','asc')
+                        ->get();
 
         return DataTables::of($data)
             ->addColumn('fullname',function ($data){
