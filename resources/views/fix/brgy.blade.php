@@ -10,10 +10,10 @@
         {{ csrf_field() }}
         <div class="form-row">
             <div class="form-group col-sm-3">
-                <input type="text" class="form-control" placeholder="Exact Keyword Muncity" name="muncity" required>
+                <input type="text" class="form-control" value="{{ $first->muncity }}" placeholder="Exact Keyword Muncity" name="muncity" required>
             </div>
             <div class="form-group col-sm-3">
-                <input type="text" class="form-control" placeholder="Search Keyword" name="search" required>
+                <input type="text" class="form-control" value="{{ $first->barangay }}" placeholder="Search Keyword" name="search" required>
             </div>
             <div class="form-group col-sm-3">
                 <input type="text" class="form-control" placeholder="Exact Value" name="value" required>
