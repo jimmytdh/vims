@@ -182,6 +182,7 @@ class ListController extends Controller
             $row['firstname'] = strtoupper(utf8_encode($row['firstname']));
             $row['lastname'] = strtoupper(utf8_encode($row['lastname']));
             $row['middlename'] =strtoupper(utf8_encode($row['middlename']));
+            $row['full_address'] =utf8_encode($row['full_address']);
 
             $row['employer_name'] = "Cebu South Medical Center";
             $row['employer_address'] = "San Isidro, Talisay City, Cebu";
