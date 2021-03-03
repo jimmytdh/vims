@@ -26,6 +26,7 @@ Route::post('/register',[RegistrationController::class,'register'])->name('post.
 
 Route::get('/verify',[RegistrationController::class,'verify']);
 Route::post('/verify',[RegistrationController::class,'verify']);
+Route::post('/key',[RegistrationController::class,'verifyKey']);
 
 Route::get('/error',function (){
     return view('error');

@@ -51,5 +51,27 @@
 @endsection
 
 @section('js')
-
+    <script>
+        @if(!Session::get("key"))
+            var password = prompt("Please enter secret key");
+            if (password == null || password == "") {
+                location.reload();
+            } else {
+                $.ajax({
+                    url: "{{ url('/key') }}",
+                    type: "POST",
+                    data: {
+                        key: password
+                    },
+                    success: function(data){
+                        if(data=='failed'){
+                            location.reload();
+                        }else{
+                            alert("Success! You are authorized to access this page.")
+                        }
+                    }
+                })
+            }
+        @endif
+    </script>
 @endsection
