@@ -6,6 +6,12 @@
         td {
             white-space: nowrap;
         }
+        tr.selected .text-success{
+            color: yellow !important;
+        }
+        tr.selected .text-danger{
+            color: white !important;
+        }
     </style>
 @endsection
 
