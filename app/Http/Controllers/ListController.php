@@ -11,6 +11,7 @@ use App\Models\FinalList;
 use App\Models\Profession;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Yajra\DataTables\DataTables;
 
@@ -26,19 +27,33 @@ class ListController extends Controller
 
     public function data()
     {
-        $data = FinalList::select(
-                                'firstname',
-                                'middlename',
-                                'lastname',
-                                'suffix',
-                                'birthdate',
-                                'covid_history',
-                                'consent',
-                                'id',
-                                'sex',
-                                'updated_at',
-                            )
-                            ->orderBy('lastname','asc')->get();
+//        $data = FinalList::select(
+//                                'firstname',
+//                                'middlename',
+//                                'lastname',
+//                                'suffix',
+//                                'birthdate',
+//                                'covid_history',
+//                                'consent',
+//                                'id',
+//                                'sex',
+//                                'updated_at',
+//                            )
+//                            ->orderBy('lastname','asc');
+
+        $data = DB::table('final_lists')->select(
+                            'firstname',
+                            'middlename',
+                            'lastname',
+                            'suffix',
+                            'birthdate',
+                            'covid_history',
+                            'consent',
+                            'id',
+                            'sex',
+                            'updated_at'
+                        )->orderBy('lastname','asc');
+
         return DataTables::of($data)
             ->addColumn('fullname',function ($data){
                 $middlename = substr($data->middlename,0,1);
@@ -118,7 +133,7 @@ class ListController extends Controller
                 return "$btn1 $btn2 $btn3";
             })
             ->rawColumns(['date_updated','fullname','with_allergy','with_comorbidity','history','consent','action'])
-            ->toJson();
+            ->make(true);
     }
 
     public function fix()

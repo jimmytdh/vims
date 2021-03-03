@@ -87,8 +87,8 @@
     <script>
         $(document).ready(function() {
             var table = $('#dataTable').DataTable({
-                processing: true,
-                serverSide: true,
+                processing: false,
+                serverSide: false,
                 ajax: "{{ route('list.data') }}",
                 columns: [
                     { data: 'date_updated', name: 'date_updated'},
@@ -110,6 +110,14 @@
                 ],
                 "pageLength": 25,
                 "order": [[ 1, "asc" ]]
+            });
+
+            $('#dataTable_filter input').unbind();
+            $('#dataTable_filter input').bind('keyup', function(e) {
+                if(e.keyCode == 13) {
+                    var oTable = $('#dataTable').dataTable();
+                    oTable.fnFilter(this.value);
+                }
             });
 
             $('#dataTable tbody').on( 'click', 'tr', function () {
