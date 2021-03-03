@@ -1,7 +1,6 @@
 @extends('app')
 
 @section('css')
-    <link href="{{ url('/plugins/DataTables/datatables.min.css') }}" rel="stylesheet">
     <style>
         td {
             white-space: nowrap;
@@ -77,6 +76,43 @@
                 <th></th>
             </tr>
             </thead>
+            <tbody>
+            @if(count($data) > 0)
+                @foreach($data as $row)
+                    <?php
+                    $middlename = substr($row->middlename,0,1);
+                    $suffix = ($row->suffix!='NA') ? $data->suffix: '';
+                    $name = "$row->lastname, $row->firstname $middlename. $suffix";
+                    $header = array(
+                        'allergy_01',
+                        'allergy_02',
+                        'allergy_03',
+                        'allergy_04',
+                        'allergy_05',
+                        'allergy_06',
+                        'allergy_07',
+                    );
+                    $allergy = 'No';
+                    foreach($header as $h){
+                        if($row->$h=='01_Yes')
+                            $allergy = '<span class="text-danger">With Allergy</span>';
+                    }
+                    ?>
+                    <tr>
+                        <td class="text-danger">{{ date('M d h:ia',strtotime($row->updated_at)) }}</td>
+                        <td class="text-success">{{ $name }}</td>
+                        <td>{{ ($row->sex=='02_Male') ? 'Male' : 'Female' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($row->birthdate)->diff(\Carbon\Carbon::now())->format('%y') }}</td>
+                        <td>{!!  ($row->covid_history=='02_No') ? 'No' : '<span class="text-danger">Yes</span>' !!}</td>
+                        <td>{{ $allergy }}</td>
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td class="text-center" colspan="9">No data found</td>
+                </tr>
+            @endif
+            </tbody>
         </table>
     </div>
 
@@ -86,56 +122,14 @@
     <script src="{{ url('/plugins/DataTables/datatables.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            var table = $('#dataTable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('list.data') }}",
-                columns: [
-                    { data: 'date_updated', name: 'date_updated'},
-                    { data: 'fullname', name: 'fullname'},
-                    { data: 'gender', name: 'gender'},
-                    { data: 'age', name: 'age'},
-                    { data: 'history', name: 'history'},
-                    { data: 'with_allergy', name: 'with_allergy'},
-                    { data: 'with_comorbidity', name: 'with_comorbidity'},
-                    { data: 'consent', name: 'consent'},
-                    { data: 'action', name: 'action'},
-                ],
-                drawCallback: function (settings) {
-                    deleteModal();
-                },
-                columnDefs: [
-                    { className: 'text-center' , targets: [2,3,4]},
-                    { className: 'text-right' , targets: []},
-                ],
-                "pageLength": 25,
-                "order": [[ 1, "asc" ]]
+            $('.btnDelete').on('click',function(e){
+                e.preventDefault();
+                var url = $(this).data('url');
+                var title = $(this).data('title');
+                $('.btnYes').attr('href',url);
+                $('.modal-title').html(title);
             });
-            $('#dataTable_filter input').unbind();
-            $('#dataTable_filter input').bind('keyup', function(e) {
-                if(e.keyCode == 13) {
-                    var oTable = $('#dataTable').dataTable();
-                    oTable.fnFilter(this.value);
-                }
-            });
-            $('#dataTable tbody').on( 'click', 'tr', function () {
-                if ( $(this).hasClass('selected') ) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                    table.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
-            } );
-            function deleteModal(){
-                $('.btnDelete').on('click',function(e){
-                    e.preventDefault();
-                    var url = $(this).data('url');
-                    var title = $(this).data('title');
-                    $('.btnYes').attr('href',url);
-                    $('.modal-title').html(title);
-                });
-            }
+
         });
     </script>
 @endsection

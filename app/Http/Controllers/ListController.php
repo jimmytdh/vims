@@ -17,6 +17,18 @@ use Yajra\DataTables\DataTables;
 
 class ListController extends Controller
 {
+    public function index1()
+    {
+        $countRecords = count($this->readFiles());
+        $data = FinalList::orderBy('lastname','asc')
+                    ->paginate(25);
+
+        return view('admin.list2',compact(
+            'countRecords',
+            'data'
+        ));
+    }
+
     public function index()
     {
         $countRecords = count($this->readFiles());
@@ -27,33 +39,7 @@ class ListController extends Controller
 
     public function data()
     {
-//        $data = FinalList::select(
-//                                'firstname',
-//                                'middlename',
-//                                'lastname',
-//                                'suffix',
-//                                'birthdate',
-//                                'covid_history',
-//                                'consent',
-//                                'id',
-//                                'sex',
-//                                'updated_at',
-//                            )
-//                            ->orderBy('lastname','asc');
-
-        $data = DB::table('final_lists')->select(
-                            'firstname',
-                            'middlename',
-                            'lastname',
-                            'suffix',
-                            'birthdate',
-                            'covid_history',
-                            'consent',
-                            'id',
-                            'sex',
-                            'updated_at'
-                        )->orderBy('lastname','asc')
-                        ->get();
+        $data = FinalList::orderBy('lastname','asc')->get();
 
         return DataTables::of($data)
             ->addColumn('fullname',function ($data){
@@ -96,10 +82,7 @@ class ListController extends Controller
                     'allergy_07',
                 );
                 foreach($header as $row){
-                    $allergy = FinalList::where('id',$data->id)
-                            ->where($row,'01_Yes')
-                            ->first();
-                    if($allergy)
+                    if($data->$row=='01_Yes')
                         return '<span class="text-danger">With Allergy</span>';
                 }
                 return 'No';
@@ -116,10 +99,7 @@ class ListController extends Controller
                     'comorbidity_08',
                 );
                 foreach($header as $row){
-                    $comorbidity = FinalList::where('id',$data->id)
-                        ->where($row,'01_Yes')
-                        ->first();
-                    if($comorbidity)
+                    if($data->$row=='01_Yes')
                         return '<span class="text-danger">With Comorbidity</span>';
                 }
                 return 'No';
