@@ -135,7 +135,8 @@ class ListController extends Controller
                             'barangay',
                         )
                         ->where('philhealthid','LIKE',"%+%")
-                        ->where('philhealthid',"")
+                        ->orwhere('philhealthid','LIKE',"%-%")
+                        ->orwhere('philhealthid',"")
                         ->orwhere('muncity','NOT LIKE',"%7%")
                         ->orwhere('barangay','NOT LIKE',"%7%")
                         ->orderBy('lastname','asc')->get();
