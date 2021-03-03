@@ -36,6 +36,7 @@ class FixController extends Controller
             'barangay',
         )
             ->where('barangay','NOT LIKE',"%7%")
+            ->orderBy('muncity','asc')
             ->orderBy('barangay','asc')
             ->get();
         return view('fix.brgy',compact('data'));
