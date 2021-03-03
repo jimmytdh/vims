@@ -440,10 +440,11 @@ class ListController extends Controller
     public function export()
     {
         $fileName = 'CentralVisayas-CebuSouthMedicalCenter_'.date('(M d)').'.csv';
-        $finalList = FinalList::whereRaw('LENGTH(philhealthid) > 3')
-            ->where('muncity','LIKE',"%7%")
+        $finalList = FinalList::where('muncity','LIKE',"%7%")
             ->where('barangay','LIKE',"%7%")
             ->get();
+
+        //whereRaw('LENGTH(philhealthid) > 3')
         $headers = array(
             "Content-type"        => "text/csv",
             "Content-Disposition" => "attachment; filename=$fileName",
