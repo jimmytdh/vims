@@ -39,7 +39,17 @@ class FixController extends Controller
             ->orderBy('muncity','asc')
             ->orderBy('barangay','asc')
             ->get();
-        return view('fix.brgy',compact('data'));
+
+        $first = FinalList::select(
+            'muncity',
+            'province',
+            'barangay',
+        )
+            ->where('barangay','NOT LIKE',"%7%")
+            ->orderBy('muncity','asc')
+            ->orderBy('barangay','asc')
+            ->first();
+        return view('fix.brgy',compact('data','first'));
     }
 
     public function updateBrgy(Request $request)
