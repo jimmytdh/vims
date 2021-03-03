@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ListController;
+use App\Http\Controllers\FixController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,4 +59,11 @@ Route::group(['middleware' => 'auth'], function() {
     //upload csv
     Route::post('/upload/file',[ListController::class,'uploadCSV']);
     Route::get('/export',[ListController::class,'export']);
+
+    //fix
+    Route::get('/list/fix/muncity',[FixController::class,'muncity']);
+    Route::post('/list/fix/muncity',[FixController::class,'updateMuncity']);
+    Route::get('/list/fix/brgy',[FixController::class,'brgy']);
+    Route::post('/list/fix/brgy',[FixController::class,'updateBrgy']);
+
 });
