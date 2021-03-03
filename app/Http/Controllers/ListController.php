@@ -181,6 +181,13 @@ class ListController extends Controller
             $row['lastname'] = strtoupper(utf8_encode($row['lastname']));
             $row['middlename'] =strtoupper(utf8_encode($row['middlename']));
 
+            $row['employer_name'] = "Cebu South Medical Center";
+            $row['employer_address'] = "San Isidro, Talisay City, Cebu";
+            $row['employer_lgu'] = "722 - CEBU";
+            $row['employer_contact_no'] = "(032) 273-3226";
+
+            $row['suffix'] = ($row['suffix']) ? $row['suffix']: 'NA';
+
             $match = array(
                 'firstname' => $row['firstname'],
                 'lastname' => $row['lastname'],
@@ -432,6 +439,37 @@ class ListController extends Controller
 
     public function export()
     {
-        echo $filename = 'VIM_IR_Data_CSMC_'.date('M_d_y').'.csv';
+        $fileName = 'CentralVisayas-CebuSouthMedicalCenter_'.date('(M d)').'.csv';
+        $finalList = FinalList::whereRaw('LENGTH(philhealthid) > 3')
+            ->where('muncity','LIKE',"%7%")
+            ->where('barangay','LIKE',"%7%")
+            ->get();
+        $headers = array(
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        );
+        $columns = $this->headerKey();
+        $callback = function() use ($finalList, $columns){
+            $file = fopen('php://output','w');
+            $row = array();
+            fputcsv($file,$columns);
+            foreach($finalList as $list){
+                foreach($columns as $col){
+                    $row[$col] = utf8_decode($list->$col);
+                }
+                $row['employer_name'] = "Cebu South Medical Center";
+                $row['employer_address'] = "San Isidro, Talisay City, Cebu";
+                $row['employer_lgu'] = "722 - CEBU";
+                $row['employer_contact_no'] = "(032) 273-3226";
+                $row['suffix'] = ($row['suffix']) ? $row['suffix']: 'NA';
+
+                fputcsv($file,$row);
+            }
+            fclose($file);
+        };
+        return response()->stream($callback, 200, $headers);
     }
 }

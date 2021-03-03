@@ -13,7 +13,7 @@
     <h2 class="text-success title-header">
         Master List
         <span class="float-right">
-            <a href="{{ url('export') }}" class="btn btn-success btn-sm">
+            <a href="{{ url('export') }}" target="_blank" class="btn btn-success btn-sm">
                 <i class="fa fa-file-excel-o"></i> Export
             </a>
         </span>
