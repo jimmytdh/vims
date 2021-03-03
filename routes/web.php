@@ -56,4 +56,5 @@ Route::group(['middleware' => 'auth'], function() {
 
     //upload csv
     Route::post('/upload/file',[ListController::class,'uploadCSV']);
+    Route::get('/export',[ListController::class,'export']);
 });

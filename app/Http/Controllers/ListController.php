@@ -135,6 +135,7 @@ class ListController extends Controller
                             'barangay',
                         )
                         ->where('philhealthid','LIKE',"%+%")
+                        ->where('philhealthid',"")
                         ->orwhere('muncity','NOT LIKE',"%7%")
                         ->orwhere('barangay','NOT LIKE',"%7%")
                         ->orderBy('lastname','asc')->get();
@@ -142,7 +143,8 @@ class ListController extends Controller
                 ->addColumn('fullname',function ($data){
                     $middlename = substr($data->middlename,0,1);
                     $suffix = ($data->suffix!='NA') ? $data->suffix: '';
-                    return "<span class='text-success'>$data->lastname, $data->firstname $middlename. $suffix</span>";
+                    $url = url('list/edit/'.$data->id);
+                    return "<a href='$url' target='_blank' class='text-success'>$data->lastname, $data->firstname $middlename. $suffix</a>";
                 })
                 ->addColumn('philhealthid',function ($data){
                     return "<span class='edit' data-pk='$data->id' id='philhealthid' data-title='PhilHealth ID'>$data->philhealthid</span>";
@@ -426,5 +428,10 @@ class ListController extends Controller
             $str = strtolower($row);
             echo "'$str',<br>";
         }
+    }
+
+    public function export()
+    {
+        echo $filename = 'VIM_IR_Data_CSMC_'.date('M_d_y').'.csv';
     }
 }
