@@ -25,8 +25,8 @@
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item {{ request()->is('list/fix') ? 'active' : '' }}" href="{{ url('/list/fix') }}"><i class="fa fa-users mr-1"></i> Employees</a>
-                        <a class="dropdown-item {{ request()->is('list/fix/muncity*') ? 'active' : '' }}" href="{{ url('/fix/muncity') }}"><i class="fa fa-building mr-1"></i> Municipality/City</a>
-                        <a class="dropdown-item {{ request()->is('list/fix/brgy*') ? 'active' : '' }}" href="{{ url('/fix/brgy') }}"><i class="fa fa-building-o mr-1"></i> Barangay</a>
+                        <a class="dropdown-item {{ request()->is('list/fix/muncity*') ? 'active' : '' }}" href="{{ url('/list/fix/muncity') }}"><i class="fa fa-building mr-1"></i> Municipality/City</a>
+                        <a class="dropdown-item {{ request()->is('list/fix/brgy*') ? 'active' : '' }}" href="{{ url('/list/fix/brgy') }}"><i class="fa fa-building-o mr-1"></i> Barangay</a>
                     </div>
                 </li>
                 <li class="nav-item">
