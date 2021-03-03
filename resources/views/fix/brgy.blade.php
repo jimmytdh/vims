@@ -10,6 +10,9 @@
         {{ csrf_field() }}
         <div class="form-row">
             <div class="form-group col-sm-3">
+                <input type="text" class="form-control" placeholder="Exact Keyword Muncity" name="muncity" required>
+            </div>
+            <div class="form-group col-sm-3">
                 <input type="text" class="form-control" placeholder="Search Keyword" name="search" required>
             </div>
             <div class="form-group col-sm-3">
