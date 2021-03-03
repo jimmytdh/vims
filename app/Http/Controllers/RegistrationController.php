@@ -19,6 +19,7 @@ use App\Models\UserInfo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class RegistrationController extends Controller
 {
@@ -73,5 +74,34 @@ class RegistrationController extends Controller
         FinalList::updateOrCreate($match,$row);
         $status = ($check) ? 'duplicate': 'saved';
         return redirect()->back()->with($status,true);
+    }
+
+    public function verify(Request $req)
+    {
+        $data = array();
+        $search = '';
+        if(request()->method()=='POST')
+        {
+
+            if(strlen($req->search) > 3){
+                $data = FinalList::where('firstname','like',"%$req->search%")
+                    ->orwhere('lastname','like',"%$req->search%")
+                    ->get();
+            }
+
+            $search = $req->search;
+        }
+        return view('page.verify',compact('data','search'));
+    }
+
+    public function verifyKey(Request $req)
+    {
+        $key = $req->key;
+        if($key == '!VIMS@CSMC_'){
+            Session::put('key',true);
+            return 'success';
+        }else{
+            return 'failed';
+        }
     }
 }

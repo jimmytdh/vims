@@ -23,6 +23,11 @@ Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 
 Route::get('/register',[RegistrationController::class,'index'])->name('register');
 Route::post('/register',[RegistrationController::class,'register'])->name('post.register');
+
+Route::get('/verify',[RegistrationController::class,'verify']);
+Route::post('/verify',[RegistrationController::class,'verify']);
+Route::post('/key',[RegistrationController::class,'verifyKey']);
+
 Route::get('/error',function (){
     return view('error');
 })->name('error');
