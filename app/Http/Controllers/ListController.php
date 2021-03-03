@@ -110,10 +110,12 @@ class ListController extends Controller
             })
             ->addColumn('action', function($data){
                 $url = route('list.edit',$data->id);
+                $urlCard = route('list.card',$data->id);
                 $deleteUrl = url('/list/delete/'.$data->id);
                 $btn1 = "<a href='$url' class='btn btn-sm btn-success'><i class='fa fa-edit'></i></a>";
                 $btn2 = "<a href='#deleteModal' data-toggle='modal' data-backdrop='static' data-url='$deleteUrl' data-title='Delete Record?' data-id='$data->id' class='btnDelete btn btn-sm btn-danger'><i class='fa fa-trash'></i></a>";
-                return "$btn1 $btn2";
+                $btn3 = "<a href='$urlCard' target='_blank' class='btn btn-sm btn-info'><i class='fa fa-id-card'></i></a>";
+                return "$btn1 $btn2 $btn3";
             })
             ->rawColumns(['date_updated','fullname','with_allergy','with_comorbidity','history','consent','action'])
             ->toJson();
@@ -472,5 +474,11 @@ class ListController extends Controller
             fclose($file);
         };
         return response()->stream($callback, 200, $headers);
+    }
+
+    public function generateCard($id)
+    {
+        $data = FinalList::find($id);
+        return view('admin.card',compact('data'));
     }
 }
