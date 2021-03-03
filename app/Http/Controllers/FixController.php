@@ -45,6 +45,7 @@ class FixController extends Controller
     public function updateBrgy(Request $request)
     {
         FinalList::where('barangay','LIKE',"%$request->search%")
+            ->where('muncity','LIKE',"%$request->muncity%")
             ->update([
                 'barangay' => $request->value
             ]);
