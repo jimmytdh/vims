@@ -87,8 +87,8 @@
     <script>
         $(document).ready(function() {
             var table = $('#dataTable').DataTable({
-                processing: false,
-                serverSide: false,
+                processing: true,
+                serverSide: true,
                 ajax: "{{ route('list.data') }}",
                 columns: [
                     { data: 'date_updated', name: 'date_updated'},
