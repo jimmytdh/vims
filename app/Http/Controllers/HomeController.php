@@ -59,7 +59,7 @@ class HomeController extends Controller
         $countDirect = FinalList::where('direct_covid','01_Yes')->count();
         $consent = FinalList::where('consent','01_Yes')->count();
         $total = FinalList::count();
-        $target = 722;
+        $target = 854;
         $per = 0;
         $male = number_format(FinalList::where('sex','02_Male')->count());
         $female = number_format(FinalList::where('sex','01_Female')->count());
