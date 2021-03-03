@@ -136,8 +136,8 @@ class ListController extends Controller
                             'muncity',
                             'barangay',
                         )
-                        ->where('philhealthid','LIKE',"%+%")
-                        ->orwhereRaw('LENGTH(philhealthid) < 5')
+//                        ->where('philhealthid','LIKE',"%+%")
+//                        ->orwhereRaw('LENGTH(philhealthid) < 5')
                         ->orwhere('muncity','NOT LIKE',"%7%")
                         ->orwhere('barangay','NOT LIKE',"%7%")
                         ->orderBy('lastname','asc')->get();
