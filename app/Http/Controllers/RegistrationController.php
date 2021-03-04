@@ -152,13 +152,13 @@ class RegistrationController extends Controller
                         $division = 0;
                 }
 
-                $designation = Designation::where('description',$designation)->first();
-                if(!$designation){
-                    Designation::create([
-                        'description' => $designation
-                    ]);
+                $desig = Designation::where('description',$designation)->first();
+                if(!$desig){            
+                    $desig = Designation::create([
+                                'description' => $designation
+                            ]);
                 }
-                $designation = $designation->id;
+                $designation = $desig->id;
                 $username = strtolower($fname[0]).utf8_encode(strtolower($row[0]));
                 $password = $username."@csmc";
                 $match = array(
@@ -183,7 +183,7 @@ class RegistrationController extends Controller
                     );
                     User::updateOrCreate($match,$data);
                 }
-//
+// //
 //                $data = array(
 //                    'fname' => $fname,
 //                    'lname' => $lname,
