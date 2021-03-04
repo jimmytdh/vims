@@ -9,6 +9,7 @@ use App\Models\CivilStatus;
 use App\Models\Classification;
 use App\Models\Comorbidity;
 use App\Models\Confirmation;
+use App\Models\Designation;
 use App\Models\EmploymentStatus;
 use App\Models\FinalList;
 use App\Models\PersonalInfo;
@@ -19,6 +20,7 @@ use App\Models\UserInfo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 
 class RegistrationController extends Controller
@@ -102,6 +104,62 @@ class RegistrationController extends Controller
             return 'success';
         }else{
             return 'failed';
+        }
+    }
+
+    public function updateUsers()
+    {
+        $filename = storage_path()."/app/list/employee.csv";
+        $delimiter = ',';
+        if (!file_exists($filename) || !is_readable($filename))
+            return false;
+
+        $header = null;
+        $data = array();
+        if (($handle = fopen($filename, 'r')) !== false)
+        {
+            fgetcsv($handle);
+            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
+            {
+                $lname = ucwords(strtolower(utf8_encode($row[0])));
+                $fname = ucwords(strtolower(utf8_encode($row[1])));
+                $mname = ucwords(strtolower(utf8_encode($row[2])));
+                $suffix = ucwords(strtolower(utf8_encode($row[3])));
+                $division = ucwords(strtolower(utf8_encode($row[4])));
+                $designation = $row[5];
+
+                switch($division) {
+                    case 'Nursing Division':
+                        $division = 4;
+                        break;
+                    case 'Quality Mgt. Division':
+                        $division = 6;
+                        break;
+                    case 'Medical & Ancillary Division':
+                        $division = 3;
+                        break;
+                    case 'Finance Dept.':
+                        $division = 5;
+                        break;
+                    case 'Medical Center Chief':
+                        $division = 1;
+                        break;
+                    case 'Hopss':
+                        $division = 2;
+                        break;
+                    default:
+                        $division = 0;
+                }
+
+                $desig = Designation::where('description',$designation)->first();
+                if(!$desig){
+                    Designation::create([
+                        'description' => $designation
+                    ]);
+                }
+
+            }
+            fclose($handle);
         }
     }
 }
