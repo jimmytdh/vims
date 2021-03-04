@@ -71,4 +71,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/list/fix/brgy',[FixController::class,'brgy']);
     Route::post('/list/fix/brgy',[FixController::class,'updateBrgy']);
 
+    Route::get('/fix/area',[AreaController::class,'fix']);
+
 });
