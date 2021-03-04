@@ -13,7 +13,28 @@
 @endsection
 
 @section('content')
-    <h2 class="text-success title-header">Fix Data</h2>
+    <h2 class="text-success title-header">
+        Employee List
+        <div class="float-right">
+            <form action="{{ url('/employees/search') }}" method="post" class="form-inline">
+                {{ csrf_field() }}
+                <div class="form-group">
+                    <select name="search" id="search" class="custom-select mr-1 mt-1">
+                        <option value="">Select Division</option>
+                        @foreach($division as $row)
+                        <option {{ (Session::get('division') == $row->id ? 'selected':'') }} value="{{ $row->id }}">{{ $row->description }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-search"></i> Filter
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    </h2>
 
     <div class="table-responsive">
         <table id="dataTable" class="table table-sm table-striped">
@@ -52,6 +73,14 @@
                     { className: 'text-right' , targets: []},
                 ],
                 "pageLength": 25
+            });
+
+            $('#dataTable_filter input').unbind();
+            $('#dataTable_filter input').bind('keyup', function(e) {
+                if(e.keyCode == 13) {
+                    var oTable = $('#dataTable').dataTable();
+                    oTable.fnFilter(this.value);
+                }
             });
 
         });

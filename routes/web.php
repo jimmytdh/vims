@@ -77,8 +77,9 @@ Route::group(['middleware' => 'auth'], function() {
 
     //Employees
     Route::get('/employees',[EmployeeController::class,'index'])->name('list.employee');
+    Route::post('/employees/search',[EmployeeController::class,'search']);
 
-    Route::get('/fix/users',[RegistrationController::class,'updateUsers']);
+//    Route::get('/fix/users',[RegistrationController::class,'updateUsers']);
 
     //
 
