@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Yajra\DataTables\DataTables;
+use PDF;
 
 class ListController extends Controller
 {
@@ -476,6 +477,26 @@ class ListController extends Controller
     public function generateCard($id)
     {
         $data = FinalList::find($id);
-        return view('admin.card',compact('data'));
+        //return view('admin.card',compact('data'));
+
+        $title = $data->fname." ".$data->lname;
+        $pdf = PDF::loadView('admin.card',compact(
+            'title',
+            'data'
+        ));
+        return $pdf->setPaper('a4','landscape')
+                    ->stream($title.'.pdf');
+    }
+
+    public function generateAllCard()
+    {
+        $records = FinalList::where('consent','01_Yes')->get();
+        //return view('admin.cardAll',compact('records'));
+
+        $pdf = PDF::loadView('admin.cardAll',compact(
+            'records'
+        ));
+        return $pdf->setPaper('a4','landscape')
+            ->stream('VaccineCards.pdf');
     }
 }

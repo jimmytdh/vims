@@ -22,6 +22,9 @@
             <a href="{{ url('export') }}" target="_blank" class="btn btn-success btn-sm">
                 <i class="fa fa-file-excel-o"></i> Export
             </a>
+            <a href="{{ url('/list/card/all') }}" target="_blank" class="btn btn-info btn-sm">
+                <i class="fa fa-id-card"></i> Print Cards
+            </a>
         </span>
     </h2>
     @if($countRecords > 0)

@@ -37,17 +37,51 @@ class AreaController extends Controller
 
     function fix()
     {
-        $list = Brgy::all();
+//        $list = Brgy::all();
+//        foreach($list as $row)
+//        {
+//            $desc = str_replace("-", "_", $row->brgyDesc);
+//            $code = substr($row->brgyCode,1);
+//            $str = "_$code $desc";
+//            $value = str_replace(" ", "_", $str);
+//            Brgy::find($row->id)
+//                ->update([
+//                    'vimsCode' => strtoupper($value)
+//                ]);
+//        }
+
+        $list = Muncity::all();
         foreach($list as $row)
         {
-            $desc = str_replace("-", "_", $row->brgyDesc);
-            $str = "_$row->brgyCode $desc";
+            $desc = str_replace("-", "_", $row->citymunDesc);
+            $code = substr($row->citymunCode,1);
+            $str = "_$code $desc";
             $value = str_replace(" ", "_", $str);
-            Brgy::find($row->id)
+            Muncity::find($row->id)
                 ->update([
                     'vimsCode' => strtoupper($value)
                 ]);
         }
         echo 'Done!';
+    }
+
+    static function getBrgybyCode($code)
+    {
+        $code = substr($code,1,8);
+        $code = "0".$code;
+        return optional(Brgy::where("brgyCode",$code)->first())->brgyDesc;
+    }
+
+    static function getMuncitybyCode($code)
+    {
+        $code = substr($code,1,5);
+        $code = "0".$code;
+        return ucwords(strtolower(optional(Muncity::where("citymunCode",$code)->first())->citymunDesc));
+    }
+
+    static function getProvincebyCode($code)
+    {
+        $code = substr($code,1,4);
+        return ucwords(strtolower(Province::where("provCode",$code)->first()->provDesc));
     }
 }
