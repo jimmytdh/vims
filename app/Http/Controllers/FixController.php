@@ -40,7 +40,7 @@ class FixController extends Controller
             ->orderBy('barangay','asc')
             ->get();
 
-        $first = FinalList::select(
+        $first = optional(FinalList::select(
             'muncity',
             'province',
             'barangay',
@@ -48,7 +48,7 @@ class FixController extends Controller
             ->where('barangay','NOT LIKE',"%7%")
             ->orderBy('muncity','asc')
             ->orderBy('barangay','asc')
-            ->first();
+            ->first());
         return view('fix.brgy',compact('data','first'));
     }
 
