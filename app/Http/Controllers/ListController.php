@@ -490,11 +490,33 @@ class ListController extends Controller
 
     public function generateAllCard()
     {
-        $records = FinalList::where('consent','01_Yes')->get();
-        //return view('admin.cardAll',compact('records'));
+        $list = FinalList::select(
+                        'category',
+                        'philhealthid',
+                        'lastname',
+                        'middlename',
+                        'firstname',
+                        'suffix',
+                        'contact_no',
+                        'full_address',
+                        'province',
+                        'muncity',
+                        'barangay',
+                        'birthdate',
+                        'sex',
+                    )
+                    ->where('consent','01_Yes')->get();
+        $records = array();
+        foreach($list as $row)
+        {
+            $records[] = $row;
+        }
+        $count = count($records);
+//        return view('admin.cardAll',compact('records','count'));
 
         $pdf = PDF::loadView('admin.cardAll',compact(
-            'records'
+            'records',
+            'count'
         ));
         return $pdf->setPaper('a4','landscape')
             ->stream('VaccineCards.pdf');
