@@ -124,8 +124,8 @@ class RegistrationController extends Controller
                 $lname = ucwords(utf8_encode(strtolower($row[0])));
                 $fname = ucwords(utf8_encode(strtolower($row[1])));
                 $mname = ucwords(utf8_encode(strtolower($row[2])));
-                $suffix = ucwords(utf8_encode(strtolower($row[3])));
-
+                $suffix = $row[3];
+                echo $suffix;
                 $match = array(
                     'fname' => $fname,
                     'lname' => $lname
@@ -133,7 +133,9 @@ class RegistrationController extends Controller
                 $data = array(
                     'suffix' => $suffix,
                 );
-                User::updateOrCreate($match,$data);
+                User::where($match)
+                    ->update($data);
+                //User::updateOrCreate($match,$data);
             }
             fclose($handle);
         }
