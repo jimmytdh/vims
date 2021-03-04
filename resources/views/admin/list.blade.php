@@ -19,6 +19,9 @@
     <h2 class="text-success title-header">
         Master List
         <span class="float-right">
+            <a href="#uploadModal" data-toggle="modal" data-backdrop="static" target="_blank" class="btn btn-warning btn-sm">
+                <i class="fa fa-cloud-upload"></i> Upload
+            </a>
             <a href="{{ url('export') }}" target="_blank" class="btn btn-success btn-sm">
                 <i class="fa fa-file-excel-o"></i> Export
             </a>

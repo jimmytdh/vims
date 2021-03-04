@@ -13,8 +13,8 @@
                 <li class="nav-item {{ request()->is('list/master*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/list/master') }}"><i class="fa fa-database"></i> Master List</a>
                 </li>
-                <li class="nav-item {{ request()->is('upload') ? 'active' : '' }}">
-                    <a class="nav-link" href="#uploadModal" data-toggle="modal" data-backdrop="static"><i class="fa fa-cloud-upload"></i> Upload CSV</a>
+                <li class="nav-item {{ request()->is('employees') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/employees') }}"><i class="fa fa-users"></i> Employees</a>
                 </li>
                 <li class="nav-item {{ request()->is('mydata*') ? 'active' : '' }} hidden">
                     <a class="nav-link" href="{{ url('/mydata') }}"><i class="fa fa-database"></i> My Data</a>

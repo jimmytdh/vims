@@ -7,6 +7,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\FixController;
+use App\Http\Controllers\EmployeeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -74,6 +75,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/list/fix/brgy',[FixController::class,'brgy']);
     Route::post('/list/fix/brgy',[FixController::class,'updateBrgy']);
 
+    //Employees
+    Route::get('/employees',[EmployeeController::class,'index'])->name('list.employee');
+
     Route::get('/fix/users',[RegistrationController::class,'updateUsers']);
+
+    //
 
 });

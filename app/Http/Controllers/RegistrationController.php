@@ -125,77 +125,15 @@ class RegistrationController extends Controller
                 $fname = ucwords(utf8_encode(strtolower($row[1])));
                 $mname = ucwords(utf8_encode(strtolower($row[2])));
                 $suffix = ucwords(utf8_encode(strtolower($row[3])));
-                $division = ucwords(strtolower(utf8_encode($row[4])));
-                $designation = $row[5];
 
-
-                switch($division) {
-                    case 'Nursing Division':
-                        $division = 4;
-                        break;
-                    case 'Quality Mgt. Division':
-                        $division = 6;
-                        break;
-                    case 'Medical & Ancillary Division':
-                        $division = 3;
-                        break;
-                    case 'Finance Dept.':
-                        $division = 5;
-                        break;
-                    case 'Medical Center Chief':
-                        $division = 1;
-                        break;
-                    case 'Hopss':
-                        $division = 2;
-                        break;
-                    default:
-                        $division = 0;
-                }
-
-                $desig = Designation::where('description',$designation)->first();
-                if(!$desig){            
-                    $desig = Designation::create([
-                                'description' => $designation
-                            ]);
-                }
-                $designation = $desig->id;
-                $username = strtolower($fname[0]).utf8_encode(strtolower($row[0]));
-                $password = $username."@csmc";
                 $match = array(
                     'fname' => $fname,
                     'lname' => $lname
                 );
-
-                $check = User::where($match)->first();
-                if(!$check){
-                    $data = array(
-                        'fname' => $fname,
-                        'lname' => $lname,
-                        'username' => $username,
-                        'password' => bcrypt($password),
-                        'mname' => $mname,
-                        'suffix' => $suffix,
-                        'division' => $division,
-                        'designation' => $designation,
-                        'section' => 0,
-                        'user_priv' => 0,
-                        'status' => 0
-                    );
-                    User::updateOrCreate($match,$data);
-                }
-// //
-//                $data = array(
-//                    'fname' => $fname,
-//                    'lname' => $lname,
-//                    'username' => $username,
-//                    'password' => bcrypt($password),
-//                    'mname' => $mname,
-//                    'suffix' => $suffix,
-//                    'division' => $division,
-//                    'designation' => $designation
-//                );
-                //User::updateOrCreate($match,$data);
-                //print_r($data);
+                $data = array(
+                    'suffix' => $suffix,
+                );
+                User::updateOrCreate($match,$data);
             }
             fclose($handle);
         }
