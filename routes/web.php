@@ -60,7 +60,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/list/edit/{id}',[ListController::class,'edit'])->name('list.edit');
     Route::post('/list/update/{id}',[ListController::class,'update'])->name('list.update');
 
-    Route::get('/list/card/all',[ListController::class,'generateAllCard']);
+    Route::get('/list/card/all/{offset}/{limit}',[ListController::class,'generateAllCard']);
     Route::get('/list/card/{id}',[ListController::class,'generateCard'])->name('list.card');
 
 
