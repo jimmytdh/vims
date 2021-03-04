@@ -121,12 +121,13 @@ class RegistrationController extends Controller
             fgetcsv($handle);
             while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
             {
-                $lname = ucwords(strtolower(utf8_encode($row[0])));
-                $fname = ucwords(strtolower(utf8_encode($row[1])));
-                $mname = ucwords(strtolower(utf8_encode($row[2])));
-                $suffix = ucwords(strtolower(utf8_encode($row[3])));
+                $lname = ucwords(utf8_encode(strtolower($row[0])));
+                $fname = ucwords(utf8_encode(strtolower($row[1])));
+                $mname = ucwords(utf8_encode(strtolower($row[2])));
+                $suffix = ucwords(utf8_encode(strtolower($row[3])));
                 $division = ucwords(strtolower(utf8_encode($row[4])));
                 $designation = $row[5];
+
 
                 switch($division) {
                     case 'Nursing Division':
@@ -151,13 +152,50 @@ class RegistrationController extends Controller
                         $division = 0;
                 }
 
-                $desig = Designation::where('description',$designation)->first();
-                if(!$desig){
+                $designation = Designation::where('description',$designation)->first();
+                if(!$designation){
                     Designation::create([
                         'description' => $designation
                     ]);
                 }
+                $designation = $designation->id;
+                $username = strtolower($fname[0]).utf8_encode(strtolower($row[0]));
+                $password = $username."@csmc";
+                $match = array(
+                    'fname' => $fname,
+                    'lname' => $lname
+                );
 
+                $check = User::where($match)->first();
+                if(!$check){
+                    $data = array(
+                        'fname' => $fname,
+                        'lname' => $lname,
+                        'username' => $username,
+                        'password' => bcrypt($password),
+                        'mname' => $mname,
+                        'suffix' => $suffix,
+                        'division' => $division,
+                        'designation' => $designation,
+                        'section' => 0,
+                        'user_priv' => 0,
+                        'status' => 0
+                    );
+                    User::updateOrCreate($match,$data);
+                }
+//
+//                $data = array(
+//                    'fname' => $fname,
+//                    'lname' => $lname,
+//                    'username' => $username,
+//                    'password' => bcrypt($password),
+//                    'mname' => $mname,
+//                    'suffix' => $suffix,
+//                    'division' => $division,
+//                    'designation' => $designation
+//                );
+                //User::updateOrCreate($match,$data);
+                //print_r($data);
             }
             fclose($handle);
         }

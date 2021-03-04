@@ -176,9 +176,13 @@ class ListController extends Controller
         foreach($data as $row)
         {
             $row['birthdate'] = Carbon::parse($row['birthdate'])->format('Y-m-d');
-            $row['firstname'] = strtoupper(utf8_encode($row['firstname']));
-            $row['lastname'] = strtoupper(utf8_encode($row['lastname']));
-            $row['middlename'] =strtoupper(utf8_encode($row['middlename']));
+//            $row['firstname'] = strtoupper(utf8_encode($row['firstname']));
+//            $row['lastname'] = strtoupper(utf8_encode($row['lastname']));
+//            $row['middlename'] =strtoupper(utf8_encode($row['middlename']));
+
+            $row['firstname'] = utf8_encode(strtoupper($row['firstname']));
+            $row['lastname'] = utf8_encode(strtoupper($row['lastname']));
+            $row['middlename'] = utf8_encode(strtoupper($row['middlename']));
             $row['full_address'] =utf8_encode($row['full_address']);
 
             $row['employer_name'] = "Cebu South Medical Center";
