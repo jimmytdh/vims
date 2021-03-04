@@ -488,7 +488,7 @@ class ListController extends Controller
                     ->stream($title.'.pdf');
     }
 
-    public function generateAllCard()
+    public function generateAllCard($offset,$limit)
     {
         $list = FinalList::select(
                         'category',
@@ -505,7 +505,10 @@ class ListController extends Controller
                         'birthdate',
                         'sex',
                     )
-                    ->where('consent','01_Yes')->get();
+                    ->where('consent','01_Yes')
+                    ->offset($offset)
+                    ->limit($limit)
+                    ->get();
         $records = array();
         foreach($list as $row)
         {
