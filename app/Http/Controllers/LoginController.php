@@ -29,7 +29,6 @@ class LoginController extends Controller
         $remember = ($req->remember) ? true: false;
         if(Auth::attempt(['username' => $req->username, 'password' => $req->password], $remember )){
             $login = UserAccess::where('user_id',Auth::id())
-                        ->where('level','admin')
                         ->exists();
             if(!$login){
                 Auth::logout();

@@ -10,12 +10,20 @@
                 <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a>
                 </li>
+
+                @if(auth()->user()->isAdmin())
                 <li class="nav-item {{ request()->is('list/master*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/list/master') }}"><i class="fa fa-database"></i> Master List</a>
                 </li>
+                @else
+                <li class="nav-item {{ request()->is('list*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/list') }}"><i class="fa fa-database"></i> Master List</a>
+                </li>
+                @endif
                 <li class="nav-item {{ request()->is('employees') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/employees') }}"><i class="fa fa-users"></i> Employees</a>
                 </li>
+                @if(auth()->user()->isAdmin())
                 <li class="nav-item {{ request()->is('mydata*') ? 'active' : '' }} hidden">
                     <a class="nav-link" href="{{ url('/mydata') }}"><i class="fa fa-database"></i> My Data</a>
                 </li>
@@ -29,6 +37,7 @@
                         <a class="dropdown-item {{ request()->is('list/fix/brgy*') ? 'active' : '' }}" href="{{ url('/list/fix/brgy') }}"><i class="fa fa-building-o mr-1"></i> Barangay</a>
                     </div>
                 </li>
+                @endif
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
                 </li>

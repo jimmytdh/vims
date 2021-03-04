@@ -8,6 +8,7 @@ use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\FixController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LimitController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,40 +41,43 @@ Route::get('/barangay/{citymunCode}',[AreaController::class,'getBrgy']);
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/mydata', [HomeController::class, 'myData']);
-    Route::post('/mydata', [HomeController::class, 'myData']);
+    Route::group(['middleware' => 'admin'],function() {
+        Route::get('/mydata', [HomeController::class, 'myData']);
+        Route::post('/mydata', [HomeController::class, 'myData']);
 
-    //update x-editable
-    Route::post('/mydata/update/user', [HomeController::class, 'userUpdate']);
-    Route::post('/mydata/update/personal', [HomeController::class, 'personalUpdate']);
-    Route::post('/mydata/update/data', [HomeController::class, 'dataUpdate']);
-    Route::post('/mydata/update/comorbidity', [HomeController::class, 'dataComorbidity']);
-    Route::post('/mydata/update/table/{table}', [HomeController::class, 'tableUpdate']);
+        //update x-editable
+        Route::post('/mydata/update/user', [HomeController::class, 'userUpdate']);
+        Route::post('/mydata/update/personal', [HomeController::class, 'personalUpdate']);
+        Route::post('/mydata/update/data', [HomeController::class, 'dataUpdate']);
+        Route::post('/mydata/update/comorbidity', [HomeController::class, 'dataComorbidity']);
+        Route::post('/mydata/update/table/{table}', [HomeController::class, 'tableUpdate']);
 
-    //manage list
-    Route::get('/list/master',[ListController::class,'index']);
-    Route::get('/list/data',[ListController::class,'data'])->name('list.data');
-    Route::get('/list/fix',[ListController::class,'fix'])->name('list.fix');
-    Route::post('/list/fix/update',[ListController::class,'fixUpdate']);
-    Route::get('/list/upload',[ListController::class,'upload'])->name('list.upload');
-    Route::get('/list/delete',[ListController::class,'deleteFiles']);
-    Route::get('/list/delete/{id}',[ListController::class,'deleteRecord']);
-    Route::get('/list/edit/{id}',[ListController::class,'edit'])->name('list.edit');
-    Route::post('/list/update/{id}',[ListController::class,'update'])->name('list.update');
+        //manage list
+        Route::get('/list/master',[ListController::class,'index']);
+        Route::get('/list/data',[ListController::class,'data'])->name('list.data');
+        Route::get('/list/fix',[ListController::class,'fix'])->name('list.fix');
+        Route::post('/list/fix/update',[ListController::class,'fixUpdate']);
+        Route::get('/list/upload',[ListController::class,'upload'])->name('list.upload');
+        Route::get('/list/delete',[ListController::class,'deleteFiles']);
+        Route::get('/list/delete/{id}',[ListController::class,'deleteRecord']);
+        Route::get('/list/edit/{id}',[ListController::class,'edit'])->name('list.edit');
+        Route::post('/list/update/{id}',[ListController::class,'update'])->name('list.update');
+
+        //upload csv
+        Route::post('/upload/file',[ListController::class,'uploadCSV']);
+        Route::get('/export',[ListController::class,'export']);
+
+        //fix
+        Route::get('/list/fix/muncity',[FixController::class,'muncity']);
+        Route::post('/list/fix/muncity',[FixController::class,'updateMuncity']);
+        Route::get('/list/fix/brgy',[FixController::class,'brgy']);
+        Route::post('/list/fix/brgy',[FixController::class,'updateBrgy']);
+    });
+
+    Route::get('/list',[LimitController::class,'showList']);
 
     Route::get('/list/card/all/{offset}/{limit}',[ListController::class,'generateAllCard']);
     Route::get('/list/card/{id}',[ListController::class,'generateCard'])->name('list.card');
-
-
-    //upload csv
-    Route::post('/upload/file',[ListController::class,'uploadCSV']);
-    Route::get('/export',[ListController::class,'export']);
-
-    //fix
-    Route::get('/list/fix/muncity',[FixController::class,'muncity']);
-    Route::post('/list/fix/muncity',[FixController::class,'updateMuncity']);
-    Route::get('/list/fix/brgy',[FixController::class,'brgy']);
-    Route::post('/list/fix/brgy',[FixController::class,'updateBrgy']);
 
     //Employees
     Route::get('/employees',[EmployeeController::class,'index'])->name('list.employee');

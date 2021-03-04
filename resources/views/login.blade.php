@@ -49,7 +49,7 @@
                     @endif
                     @if(session('denied'))
                     <div class="alert alert-danger alert-circle text-center">
-                        Access Denied!
+                        Access Denied
                     </div>
                     @endif
                     <form class="form-signin" method="post" action="{{ route('validate.login') }}">
