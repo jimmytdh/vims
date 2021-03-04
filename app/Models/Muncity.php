@@ -10,4 +10,6 @@ class Muncity extends Model
     use HasFactory;
     protected $connection = 'philippines';
     protected $table = 'refcitymun';
+    protected $fillable = ['vimsCode'];
+    public $timestamps = false;
 }

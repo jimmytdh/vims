@@ -10,4 +10,6 @@ class Brgy extends Model
     use HasFactory;
     protected $connection = 'philippines';
     protected $table = 'refbrgy';
+    protected $fillable = ['vimsCode'];
+    public $timestamps = false;
 }

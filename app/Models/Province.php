@@ -10,4 +10,6 @@ class Province extends Model
     use HasFactory;
     protected $connection = 'philippines';
     protected $table = 'refprovince';
+    protected $fillable = ['vimsCode'];
+    public $timestamps = false;
 }

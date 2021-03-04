@@ -12,25 +12,25 @@
 @section('content')
     <h2 class="title-header text-success">Registration</h2>
 
-        @if(session('success'))
-            <div class="alert alert-success">
-                <i class="fa fa-check"></i>
-                Successfully updated!
-            </div>
-        @endif
-        @if(session('duplicate'))
-            <div class="alert alert-info">
-                <i class="fa fa-exclamation-circle"></i>
-                Your data was successfully updated!
-            </div>
-        @endif
+    @if(session('success'))
+        <div class="alert alert-success">
+            <i class="fa fa-check"></i>
+            Successfully updated!
+        </div>
+    @endif
+    @if(session('duplicate'))
+        <div class="alert alert-info">
+            <i class="fa fa-exclamation-circle"></i>
+            Your data was successfully updated!
+        </div>
+    @endif
 
-        @if(session('saved'))
-            <div class="alert alert-success">
-                <i class="fa fa-check-circle"></i>
-                Your data was successfully saved!
-            </div>
-        @endif
+    @if(session('saved'))
+        <div class="alert alert-success">
+            <i class="fa fa-check-circle"></i>
+            Your data was successfully saved!
+        </div>
+    @endif
 
     <form action="{{ url('/register') }}" method="post">
         {{ csrf_field() }}
@@ -177,38 +177,21 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label>Region <span class="required">*</span></label>
-                <select name="region" id="address_region" class="custom-select" required>
-                    <option value="">Select Here...</option>
-                    @foreach($region as $row)
-                        <option {{ ($row->vimsCode=='CentralVisayas') ? 'selected':'' }} value="{{ $row->vimsCode }}">{{ $row->regDesc }}</option>
-                    @endforeach
-                </select>
+                <input type="text" name="region" value="CentralVisayas" class="form-control" readonly>
             </div>
             <div class="form-group col-md-4">
                 <label>Province <span class="required">*</span></label>
-                <select name="province" id="address_province" class="custom-select" required>
-                    <option value="">Select Here...</option>
-                    @foreach($provinces as $row)
-                        <option {{ ($row->vimsCode=='_0722_CEBU') ? 'selected':'' }} value="{{ $row->vimsCode }}">{{ $row->provDesc }}</option>
-                    @endforeach
-                </select>
+                <input type="text" name="province" value="_0722_CEBU" class="form-control" readonly>
             </div>
             <div class="form-group col-md-4">
                 <label>Municipality/City <span class="required">*</span></label>
-                <select name="muncity" id="address_muncity" class="custom-select" required>
-                    <option value="">Select Here...</option>
-                    @foreach($muncity as $row)
-                        <option value="{{ $row->vimsCode }}">{{ $row->citymunDesc }}</option>
-                    @endforeach
-                </select>
+                <input type="text" name="muncity" value="" class="form-control" required>
             </div>
         </div>
         <div class="form-row mt-3">
             <div class="form-group col-md-4">
                 <label>Barangay <span class="required">*</span></label>
-                <select name="barangay" id="address_brgy" class="custom-select" required>
-                    <option value="">Select Here...</option>
-                </select>
+                <input type="text" name="barangay" value="" class="form-control" required>
             </div>
             <div class="form-group col-md-8">
                 <label>Unit/Building/House#/Street Name <span class="required">*</span></label>
@@ -489,87 +472,5 @@
                 $("#section_covidHistory").addClass('hidden');
             }
         });
-    </script>
-
-    <script>
-        $("#address_region").on('change',function(){
-            var code = $(this).val();
-            showProvince(code);
-        });
-
-        $("#address_province").on('change',function(){
-            var code = $(this).val();
-            console.log(code);
-            showMuncity(code);
-        });
-
-        $("#address_muncity").on('change',function(){
-            var code = $(this).val();
-            showBrgy(code);
-        });
-
-        function showProvince(regCode)
-        {
-            selectEmpty('address_province');
-            selectEmpty('address_muncity');
-            selectEmpty('address_brgy');
-            var url = "{{ url('/provinces/') }}/"+regCode;
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (data) {
-                    jQuery.each( data, function( i, val ) {
-                        $("#address_province").append($('<option>', {
-                            value: val.vimsCode,
-                            text: val.provDesc
-                        }));
-                    });
-                }
-            });
-        }
-
-        function showMuncity(provCode)
-        {
-            selectEmpty('address_muncity');
-            selectEmpty('address_brgy');
-            var url = "{{ url('/muncity/') }}/"+provCode;
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (data) {
-                    jQuery.each( data, function( i, val ) {
-                        $("#address_muncity").append($('<option>', {
-                            value: val.vimsCode,
-                            text: val.citymunDesc
-                        }));
-                    });
-                }
-            });
-        }
-
-        function showBrgy(citymunCode)
-        {
-            selectEmpty('address_brgy');
-            var url = "{{ url('/barangay/') }}/"+citymunCode;
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (data) {
-                    jQuery.each( data, function( i, val ) {
-                        $("#address_brgy").append($('<option>', {
-                            value: val.vimsCode,
-                            text: val.brgyDesc
-                        }));
-                    });
-                }
-            });
-        }
-        function selectEmpty(name)
-        {
-            $("#"+name).empty().append($('<option>', {
-                value: "",
-                text: 'Select Here...'
-            }));
-        }
     </script>
 @endsection

@@ -35,8 +35,8 @@ class RegistrationController extends Controller
         $classification = Classification::get();
 
         $region = Region::get();
-        $provinces = AreaController::getProvinces('07');
-        $muncity = AreaController::getMuncity('0722');
+        $provinces = AreaController::getProvinces('CentralVisayas');
+        $muncity = AreaController::getMuncity('_0722_CEBU');
         $brgy = array();
 
         if($personal->address_muncity)
