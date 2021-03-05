@@ -1,5 +1,5 @@
 @extends('app')
-
+@section('title','Registration (Sinovac Vaccination)')
 @section('css')
     <style>
         .required { color:red; }
