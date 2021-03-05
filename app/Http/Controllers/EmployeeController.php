@@ -56,4 +56,41 @@ class EmployeeController extends Controller
                     ->first();
         return $check;
     }
+
+    public function update(Request $request)
+    {
+        $emp = FinalList::find($request->pk);
+        $division = $request->value;
+        $match = array(
+            'fname' => $emp->firstname,
+            'lname' => $emp->lastname
+        );
+        $update = array(
+            'division' => $division
+        );
+        $check = User::where($match)->first();
+        if($check){
+            User::where($match)->update($update);
+        }else{
+            $this->createNewUser($emp,$division);
+        }
+        return $request;
+    }
+
+    public function createNewUser($data,$division)
+    {
+        $data = array(
+            'lname' => ucfirst(strtolower($data->lastname)),
+            'fname' => ucfirst(strtolower($data->firstname)),
+            'mname' => ucfirst(strtolower($data->middlename)),
+            'username' => strtolower($data->firstname).".".strtolower($data->lastname),
+            'password' => bcrypt(strtolower($data->lname)."@csmc"),
+            'designation' => 0,
+            'division' => $division,
+            'section' => 0,
+            'user_priv' => 0,
+            'status' => 0,
+        );
+        User::create($data);
+    }
 }

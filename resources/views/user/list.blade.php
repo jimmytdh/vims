@@ -38,9 +38,8 @@
         <table id="dataTable" class="table table-sm table-striped">
             <thead>
             <tr>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Middle Name</th>
+                <th>Full Name</th>
+                <th>Division</th>
                 <th>Gender</th>
                 <th>Age</th>
                 <th>Contact</th>
@@ -67,9 +66,8 @@
                 serverSide: true,
                 ajax: "{{ url('/list') }}",
                 columns: [
-                    { data: 'lastname', name: 'lastname'},
-                    { data: 'firstname', name: 'firstname'},
-                    { data: 'middlename', name: 'middlename'},
+                    { data: 'fullname', name: 'fullname'},
+                    { data: 'division', name: 'division'},
                     { data: 'gender', name: 'gender'},
                     { data: 'age', name: 'age'},
                     { data: 'contact_no', name: 'contact_no'},
@@ -110,7 +108,7 @@
                                 Array(doc.content[1].table.body[0].length + 1).join('*').split('');
                         },
                         exportOptions: {
-                            columns: [ 0,1,2,3,4,5,6,7,8]
+                            columns: [ 0,1,2,3,4,5,6,7]
                         }
                     },{
                         extend: 'colvis',
@@ -126,9 +124,7 @@
                 $('.edit').editable({
                     url: url,
                     type: 'text',
-                    success: function(data){
-                        console.log(data);
-                    }
+
                 });
                 $('.consent').editable({
                     url: url,
@@ -137,6 +133,18 @@
                         {value: '02_No', text: 'No'},
                         {value: '03_Unknown', text: 'Unknown'}
                     ]
+                });
+
+                $('.editUser').editable({
+                    url: "{{ url('/employees/update') }}",
+                    source: [
+                        @foreach($divisions as $div)
+                        {value: "{{ $div->id }}", text: "{{ $div->code }}"},
+                        @endforeach
+                    ],
+                    success: function(data){
+                        console.log(data);
+                    }
                 });
 
                 $('a[href="#vaccineModal"]').on('click',function (){

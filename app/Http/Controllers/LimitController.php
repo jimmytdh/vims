@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Division;
 use App\Models\FinalList;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -17,16 +19,22 @@ class LimitController extends Controller
                         ->orderBy('lastname','asc')->get();
 
             return DataTables::of($data)
-                ->addColumn('lastname',function ($data){
-                    return "<span class='text-success edit' data-pk='$data->id' data-name='lastname' data-title='Last Name'>$data->lastname</span>";
+                ->addColumn('fullname',function ($data){
+                    $lname = "<span class='text-success edit' data-pk='$data->id' data-name='lastname' data-title='Last Name'>$data->lastname</span>";
+                    $fname = "<span class='text-success edit' data-pk='$data->id' data-name='firstname' data-title='First Name'>$data->firstname</span>";
+                    $mname = "<span class='text-success edit' data-pk='$data->id' data-name='middlename' data-title='Middle Name'>$data->middlename</span>";
+                    $suffix = ($data->suffix=='NA' || $data->suffix=='N/A') ? '' : $data->suffix;
+                    return "$lname, $fname $mname $suffix";
                 })
-                ->addColumn('firstname',function ($data){
-                    return "<span class='text-success edit' data-pk='$data->id' data-name='firstname' data-title='First Name'>$data->firstname</span>";
+                ->addColumn('division',function ($data){
+                    $check = optional(User::select('division.code','division.id')
+                                ->leftJoin('division','division.id','=','users.division')
+                                ->where('fname',$data->firstname)
+                                ->where('lname',$data->lastname)
+                                ->first());
+                    $class = ($check) ? 'success' : '';
+                    return "<span class='editUser' data-type='select' data-value='$check->id' data-pk='$data->id' data-name='user_id' data-title='Select Division'>$check->code</span>";
                 })
-                ->addColumn('middlename',function ($data){
-                    return "<span class='text-success edit' data-pk='$data->id' data-name='middlename' data-title='Middle Name'>$data->middlename</span>";
-                })
-
                 ->addColumn('gender',function ($data){
                     return ($data->sex=='02_Male') ? 'Male' : 'Female';
                 })
@@ -74,11 +82,11 @@ class LimitController extends Controller
                 })
 
 
-                ->rawColumns(['lastname','firstname','middlename','suffix','history','status','consent','action'])
+                ->rawColumns(['fullname','division','suffix','history','status','consent','action'])
                 ->make(true);
         }
-
-        return view('user.list');
+        $divisions = Division::get();
+        return view('user.list',compact('divisions'));
     }
 
     public function exportList()
