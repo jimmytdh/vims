@@ -10,7 +10,7 @@
     </style>
 @endsection
 @section('content')
-    <h2 class="title-header text-success">Registration</h2>
+    <h2 class="title-header text-success">Registration (Sinovac Vaccination)</h2>
 
         @if(session('success'))
             <div class="alert alert-success">
