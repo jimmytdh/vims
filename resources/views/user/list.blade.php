@@ -20,7 +20,7 @@
         Master List
         <span class="float-right">
             <a href="{{ url('export/confirmed') }}" target="_blank" class="btn btn-success btn-sm">
-                <i class="fa fa-thumbs-o-up"></i> Agree
+                <i class="fa fa-thumbs-o-up"></i> Confirmed to Yes
             </a>
         </span>
     </h2>
