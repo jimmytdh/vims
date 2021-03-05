@@ -53,7 +53,7 @@
 
             </tr>
             </thead>
-            <tfoot class="bg-dark text-white">
+            <tfoot>
             <tr>
                 <th></th>
                 <th><input type="text" data-column="1" class="search form-control form-control-sm" placeholder="Search Name"></th>
@@ -106,6 +106,7 @@
                 ],
                 "pageLength": 25,
                 "order": [[ 1, "asc" ]],
+                searching: true,
                 dom: 'Bfrtip',
                 buttons: [
                     {
