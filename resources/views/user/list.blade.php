@@ -16,7 +16,14 @@
 @endsection
 
 @section('content')
-    <h2 class="text-success title-header">Master List</h2>
+    <h2 class="text-success title-header">
+        Master List
+        <span class="float-right">
+            <a href="{{ url('export/confirmed') }}" target="_blank" class="btn btn-success btn-sm">
+                <i class="fa fa-thumbs-o-up"></i> Agree
+            </a>
+        </span>
+    </h2>
 
     <div class="table-responsive">
         <table id="dataTable" class="table table-sm table-striped">

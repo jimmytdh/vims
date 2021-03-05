@@ -53,4 +53,52 @@ class LimitController extends Controller
 
         return view('user.list');
     }
+
+    public function exportList()
+    {
+
+        $fileName = 'ConfirmedList_'.date('(M d)').'.csv';
+        $finalList = FinalList::where('consent','01_Yes')
+            ->orderBy('lastname','asc')
+            ->get();
+        //whereRaw('LENGTH(philhealthid) > 3')
+        $headers = array(
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        );
+
+        $columns = array(
+            'No',
+            'Last Name',
+            'First Name',
+            'Middle Name',
+            'Suffix',
+            'Contact',
+            'Date Updated'
+        );
+
+        $callback = function() use ($finalList,$columns){
+            $file = fopen('php://output','w');
+            $row = array();
+            fputcsv($file,$columns);
+            $c = 1;
+            foreach($finalList as $list){
+                $row = array(
+                    'no' => $c++,
+                    'lastname' => utf8_decode($list->lastname),
+                    'firstname' => utf8_decode($list->firstname),
+                    'middlename' => utf8_decode($list->middlename),
+                    'suffix' => $list->suffix,
+                    'contact' => $list->contact_no,
+                    'date' => date('M d, Y h:i a',strtotime($list->updated_at)),
+                );
+                fputcsv($file,$row);
+            }
+            fclose($file);
+        };
+        return response()->stream($callback, 200, $headers);
+    }
 }

@@ -25,6 +25,9 @@
             <a href="{{ url('export') }}" target="_blank" class="btn btn-success btn-sm">
                 <i class="fa fa-file-excel-o"></i> Export
             </a>
+            <a href="{{ url('export/confirmed') }}" target="_blank" class="btn btn-success btn-sm">
+                <i class="fa fa-thumbs-o-up"></i> Agree
+            </a>
             <a href="{{ url('/list/card/all/0/20') }}" target="_blank" class="btn btn-info btn-sm">
                 <i class="fa fa-id-card"></i> Print Cards
             </a>

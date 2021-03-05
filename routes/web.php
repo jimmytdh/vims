@@ -75,6 +75,7 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     Route::get('/list',[LimitController::class,'showList']);
+    Route::get('/export/confirmed',[LimitController::class,'exportList']);
 
     Route::get('/list/card/all/{offset}/{limit}',[ListController::class,'generateAllCard']);
     Route::get('/list/card/{id}',[ListController::class,'generateCard'])->name('list.card');
