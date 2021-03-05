@@ -1,5 +1,6 @@
 @extends('app')
 
+@section('title','Registry as of '.date('M d Y h i a'))
 @section('css')
     <link href="{{ url('/plugins/DataTables/datatables.min.css') }}" rel="stylesheet">
     <style>
@@ -53,6 +54,7 @@
 
 @section('js')
     <script src="{{ url('/plugins/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ url('/plugins/DataTables/buttons.colVis.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             var table = $('#dataTable').DataTable({
@@ -72,7 +74,34 @@
                     { className: 'text-center' , targets: []},
                     { className: 'text-right' , targets: []},
                 ],
-                "pageLength": 25
+                "pageLength": 25,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copy',
+                        className: 'btn btn-success',
+                        text: '<i class="fa fa-copy"></i> Copy Data'
+                    },{
+                        extend: 'print',
+                        className: 'btn btn-info',
+                        text: '<i class="fa fa-print"></i> Print'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        className: 'btn btn-danger',
+                        text: '<i class="fa fa-file-pdf-o"></i> Download PDF',
+                        customize: function (doc) {
+                            doc.content[1].table.widths =
+                                Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                        }
+                    },{
+                        extend: 'colvis',
+                        className: 'btn btn-warning',
+                        text: '<i class="fa fa-filter"></i> Filter Columns',
+                    }
+                ]
             });
 
             $('#dataTable_filter input').unbind();
