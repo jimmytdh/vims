@@ -69,7 +69,8 @@
         }
         .alert {
             font-size: 0.8em;
-            background: #ffa0a0;
+            /*background: #ffa0a0;*/
+            color: red;
             padding: 5px;
             width: 365px;
             margin-top: 5px;
