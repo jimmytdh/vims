@@ -5,7 +5,7 @@
     <link href="{{ url('/plugins/DataTables/datatables.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/plugins/bootstrap-editable/css/bootstrap-editable.css') }}">
     <style>
-        td {
+        td,th {
             white-space: nowrap;
         }
         tr.selected .text-success{
