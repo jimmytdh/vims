@@ -83,6 +83,7 @@ class EmployeeController extends Controller
             'lname' => ucfirst(strtolower($data->lastname)),
             'fname' => ucfirst(strtolower($data->firstname)),
             'mname' => ucfirst(strtolower($data->middlename)),
+            'suffix' => $data->suffix,
             'username' => strtolower($data->firstname).".".strtolower($data->lastname),
             'password' => bcrypt(strtolower($data->lname)."@csmc"),
             'designation' => 0,
