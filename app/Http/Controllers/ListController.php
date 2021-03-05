@@ -484,12 +484,15 @@ class ListController extends Controller
     public function generateCard($id)
     {
         $data = FinalList::find($id);
-        //return view('admin.card',compact('data'));
+        $date_registered = date('M d, Y h:i a',strtotime($data->created_at));
+        $barcode = "$data->firstname $data->middlename $data->lastname $data->suffix; Registered on $date_registered";
+        //return view('admin.card',compact('data','barcode'));
 
         $title = $data->fname." ".$data->lname;
         $pdf = PDF::loadView('admin.card',compact(
             'title',
-            'data'
+            'data',
+            'barcode',
         ));
         return $pdf->setPaper('a4','landscape')
                     ->stream($title.'.pdf');

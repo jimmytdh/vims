@@ -8,18 +8,38 @@
             font-size: 9px !important;
         }
         #wrapper {
-            max-width: 421px;
-            width: 421px;
-            max-height: 297px;
-            height: 297px;
+            max-width: 480px;
+            width: 480px;
+            max-height: 340px;
+            height: 340px;
             border: 1px solid #000;
             padding:10px;
             font-size: 11px;
+            position: relative;
         }
         .logo {
-            float: left;
-            margin-right: 5px;
-            margin-top: -5px;
+            position: absolute;
+            left: 3px;
+        }
+        .logo img { height: 57px; margin-top:-3px;}
+        .barcode {
+            position: absolute;
+            right:6px;
+        }
+        .title img{
+            height: 50px;
+            margin-left: 110px;
+            margin-top: 5px;
+        }
+        hr {
+            height:2px;
+            border:none;
+            color:#333;
+            background-color:#333;
+            width: 375px;
+            margin-top:5px;
+            text-align: left;
+            margin-left: 0px;
         }
         .line {
             border-bottom: 1px solid #000 !important;
@@ -51,6 +71,9 @@
             font-size: 0.8em;
             background: #ffa0a0;
             padding: 5px;
+            width: 365px;
+            margin-top: 5px;
+            margin-bottom: 10px;
         }
         .form-group {
             padding: 5px 0;
@@ -66,24 +89,26 @@
             font-stretch: condensed;
 
         }
+
     </style>
 </head>
 <body>
     <div id="wrapper">
+        <div class="barcode">
+            {!! DNS2D::getBarcodeHTML($barcode, 'QRCODE',3,3) !!}
+        </div>
         <div class="logo">
-            <img src="{{ url('/images/doh_csmc.png') }}" height="40px" alt="">
+            <img src="{{ url('/images/doh_csmc.png') }}" alt="">
         </div>
         <div class="title">
-            Department of Health <br>
-            Cebu South Medical Center <br>
-            <strong>COVID19 Vaccination Card</strong>
+            <img src="{{ url('/images/card_title.png') }}">
         </div>
-        <div style="clear: both;"></div>
-        <hr style="height:2px;border:none;color:#333;background-color:#333;" />
+
+        <hr/>
         <div class="alert">
             <strong>Please keep this record card</strong>, which includes medical information about vaccines you have received.
         </div>
-
+        <div style="clear: both;"></div>
         <table width="100%" style="margin-top: 10px;">
             <tr>
                 <td width="30%">{{ $data->lastname }}</td>
