@@ -118,7 +118,33 @@
                     { className: 'text-right' , targets: []},
                 ],
                 "pageLength": 25,
-                "order": [[ 1, "asc" ]]
+                "order": [[ 1, "asc" ]],
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copy',
+                        className: 'btn btn-success',
+                        text: '<i class="fa fa-copy"></i> Copy Data'
+                    },{
+                        extend: 'print',
+                        className: 'btn btn-info',
+                        text: '<i class="fa fa-print"></i> Print'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        className: 'btn btn-danger',
+                        text: '<i class="fa fa-file-pdf-o"></i> Download PDF',
+                        customize: function (doc) {
+                            doc.content[1].table.widths =
+                                Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                        },
+                        exportOptions: {
+                            columns: [ 0,1,2,3,4,5,6,7]
+                        }
+                    }
+                ],
             });
             $('#dataTable_filter input').unbind();
             $('#dataTable_filter input').bind('keyup', function(e) {
