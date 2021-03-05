@@ -12,7 +12,7 @@ class LimitController extends Controller
     public function showList()
     {
         if(request()->ajax()){
-            $data = FinalList::select('final_lists.*','vaccines.id as vac_id','vaccines.date_1','vaccines.date_2')
+            $data = FinalList::select('final_lists.*','vaccines.id as vac_id','vaccines.date_1','vaccines.date_2','vaccines.schedule')
                         ->leftJoin('vaccines','vaccines.emp_id','=','final_lists.id')
                         ->orderBy('lastname','asc')->get();
 
@@ -30,21 +30,20 @@ class LimitController extends Controller
                 ->addColumn('gender',function ($data){
                     return ($data->sex=='02_Male') ? 'Male' : 'Female';
                 })
-                ->addColumn('status',function ($data){
-                    $status = '';
-                    $class = '';
-                    if($data->date_1){
-                        $status = '1st Dosage';
-                        $class = 'info';
-                    }
-                    if($data->date_2){
-                        $status = '2nd Dosage';
-                        $class = 'success';
-                    }
-                    return "<span class='text-$class'>$status</span>";
+                ->addColumn('dosage1',function ($data){
+                    return ($data->date_1) ? date('m/d/y',strtotime($data->date_1)): '';
+                })
+                ->addColumn('dosage2',function ($data){
+                    return ($data->date_2) ? date('m/d/y',strtotime($data->date_2)): '';
                 })
                 ->addColumn('history',function ($data){
                     return ($data->covid_history=='02_No') ? 'No' : '<span class="text-danger">Yes</span>';
+                })
+                ->addColumn('schedule',function ($data){
+                    $date = '';
+                    if($data->consent=='01_Yes')
+                        $date = ($data->schedule) ? date('m/d/y',strtotime($data->schedule)): '';
+                    return $date;
                 })
                 ->addColumn('consent',function ($data){
                     $consent = 'Unknown';
@@ -65,11 +64,13 @@ class LimitController extends Controller
                     $urlCard = route('list.card',$data->id);
                     $btn = '';
                     $btn2 = '';
+                    $btn3 = '';
                     if($data->consent=='01_Yes'){
                         $btn = "<a href='$urlCard' target='_blank' class='btn btn-sm btn-info'><i class='fa fa-id-card'></i></a>";
                         $btn2 = "<a href='#vaccineModal' data-id='$data->id' data-toggle='modal' class='btn btn-sm btn-warning'><i class='fa fa-eyedropper'></i></a>";
+                        $btn3 = "<a href='#scheduleModal' data-id='$data->id' data-toggle='modal' class='btn btn-sm btn-primary'><i class='fa fa-calendar'></i></a>";
                     }
-                    return "$btn $btn2";
+                    return "$btn $btn2 $btn3";
                 })
 
 

@@ -1,5 +1,6 @@
 @extends('app')
 
+@section('title','List as of '.date('M d Y h i a'))
 @section('css')
     <link href="{{ url('/plugins/DataTables/datatables.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/plugins/bootstrap-editable/css/bootstrap-editable.css') }}">
@@ -21,15 +22,15 @@
     <h2 class="text-success title-header">
         Master List
         <span class="float-right">
-            <a href="{{ url('export/confirmed') }}" target="_blank" class="btn btn-primary btn-sm">
-                <i class="fa fa-file-excel-o"></i> Confirmed (YES)
-            </a>
-            <a href="{{ url('export/1stDosage') }}" target="_blank" class="btn btn-success btn-sm">
-                <i class="fa fa-file-excel-o"></i> 1st Dosage
-            </a>
-            <a href="{{ url('export/2ndDosage') }}" target="_blank" class="btn btn-info btn-sm">
-                <i class="fa fa-file-excel-o"></i> 2nd Dosage
-            </a>
+{{--            <a href="{{ url('export/confirmed') }}" target="_blank" class="btn btn-primary btn-sm">--}}
+{{--                <i class="fa fa-file-excel-o"></i> Confirmed (YES)--}}
+{{--            </a>--}}
+{{--            <a href="{{ url('export/1stDosage') }}" target="_blank" class="btn btn-success btn-sm">--}}
+{{--                <i class="fa fa-file-excel-o"></i> 1st Dosage--}}
+{{--            </a>--}}
+{{--            <a href="{{ url('export/2ndDosage') }}" target="_blank" class="btn btn-info btn-sm">--}}
+{{--                <i class="fa fa-file-excel-o"></i> 2nd Dosage--}}
+{{--            </a>--}}
         </span>
     </h2>
 
@@ -43,9 +44,11 @@
                 <th>Gender</th>
                 <th>Age</th>
                 <th>Contact</th>
-                <th>Vaccine</th>
+                <th>Schedule</th>
+                <th>1st Dosage</th>
+                <th>2nd Dosage</th>
                 <th>Consent</th>
-                <th>ID Card</th>
+                <th>Action</th>
             </tr>
             </thead>
         </table>
@@ -69,7 +72,9 @@
                     { data: 'gender', name: 'gender'},
                     { data: 'age', name: 'age'},
                     { data: 'contact_no', name: 'contact_no'},
-                    { data: 'status', name: 'status'},
+                    { data: 'schedule', name: 'schedule'},
+                    { data: 'dosage1', name: 'dosage1'},
+                    { data: 'dosage2', name: 'dosage2'},
                     { data: 'consent', name: 'consent'},
                     { data: 'action', name: 'action'},
                 ],
@@ -77,11 +82,34 @@
                     makeEditable();
                 },
                 columnDefs: [
-                    { className: 'text-center' , targets: [3,4,5,7]},
+                    { className: 'text-center' , targets: [3,4,5,6,8]},
                     { className: 'text-right' , targets: []},
                 ],
                 "pageLength": 25,
-                "order": [[ 0, "asc" ]]
+                "order": [[ 0, "asc" ]],
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copy',
+                        className: 'btn btn-success',
+                        text: '<i class="fa fa-copy"></i> Copy Data'
+                    },{
+                        extend: 'print',
+                        className: 'btn btn-info',
+                        text: '<i class="fa fa-print"></i> Print'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        className: 'btn btn-danger',
+                        text: '<i class="fa fa-file-pdf-o"></i> Download PDF',
+                        customize: function (doc) {
+                            doc.content[1].table.widths =
+                                Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                        }
+                    }
+                ],
             });
 
             function makeEditable()
@@ -111,6 +139,11 @@
                         $(".load_content").load(url);
                     },500);
                 });
+
+                $('a[href="#scheduleModal"]').on('click',function (){
+                    var id = $(this).data('id');
+                    $("#schedule_id").val(id);
+                });
             }
             $("body").on('submit',"#vaccineForm",function(e){
                 e.preventDefault();
@@ -118,6 +151,20 @@
                 $("#vaccineModal").modal('hide');
                 var url = $(this).attr('action');
                 var formData = new FormData(this);
+                submitForm(url, formData);
+            });
+
+            $("body").on('submit','#scheduleForm',function (e){
+                e.preventDefault();
+                showLoader();
+                $("#scheduleModal").modal('hide');
+                var url = $(this).attr('action');
+                var formData = new FormData(this);
+                submitForm(url, formData);
+            });
+
+            function submitForm(url,formData)
+            {
                 $.ajax({
                     url: url,
                     type: 'POST',
@@ -129,7 +176,6 @@
                         setTimeout(function(){
                             var oTable = $('#dataTable').dataTable();
                             oTable.fnDraw(false);
-                            console.log(data);
                             hideLoader();
                         },1000);
                     },
@@ -137,7 +183,7 @@
                         console.log(data);
                     }
                 });
-            });
+            }
 
             $('#dataTable_filter input').unbind();
             $('#dataTable_filter input').bind('keyup', function(e) {

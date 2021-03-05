@@ -35,6 +35,14 @@ class VaccineController extends Controller
         Vaccine::updateOrCreate($match,$data);
     }
 
+    public function updateSchedule(Request $request)
+    {
+        Vaccine::where('emp_id',$request->emp_id)
+            ->update([
+                'schedule' => $request->date
+            ]);
+    }
+
     public function exportDosage1()
     {
         $fileName = 'List_1st_Dosage_'.date('(M d)').'.csv';

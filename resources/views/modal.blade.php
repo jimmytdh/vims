@@ -53,7 +53,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Vaccine Status</h3>
+                <h3 class="modal-title">Vaccination Status</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -63,6 +63,33 @@
                     <i class="fa fa-spinner fa-spin"></i> Please Wait...
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="scheduleModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Set Schedule</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ url('/vaccine/schedule') }}" id="scheduleForm">
+                <input type="hidden" name="emp_id" id="schedule_id">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Select Date:</label>
+                    <input type="date" class="form-control" name="date">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success btn-lg btn-block">
+                    <i class="fa fa-calendar"></i> Submit
+                </button>
+            </div>
+            </form>
         </div>
     </div>
 </div>
