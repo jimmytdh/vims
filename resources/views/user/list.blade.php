@@ -7,6 +7,7 @@
     <style>
         td,th {
             white-space: nowrap;
+            padding-left: 10px;
         }
         tr.selected .text-success{
             color: yellow !important;
@@ -15,6 +16,7 @@
             color: white !important;
         }
         .editable { cursor: pointer; }
+        .search { width: 100%; display: inline-block}
     </style>
 @endsection
 
@@ -35,22 +37,37 @@
     </h2>
 
     <div class="table-responsive">
-        <table id="dataTable" class="table table-sm table-striped">
-            <thead>
+        <table id="dataTable" class="table table-bordered table-striped" style="width:100%">
+            <thead class="bg-dark text-white">
             <tr>
+                <th>Action</th>
                 <th>Full Name</th>
                 <th>Division</th>
                 <th>Gender</th>
                 <th>Age</th>
                 <th>Contact</th>
-                <th>Schedule<br><input type="text" data-column="5" class="search form-control form-control-sm" placeholder="Search Date"></th>
-                <th>1st Dosage<br><input type="text" data-column="6" class="search form-control form-control-sm" placeholder="Search Date"></th>
-                <th>2nd Dosage<br><input type="text" data-column="7" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th>Schedule</th>
+                <th>1st Dosage</th>
+                <th>2nd Dosage</th>
                 <th>Consent</th>
-                <th>Action</th>
+
             </tr>
             </thead>
+            <tfoot class="bg-dark text-white">
+            <tr>
+                <th></th>
+                <th><input type="text" data-column="1" class="search form-control form-control-sm" placeholder="Search Name"></th>
+                <th><input type="text" data-column="2" class="search form-control form-control-sm" placeholder="Search Division"></th>
+                <th></th>
+                <th></th>
+                <th><input type="text" data-column="5" class="search form-control form-control-sm" placeholder="Search Contact"></th>
+                <th><input type="text" data-column="6" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="7" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="8" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="9" class="search form-control form-control-sm" placeholder="Search Consent"></th>
 
+            </tr>
+            </tfoot>
         </table>
     </div>
 
@@ -67,6 +84,7 @@
                 serverSide: true,
                 ajax: "{{ url('/list') }}",
                 columns: [
+                    { data: 'action', name: 'action'},
                     { data: 'fullname', name: 'fullname'},
                     { data: 'division', name: 'division'},
                     { data: 'gender', name: 'gender'},
@@ -76,7 +94,7 @@
                     { data: 'dosage1', name: 'dosage1'},
                     { data: 'dosage2', name: 'dosage2'},
                     { data: 'consent', name: 'consent'},
-                    { data: 'action', name: 'action'},
+
                 ],
                 drawCallback: function (settings) {
                     makeEditable();
