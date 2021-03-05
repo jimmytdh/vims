@@ -60,14 +60,16 @@ class ListController extends Controller
                 return ($data->covid_history=='02_No') ? 'No' : '<span class="text-danger">Yes</span>';
             })
             ->addColumn('consent',function ($data){
-                $consent = '';
+                $consent = 'Unknown';
+                $class = 'muted';
                 if($data->consent=='01_Yes'){
-                    return '<span class="text-success">Yes</span>';
+                    $consent = 'Yes';
+                    $class = 'success';
                 }elseif($data->consent=='02_No'){
-                    return '<span class="text-danger">No</span>';
-                }elseif($data->consent=='03_Unknown'){
-                    return '<span class="text-muted">Unknown</span>';
+                    $consent = 'No';
+                    $class = 'danger';
                 }
+                return "<span class='text-$class consent' id='consent' data-type='select' data-value='$data->consent' data-title='Confirmation' data-pk='$data->id'>$consent</span>";
             })
             ->addColumn('age', function($data){
                 return Carbon::parse($data->birthdate)->diff(Carbon::now())->format('%y');
@@ -166,6 +168,7 @@ class ListController extends Controller
             ->update([
                 $req->name => $req->value
             ]);
+        return $req;
         return 'success';
     }
 

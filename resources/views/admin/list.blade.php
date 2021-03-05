@@ -2,6 +2,8 @@
 
 @section('css')
     <link href="{{ url('/plugins/DataTables/datatables.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/plugins/bootstrap-editable/css/bootstrap-editable.css') }}">
+
     <style>
         td {
             white-space: nowrap;
@@ -11,6 +13,9 @@
         }
         tr.selected .text-danger{
             color: white !important;
+        }
+        .editable {
+            cursor: pointer;
         }
     </style>
 @endsection
@@ -93,6 +98,7 @@
 
 @section('js')
     <script src="{{ url('/plugins/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('/plugins/bootstrap-editable/js/bootstrap-editable.js') }}"></script>
     <script>
         $(document).ready(function() {
             var table = $('#dataTable').DataTable({
@@ -143,6 +149,16 @@
                     var title = $(this).data('title');
                     $('.btnYes').attr('href',url);
                     $('.modal-title').html(title);
+                });
+
+                var url = "{{ url('/list/fix/update') }}";
+                $('.consent').editable({
+                    url: url,
+                    source: [
+                        {value: '01_Yes', text: 'Yes'},
+                        {value: '02_No', text: 'No'},
+                        {value: '03_Unknown', text: 'Unknown'}
+                    ]
                 });
             }
         });

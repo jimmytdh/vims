@@ -56,7 +56,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/list/master',[ListController::class,'index']);
         Route::get('/list/data',[ListController::class,'data'])->name('list.data');
         Route::get('/list/fix',[ListController::class,'fix'])->name('list.fix');
-        Route::post('/list/fix/update',[ListController::class,'fixUpdate']);
+
         Route::get('/list/upload',[ListController::class,'upload'])->name('list.upload');
         Route::get('/list/delete',[ListController::class,'deleteFiles']);
         Route::get('/list/delete/{id}',[ListController::class,'deleteRecord']);
@@ -74,11 +74,14 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('/list/fix/brgy',[FixController::class,'updateBrgy']);
     });
 
+    Route::post('/list/fix/update',[ListController::class,'fixUpdate']);
+
     Route::get('/list',[LimitController::class,'showList']);
     Route::get('/export/confirmed',[LimitController::class,'exportList']);
 
     Route::get('/list/card/all/{offset}/{limit}',[ListController::class,'generateAllCard']);
     Route::get('/list/card/{id}',[ListController::class,'generateCard'])->name('list.card');
+
 
     //Employees
     Route::get('/employees',[EmployeeController::class,'index'])->name('list.employee');

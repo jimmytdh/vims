@@ -15,11 +15,17 @@ class LimitController extends Controller
             $data = FinalList::orderBy('lastname','asc')->get();
 
             return DataTables::of($data)
-                ->addColumn('fullname',function ($data){
-                    $middlename = substr($data->middlename,0,1);
-                    $suffix = ($data->suffix!='NA') ? $data->suffix: '';
-                    $name = "$data->lastname, $data->firstname $middlename. $suffix";
-                    return "<span class='text-success'>$name</span>";
+                ->addColumn('lastname',function ($data){
+                    return "<span class='text-success edit' data-pk='$data->id' data-name='lastname' data-title='Last Name'>$data->lastname</span>";
+                })
+                ->addColumn('firstname',function ($data){
+                    return "<span class='text-success edit' data-pk='$data->id' data-name='firstname' data-title='First Name'>$data->firstname</span>";
+                })
+                ->addColumn('middlename',function ($data){
+                    return "<span class='text-success edit' data-pk='$data->id' data-name='middlename' data-title='Middle Name'>$data->middlename</span>";
+                })
+                ->addColumn('suffix',function ($data){
+                    return "<span class='text-success edit' data-pk='$data->id' data-name='suffix' data-title='Suffix'>$data->suffix</span>";
                 })
                 ->addColumn('gender',function ($data){
                     return ($data->sex=='02_Male') ? 'Male' : 'Female';
@@ -28,14 +34,16 @@ class LimitController extends Controller
                     return ($data->covid_history=='02_No') ? 'No' : '<span class="text-danger">Yes</span>';
                 })
                 ->addColumn('consent',function ($data){
-                    $consent = '';
+                    $consent = 'Unknown';
+                    $class = 'muted';
                     if($data->consent=='01_Yes'){
-                        return '<span class="text-success">Yes</span>';
+                        $consent = 'Yes';
+                        $class = 'success';
                     }elseif($data->consent=='02_No'){
-                        return '<span class="text-danger">No</span>';
-                    }elseif($data->consent=='03_Unknown'){
-                        return '<span class="text-muted">Unknown</span>';
+                        $consent = 'No';
+                        $class = 'danger';
                     }
+                    return "<span class='text-$class consent' id='consent' data-type='select' data-value='$data->consent' data-title='Confirmation' data-pk='$data->id'>$consent</span>";
                 })
                 ->addColumn('age', function($data){
                     return Carbon::parse($data->birthdate)->diff(Carbon::now())->format('%y');
@@ -47,7 +55,7 @@ class LimitController extends Controller
                 })
 
 
-                ->rawColumns(['fullname','history','consent','action'])
+                ->rawColumns(['lastname','firstname','middlename','suffix','history','consent','action'])
                 ->make(true);
         }
 
@@ -76,6 +84,7 @@ class LimitController extends Controller
             'First Name',
             'Middle Name',
             'Suffix',
+            'Age',
             'Contact',
             'Date Updated'
         );
@@ -92,6 +101,7 @@ class LimitController extends Controller
                     'firstname' => utf8_decode($list->firstname),
                     'middlename' => utf8_decode($list->middlename),
                     'suffix' => $list->suffix,
+                    'age' => Carbon::parse($list->birthdate)->diff(Carbon::now())->format('%y'),
                     'contact' => $list->contact_no,
                     'date' => date('M d, Y h:i a',strtotime($list->updated_at)),
                 );
