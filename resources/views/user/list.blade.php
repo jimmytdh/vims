@@ -105,7 +105,7 @@
                     { className: 'align-middle' , targets: [0,1,2,3,4,5,6,7,8,9]},
                 ],
                 "pageLength": 25,
-                "order": [[ 0, "asc" ]],
+                "order": [[ 1, "asc" ]],
                 dom: 'Bfrtip',
                 buttons: [
                     {
