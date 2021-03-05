@@ -58,6 +58,7 @@
 
 @section('js')
     <script src="{{ url('/plugins/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ url('/plugins/DataTables/buttons.colVis.min.js') }}"></script>
     <script src="{{ asset('/plugins/bootstrap-editable/js/bootstrap-editable.js') }}"></script>
     <script>
         $(document).ready(function() {
@@ -107,7 +108,14 @@
                         customize: function (doc) {
                             doc.content[1].table.widths =
                                 Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                        },
+                        exportOptions: {
+                            columns: [ 0,1,2,3,4,5,6,7,8]
                         }
+                    },{
+                        extend: 'colvis',
+                        className: 'btn btn-warning',
+                        text: '<i class="fa fa-filter"></i> Filter Columns',
                     }
                 ],
             });
