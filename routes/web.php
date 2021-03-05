@@ -9,6 +9,7 @@ use App\Http\Controllers\ListController;
 use App\Http\Controllers\FixController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LimitController;
+use App\Http\Controllers\VaccineController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,6 +79,8 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/list',[LimitController::class,'showList']);
     Route::get('/export/confirmed',[LimitController::class,'exportList']);
+    Route::get('/export/1stDosage',[VaccineController::class,'exportDosage1']);
+    Route::get('/export/2ndDosage',[VaccineController::class,'exportDosage2']);
 
     Route::get('/list/card/all/{offset}/{limit}',[ListController::class,'generateAllCard']);
     Route::get('/list/card/{id}',[ListController::class,'generateCard'])->name('list.card');
@@ -86,6 +89,9 @@ Route::group(['middleware' => 'auth'], function() {
     //Employees
     Route::get('/employees',[EmployeeController::class,'index'])->name('list.employee');
     Route::post('/employees/search',[EmployeeController::class,'search']);
+
+    Route::post('/vaccine/',[VaccineController::class,'update']);
+    Route::get('/vaccine/{id}',[VaccineController::class,'show']);
 
 //    Route::get('/fix/users',[RegistrationController::class,'updateUsers']);
 

@@ -12,14 +12,14 @@
                 </li>
 
                 @if(auth()->user()->isAdmin())
-                <li class="nav-item {{ request()->is('list/master*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/list/master') }}"><i class="fa fa-database"></i> Master List</a>
-                </li>
-                @else
-                <li class="nav-item {{ request()->is('list*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/list') }}"><i class="fa fa-database"></i> Master List</a>
+                <li class="nav-item {{ request()->is('list/master') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/list/master') }}"><i class="fa fa-database"></i> Advance List</a>
                 </li>
                 @endif
+                <li class="nav-item {{ request()->is('list') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/list') }}"><i class="fa fa-database"></i> Master List</a>
+                </li>
+
                 <li class="nav-item {{ request()->is('employees') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/employees') }}"><i class="fa fa-users"></i> Employees</a>
                 </li>

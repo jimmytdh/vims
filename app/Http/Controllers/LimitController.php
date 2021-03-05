@@ -12,7 +12,9 @@ class LimitController extends Controller
     public function showList()
     {
         if(request()->ajax()){
-            $data = FinalList::orderBy('lastname','asc')->get();
+            $data = FinalList::select('final_lists.*','vaccines.id as vac_id','vaccines.date_1','vaccines.date_2')
+                        ->leftJoin('vaccines','vaccines.emp_id','=','final_lists.id')
+                        ->orderBy('lastname','asc')->get();
 
             return DataTables::of($data)
                 ->addColumn('lastname',function ($data){
@@ -24,11 +26,22 @@ class LimitController extends Controller
                 ->addColumn('middlename',function ($data){
                     return "<span class='text-success edit' data-pk='$data->id' data-name='middlename' data-title='Middle Name'>$data->middlename</span>";
                 })
-                ->addColumn('suffix',function ($data){
-                    return "<span class='text-success edit' data-pk='$data->id' data-name='suffix' data-title='Suffix'>$data->suffix</span>";
-                })
+
                 ->addColumn('gender',function ($data){
                     return ($data->sex=='02_Male') ? 'Male' : 'Female';
+                })
+                ->addColumn('status',function ($data){
+                    $status = '';
+                    $class = '';
+                    if($data->date_1){
+                        $status = '1st Dosage';
+                        $class = 'info';
+                    }
+                    if($data->date_2){
+                        $status = '2nd Dosage';
+                        $class = 'success';
+                    }
+                    return "<span class='text-$class'>$status</span>";
                 })
                 ->addColumn('history',function ($data){
                     return ($data->covid_history=='02_No') ? 'No' : '<span class="text-danger">Yes</span>';
@@ -50,12 +63,17 @@ class LimitController extends Controller
                 })
                 ->addColumn('action', function($data){
                     $urlCard = route('list.card',$data->id);
-                    $btn = "<a href='$urlCard' target='_blank' class='btn btn-sm btn-info'><i class='fa fa-id-card'></i></a>";
-                    return "$btn";
+                    $btn = '';
+                    $btn2 = '';
+                    if($data->consent=='01_Yes'){
+                        $btn = "<a href='$urlCard' target='_blank' class='btn btn-sm btn-info'><i class='fa fa-id-card'></i></a>";
+                        $btn2 = "<a href='#vaccineModal' data-id='$data->id' data-toggle='modal' class='btn btn-sm btn-warning'><i class='fa fa-eyedropper'></i></a>";
+                    }
+                    return "$btn $btn2";
                 })
 
 
-                ->rawColumns(['lastname','firstname','middlename','suffix','history','consent','action'])
+                ->rawColumns(['lastname','firstname','middlename','suffix','history','status','consent','action'])
                 ->make(true);
         }
 

@@ -191,24 +191,24 @@
                 <td rowspan="2" class="text-center text-middle">
                     1st Dosage
                 </td>
-                <td class="text-center">/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</td>
-                <td colspan="2"></td>
-                <td></td>
+                <td class="text-center">{{ ($data->date_1) ? date('m/d/Y') : '' }}</td>
+                <td colspan="2">{{ $data->type }}</td>
+                <td>{{ $data->lot_1 }}</td>
             </tr>
             <tr>
-                <td colspan="2">Vaccinator Name:</td>
+                <td colspan="2">Vaccinator Name: {{ $data->vaccinator_1 }}</td>
                 <td colspan="2" width="30%">Signature:</td>
             </tr>
             <tr>
                 <td rowspan="2" class="text-center text-middle">
                     2nd Dosage
                 </td>
-                <td class="text-center">/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/</td>
-                <td colspan="2"></td>
-                <td></td>
+                <td class="text-center">{{ ($data->date_2) ? date('m/d/Y') : '' }}</td>
+                <td colspan="2">{{ $data->type }}</td>
+                <td>{{ $data->lot_2 }}</td>
             </tr>
             <tr>
-                <td colspan="2">Vaccinator Name:</td>
+                <td colspan="2">Vaccinator Name: {{ $data->vaccinator_2 }}</td>
                 <td colspan="2">Signature:</td>
             </tr>
         </table>

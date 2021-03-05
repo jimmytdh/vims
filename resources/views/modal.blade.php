@@ -27,7 +27,7 @@
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" id="uploadModal">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Upload File</h3>
@@ -45,6 +45,24 @@
                 <button type="submit" class="btn btn-primary">Upload</button>
             </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="vaccineModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Vaccine Status</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body load_content">
+                <div class="text-center">
+                    <i class="fa fa-spinner fa-spin"></i> Please Wait...
+                </div>
+            </div>
         </div>
     </div>
 </div>

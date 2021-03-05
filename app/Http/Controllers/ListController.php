@@ -53,7 +53,7 @@ class ListController extends Controller
                 return ($data->sex=='02_Male') ? 'Male' : 'Female';
             })
             ->addColumn('date_updated',function ($data){
-                $date = Carbon::parse($data->updated_at)->format('m/d h:ia');
+                $date = Carbon::parse($data->updated_at)->format('m/d H:i');
                 return "<span class='text-danger'>$date</span>";
             })
             ->addColumn('history',function ($data){
@@ -113,8 +113,7 @@ class ListController extends Controller
                 $deleteUrl = url('/list/delete/'.$data->id);
                 $btn1 = "<a href='$url' class='btn btn-sm btn-success'><i class='fa fa-edit'></i></a>";
                 $btn2 = "<a href='#deleteModal' data-toggle='modal' data-backdrop='static' data-url='$deleteUrl' data-title='Delete Record?' data-id='$data->id' class='btnDelete btn btn-sm btn-danger'><i class='fa fa-trash'></i></a>";
-                $btn3 = "<a href='$urlCard' target='_blank' class='btn btn-sm btn-info'><i class='fa fa-id-card'></i></a>";
-                return "$btn1 $btn2 $btn3";
+                return "$btn1 $btn2";
             })
             ->rawColumns(['date_updated','fullname','with_allergy','with_comorbidity','history','consent','action'])
             ->make(true);
@@ -483,7 +482,10 @@ class ListController extends Controller
 
     public function generateCard($id)
     {
-        $data = FinalList::find($id);
+        $data = FinalList::where('final_lists.id',$id)
+                    ->leftJoin('vaccines','vaccines.emp_id','=','final_lists.id')
+                    ->first();
+
         $date_registered = date('M d, Y h:i a',strtotime($data->created_at));
         $barcode = "$data->firstname $data->middlename $data->lastname $data->suffix; Registered on $date_registered";
         //return view('admin.card',compact('data','barcode'));

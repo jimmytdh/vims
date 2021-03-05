@@ -21,8 +21,14 @@
     <h2 class="text-success title-header">
         Master List
         <span class="float-right">
-            <a href="{{ url('export/confirmed') }}" target="_blank" class="btn btn-success btn-sm">
-                <i class="fa fa-file-excel-o"></i> Download List (YES)
+            <a href="{{ url('export/confirmed') }}" target="_blank" class="btn btn-primary btn-sm">
+                <i class="fa fa-file-excel-o"></i> Confirmed (YES)
+            </a>
+            <a href="{{ url('export/1stDosage') }}" target="_blank" class="btn btn-success btn-sm">
+                <i class="fa fa-file-excel-o"></i> 1st Dosage
+            </a>
+            <a href="{{ url('export/2ndDosage') }}" target="_blank" class="btn btn-info btn-sm">
+                <i class="fa fa-file-excel-o"></i> 2nd Dosage
             </a>
         </span>
     </h2>
@@ -34,11 +40,10 @@
                 <th>Last Name</th>
                 <th>First Name</th>
                 <th>Middle Name</th>
-                <th>Suffix</th>
                 <th>Gender</th>
                 <th>Age</th>
                 <th>Contact</th>
-                <th>COVID History</th>
+                <th>Vaccine</th>
                 <th>Consent</th>
                 <th>ID Card</th>
             </tr>
@@ -61,11 +66,10 @@
                     { data: 'lastname', name: 'lastname'},
                     { data: 'firstname', name: 'firstname'},
                     { data: 'middlename', name: 'middlename'},
-                    { data: 'suffix', name: 'suffix'},
                     { data: 'gender', name: 'gender'},
                     { data: 'age', name: 'age'},
                     { data: 'contact_no', name: 'contact_no'},
-                    { data: 'history', name: 'history'},
+                    { data: 'status', name: 'status'},
                     { data: 'consent', name: 'consent'},
                     { data: 'action', name: 'action'},
                 ],
@@ -73,7 +77,7 @@
                     makeEditable();
                 },
                 columnDefs: [
-                    { className: 'text-center' , targets: [2,3,4]},
+                    { className: 'text-center' , targets: [3,4,5,7]},
                     { className: 'text-right' , targets: []},
                 ],
                 "pageLength": 25,
@@ -98,7 +102,43 @@
                         {value: '03_Unknown', text: 'Unknown'}
                     ]
                 });
+
+                $('a[href="#vaccineModal"]').on('click',function (){
+                    $(".load_content").html('<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Please wait...</div>');
+                    var id = $(this).data('id');
+                    setTimeout(function(){
+                        var url = "{{ url('/vaccine/') }}/"+id;
+                        $(".load_content").load(url);
+                    },500);
+                });
             }
+            $("body").on('submit',"#vaccineForm",function(e){
+                e.preventDefault();
+                showLoader();
+                $("#vaccineModal").modal('hide');
+                var url = $(this).attr('action');
+                var formData = new FormData(this);
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: (data) => {
+                        setTimeout(function(){
+                            var oTable = $('#dataTable').dataTable();
+                            oTable.fnDraw(false);
+                            console.log(data);
+                            hideLoader();
+                        },1000);
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+            });
+
             $('#dataTable_filter input').unbind();
             $('#dataTable_filter input').bind('keyup', function(e) {
                 if(e.keyCode == 13) {
@@ -116,5 +156,9 @@
                 }
             } );
         });
+    </script>
+
+    <script>
+
     </script>
 @endsection
