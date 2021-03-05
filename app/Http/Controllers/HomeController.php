@@ -63,8 +63,10 @@ class HomeController extends Controller
         $per = 0;
         $male = number_format(FinalList::where('sex','02_Male')->count());
         $female = number_format(FinalList::where('sex','01_Female')->count());
+        $yesPer = 0;
         if($total > 0){
             $per = number_format(($total / $target) * 100,1);
+            $yesPer = number_format(($consent / $total) * 100,1);
         }
 
         return view('page.home',compact(
@@ -77,7 +79,8 @@ class HomeController extends Controller
             'per',
             'consent',
             'male',
-            'female'
+            'female',
+            'yesPer'
         ));
     }
 

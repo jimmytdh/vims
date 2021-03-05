@@ -99,8 +99,11 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3>{{ $consent }}</h3>
-                    <p class="text-white">Willing to be Vaccinated<br>&nbsp;</p>
+                    <h3>{{ $yesPer }}<sup style="font-size: 20px">%</sup></h3>
+                    <p class="text-white">
+                        {{ $consent }} out of {{ $total }} Registered<br>
+                        are willing to be Vaccinated<br>
+                    </p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-thumbs-up"></i>
