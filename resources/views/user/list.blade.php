@@ -43,13 +43,14 @@
                 <th>Gender</th>
                 <th>Age</th>
                 <th>Contact</th>
-                <th>Schedule</th>
-                <th>1st Dosage</th>
-                <th>2nd Dosage</th>
+                <th>Schedule<br><input type="text" data-column="5" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th>1st Dosage<br><input type="text" data-column="6" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th>2nd Dosage<br><input type="text" data-column="7" class="search form-control form-control-sm" placeholder="Search Date"></th>
                 <th>Consent</th>
                 <th>Action</th>
             </tr>
             </thead>
+
         </table>
     </div>
 
@@ -81,8 +82,9 @@
                     makeEditable();
                 },
                 columnDefs: [
-                    { className: 'text-center' , targets: [3,4,5,6,8]},
+                    { className: 'text-center' , targets: []},
                     { className: 'text-right' , targets: []},
+                    { className: 'align-middle' , targets: [0,1,2,3,4,5,6,7,8,9]},
                 ],
                 "pageLength": 25,
                 "order": [[ 0, "asc" ]],
@@ -115,7 +117,16 @@
                         className: 'btn btn-warning',
                         text: '<i class="fa fa-filter"></i> Filter Columns',
                     }
-                ],
+                ]
+            });
+
+            $('.search').on('keyup', function(){
+                var column = $(this).data('column');
+                table
+                    .column(column)
+                    .search(this.value)
+                    .draw();
+
             });
 
             function makeEditable()

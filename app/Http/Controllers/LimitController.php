@@ -20,11 +20,28 @@ class LimitController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('fullname',function ($data){
+                    $w_commorbidty = false;
+                    $header = array(
+                        'comorbidity_01',
+                        'comorbidity_02',
+                        'comorbidity_03',
+                        'comorbidity_04',
+                        'comorbidity_05',
+                        'comorbidity_06',
+                        'comorbidity_07',
+                        'comorbidity_08',
+                    );
+                    foreach($header as $row){
+                        if($data->$row=='01_Yes')
+                            $w_commorbidty = true;
+                    }
+
                     $lname = "<span class='text-success edit' data-pk='$data->id' data-name='lastname' data-title='Last Name'>$data->lastname</span>";
                     $fname = "<span class='text-success edit' data-pk='$data->id' data-name='firstname' data-title='First Name'>$data->firstname</span>";
                     $mname = "<span class='text-success edit' data-pk='$data->id' data-name='middlename' data-title='Middle Name'>$data->middlename</span>";
                     $suffix = ($data->suffix=='NA' || $data->suffix=='N/A') ? '' : $data->suffix;
-                    return "$lname, $fname $mname $suffix";
+                    $w_commorbidty = ($w_commorbidty) ? "<br><small class='text-danger'>With Comorbidity</small>" : null;
+                    return "$lname, $fname $mname $suffix $w_commorbidty";
                 })
                 ->addColumn('division',function ($data){
                     $check = optional(User::select('division.code','division.id')
@@ -38,6 +55,15 @@ class LimitController extends Controller
                 ->addColumn('gender',function ($data){
                     return ($data->sex=='02_Male') ? 'Male' : 'Female';
                 })
+                ->addColumn('schedule',function ($data){
+                    $date = '';
+                    if($data->schedule){
+                        $date = ($data->schedule) ? date('m/d/y',strtotime($data->schedule)): '';
+                        //$date .= "<br><small class='text-danger'>(Scheduled)</small>";
+                    }
+
+                    return $date;
+                })
                 ->addColumn('dosage1',function ($data){
                     return ($data->date_1) ? date('m/d/y',strtotime($data->date_1)): '';
                 })
@@ -47,12 +73,7 @@ class LimitController extends Controller
                 ->addColumn('history',function ($data){
                     return ($data->covid_history=='02_No') ? 'No' : '<span class="text-danger">Yes</span>';
                 })
-                ->addColumn('schedule',function ($data){
-                    $date = '';
-                    if($data->consent=='01_Yes')
-                        $date = ($data->schedule) ? date('m/d/y',strtotime($data->schedule)): '';
-                    return $date;
-                })
+
                 ->addColumn('consent',function ($data){
                     $consent = 'Unknown';
                     $class = 'muted';
@@ -82,7 +103,7 @@ class LimitController extends Controller
                 })
 
 
-                ->rawColumns(['fullname','division','suffix','history','status','consent','action'])
+                ->rawColumns(['fullname','division','suffix','schedule','dosage_1','dosage_2','history','status','consent','action'])
                 ->make(true);
         }
         $divisions = Division::get();
