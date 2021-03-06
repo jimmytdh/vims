@@ -51,7 +51,7 @@
                 <th><input type="text" data-column="8" class="search form-control form-control-sm" placeholder="Search Date"></th>
                 <th><input type="text" data-column="9" class="search form-control form-control-sm" placeholder="Search Date"></th>
                 <th><input type="text" data-column="10" class="search form-control form-control-sm" placeholder="Search Consent"></th>
-
+                <th rowspan="2">Date Updated</th>
             </tr>
             <tr>
                 <th>Full Name</th>
@@ -62,7 +62,6 @@
                 <th>1st Dosage</th>
                 <th>2nd Dosage</th>
                 <th>Consent</th>
-
             </tr>
             </thead>
 
@@ -93,6 +92,7 @@
                     { data: 'dosage1', name: 'dosage1'},
                     { data: 'dosage2', name: 'dosage2'},
                     { data: 'consent', name: 'consent'},
+                    { data: 'updated_at', name: 'updated_at'},
 
                 ],
                 'createdRow': function( row, data, dataIndex ) {
@@ -117,7 +117,7 @@
                         className: 'btn btn-success',
                         text: '<i class="fa fa-copy"></i> Copy',
                         exportOptions: {
-                            columns: [ 1,2,3,4,5,6,7,8,9 ]
+                            columns: [ 1,2,3,4,5,6,7,8,9,10 ]
                         }
                     },{
                         extend: 'print',
@@ -131,20 +131,17 @@
                         className: 'btn btn-danger',
                         text: '<i class="fa fa-file-pdf-o"></i> PDF',
                         title: '{{ 'List as of '.date("M d, Y h:i A") }}',
-                        // customize: function (doc) {
-                        //     doc.content[1].table.widths =
-                        //         Array(doc.content[1].table.body[0].length + 1).join('*').split('');
-                        // },
+
                         customize: function (doc) {
                             var colCount = new Array();
                             for(var i=0;i<=9;i++){
                                 colCount.push('*');
                             }
                             doc.content[1].table.widths = colCount;
-                            console.log(colCount);
+                            doc.content[1].margin = [ 50, 0, 0, 0 ] //left, top, right, bottom
                         },
                         exportOptions: {
-                            columns: [ 1,2,3,4,5,6,7,8,9 ]
+                            columns: [ 1,2,3,4,5,6,7,8,9,10 ]
                         }
                     },{
                         text: '<i class="fa fa-eyedropper"></i> Vaccine',
