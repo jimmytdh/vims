@@ -120,7 +120,7 @@ class LimitController extends Controller
                 })
 
 
-                ->rawColumns(['fullname','w_comorbidity','division','suffix','schedule','dosage_1','dosage_2','history','status','consent','action'])
+                ->rawColumns(['fullname','w_comorbidity','division','suffix','schedule','dosage1','dosage2','history','status','consent','action'])
                 ->make(true);
         }
         $divisions = Division::get();

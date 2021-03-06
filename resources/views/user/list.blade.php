@@ -79,7 +79,7 @@
         $(document).ready(function() {
             showLoader();
             var table = $('#dataTable').DataTable({
-                processing: true,
+                processing: false,
                 serverSide: false,
                 ajax: "{{ url('/list') }}",
                 columns: [
