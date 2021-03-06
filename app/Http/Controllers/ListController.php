@@ -272,6 +272,10 @@ class ListController extends Controller
             );
             $data = array_merge($data,$post);
         }
+        $consent = FinalList::find($id)->consent;
+        if($consent != $request->consent){
+            $data['consent_update'] = Carbon::now();
+        }
         FinalList::where('id',$id)
             ->update($data);
         return redirect()->back()->with('success',true);
