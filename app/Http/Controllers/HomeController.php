@@ -16,6 +16,8 @@ use App\Models\Profession;
 use App\Models\Region;
 use App\Models\User;
 use App\Models\UserInfo;
+use App\Models\Vaccine;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,39 +26,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $allergy = array(
-            'allergy_01',
-            'allergy_02',
-            'allergy_03',
-            'allergy_04',
-            'allergy_05',
-            'allergy_06',
-            'allergy_07',
-        );
 
-        $countAllergy = FinalList::select("*");
-        foreach($allergy as $a){
-            $countAllergy = $countAllergy->orwhere($a,'01_Yes');
-        }
-        $countAllergy = $countAllergy->count();
-
-        $comorbidity = array(
-            'comorbidity_01',
-            'comorbidity_02',
-            'comorbidity_03',
-            'comorbidity_04',
-            'comorbidity_05',
-            'comorbidity_06',
-            'comorbidity_07',
-            'comorbidity_08',
-        );
-        $countComorbidity = FinalList::select("*");
-        foreach($comorbidity as $c){
-            $countComorbidity = $countComorbidity->orwhere($c,'01_Yes');
-        }
-        $countComorbidity = $countComorbidity->count();
-        $countHistory = FinalList::where('covid_history','01_Yes')->count();
-        $countDirect = FinalList::where('direct_covid','01_Yes')->count();
         $consent = FinalList::where('consent','01_Yes')->count();
         $total = FinalList::count();
         $target = 911;
@@ -70,10 +40,6 @@ class HomeController extends Controller
         }
 
         return view('page.home',compact(
-            'countAllergy',
-            'countComorbidity',
-            'countHistory',
-            'countDirect',
             'total',
             'target',
             'per',
@@ -82,6 +48,42 @@ class HomeController extends Controller
             'female',
             'yesPer'
         ));
+    }
+
+    public function chart(){
+        return array(
+            'today' => '',
+            'tomorrow' => '',
+            'v_today' => '',
+            'v_dosage1' => '',
+            'area' => '',
+            'donut' => '',
+        );
+    }
+
+    public function transactionChart()
+    {
+        $data['label'] = array();
+        $data['nsd'] = array();
+        $data['mpsd'] = array();
+        $data['mcc'] = array();
+        $data['hopss'] = array();
+        $data['fms'] = array();
+        $data['qmd'] = array();
+
+        for($i=0; $i<=6; $i++)
+        {
+            $date = Carbon::now()->addDay(-6)->addDay($i);
+            $start = Carbon::parse($date)->startOfDay();
+            $end = Carbon::parse($date)->endOfDay();
+            $data['label'][] = $date->format("M d");
+
+        }
+    }
+
+    public function countVaccinated($start,$end,$division)
+    {
+        $count = Vaccine::leftJoin('final_lists','final_lists.id','=','');
     }
 
     public function myData(Request $request)

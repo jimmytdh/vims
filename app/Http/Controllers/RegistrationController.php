@@ -73,13 +73,16 @@ class RegistrationController extends Controller
             'lastname' => $row['lastname'],
             'middlename' => $row['middlename'],
         );
+        $status = 'saved';
         $check = FinalList::where($match)->first();
-        if($check->consent != $row['consent']){
-            $row['consent_update'] = Carbon::now();
+        if($check){
+            if($check->consent != $row['consent']){
+                $row['consent_update'] = Carbon::now();
+            }
+            $status = 'duplicate';
         }
 
         FinalList::updateOrCreate($match,$row);
-        $status = ($check) ? 'duplicate': 'saved';
         return redirect()->back()->with($status,true);
     }
 

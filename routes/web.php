@@ -41,6 +41,7 @@ Route::get('/barangay/{citymunCode}',[AreaController::class,'getBrgy']);
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/chart', [HomeController::class, 'chart'])->name('chart');
 
     Route::group(['middleware' => 'admin'],function() {
         Route::get('/mydata', [HomeController::class, 'myData']);

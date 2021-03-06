@@ -1,78 +1,80 @@
 @extends('app')
 
+@section('css')
+    <link href="{{ url('/plugins/chart.js/dist/Chart.min.css') }}" rel="stylesheet">
+    <style>
+        .small-box p{
+            color: #fff !important;
+        }
+    </style>
+@endsection
 @section('content')
     <h2 class="text-success title-header">Dashboard <small class="text-muted">Control Panel</small></h2>
     <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-yellow">
-                <span class="info-box-icon"><i class="fa fa-asterisk"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">With Allergies</span>
-                    <span class="info-box-number">{{ $countAllergy }}</span>
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 100%"></div>
-                    </div>
-                    <span class="progress-description">
-                        Employees with Allergies
-                        </span>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 id="scheduled">0</h3>
+                    <p>Scheduled<br>Today</p>
                 </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-red">
-                <span class="info-box-icon"><i class="fa fa-exclamation-circle"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">With Comorbidity</span>
-                    <span class="info-box-number">{{ $countComorbidity }}</span>
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 100%"></div>
-                    </div>
-                    <span class="progress-description">
-                        Employees with Comorbidities
-                        </span>
+                <div class="icon">
+                    <i class="fa fa-calendar-check-o"></i>
                 </div>
-                <!-- /.info-box-content -->
+                <a href="{{ url('/schedule') }}" class="small-box-footer">
+                    More info <i class="fa fa-arrow-circle-right"></i>
+                </a>
             </div>
-            <!-- /.info-box -->
         </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-aqua">
-                <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">With COVID History</span>
-                    <span class="info-box-number">{{ $countHistory }}</span>
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 100%"></div>
-                    </div>
-                    <span class="progress-description">
-                        Employees with COVID History
-                        </span>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3 id="yesterday">0</h3>
+                    <p>Scheduled<br>Tomorrow</p>
                 </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-green">
-                <span class="info-box-icon"><i class="fa fa-wheelchair"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">With Direct Contact</span>
-                    <span class="info-box-number">{{ $countDirect }}</span>
-                    <div class="progress">
-                        <div class="progress-bar" style="width: 100%"></div>
-                    </div>
-                    <span class="progress-description">
-                        Employees with Direct Interaction with COVID Patient
-                        </span>
+                <div class="icon">
+                    <i class="fa fa-calendar"></i>
                 </div>
-                <!-- /.info-box-content -->
+                <a href="{{ url('/patients') }}" class="small-box-footer">
+                    More info <i class="fa fa-arrow-circle-right"></i>
+                </a>
             </div>
-            <!-- /.info-box -->
         </div>
-        <!-- /.col -->
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3 id="today">0</h3>
+                    <p>Vaccinated Today<br><em>({{ date('D') }})</em></p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-eyedropper"></i>
+                </div>
+                <a href="{{ url('/patients') }}" class="small-box-footer">
+                    More info <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3 id="minor">0</h3>
+                    <p>Vaccinated<br><em>(1st Dosage)</em></p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-pie-chart"></i>
+                </div>
+                <a href="#" class="small-box-footer">
+                    More info <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <!-- ./col -->
     </div>
     <div class="row">
         <!-- ./col -->
@@ -82,8 +84,7 @@
                 <div class="inner">
                     <h3>{{ $per }}<sup style="font-size: 20px">%</sup></h3>
                     <p class="text-white">
-                        {{ $total }} out of {{ $target }} Employees
-                        <br>{{ $female }} Female | {{ $male }} Male
+                        {{ $total }} out of {{ $target }} Target
                     </p>
                 </div>
                 <div class="icon">
@@ -101,8 +102,7 @@
                 <div class="inner">
                     <h3>{{ $yesPer }}<sup style="font-size: 20px">%</sup></h3>
                     <p class="text-white">
-                        {{ $consent }} out of {{ $total }} Registered<br>
-                        are willing to be Vaccinated<br>
+                        {{ $consent }} out of {{ $total }} Willing to be Vaccinated
                     </p>
                 </div>
                 <div class="icon">
@@ -115,4 +115,41 @@
         </div>
 
     </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Vaccination Activity</h3>
+                </div>
+                <div class="box-body">
+                    <div class="chart">
+                        <canvas id="areaChart" style="height:250px"></canvas>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <div class="col-md-6">
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Waiting List over Vaccinated</h3>
+                </div>
+                <div class="box-body">
+                    <canvas id="donutChart" style="height:250px"></canvas>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+@endsection
+
+@section('js')
+    <script src="{{ url('/plugins/chart.js/dist/Chart.js') }}"></script>
+    <script src="{{ url('/plugins/chart.js/dist/utils.js') }}"></script>
+    @include('data.config')
+    @include('data.chart')
+    @include('data.donut')
 @endsection
