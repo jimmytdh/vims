@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title','List as of '.date('M d Y h i a'))
+@section('title','Master List')
 @section('css')
     <link href="{{ url('/plugins/DataTables/datatables.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/plugins/bootstrap-editable/css/bootstrap-editable.css') }}">
@@ -40,11 +40,23 @@
         <table id="dataTable" class="table table-bordered table-striped" style="width:100%">
             <thead class="bg-dark text-white">
             <tr>
-                <th>Action</th>
+                <th rowspan="2">Action</th>
+                <th><input type="text" data-column="1" class="search form-control form-control-sm" placeholder="Search Name"></th>
+                <th><input type="text" data-column="1" class="search form-control form-control-sm" placeholder="Search With Comorbidity"></th>
+                <th><input type="text" data-column="2" class="search form-control form-control-sm" placeholder="Search Division"></th>
+                <th rowspan="2">Gender</th>
+                <th rowspan="2">Age</th>
+                <th><input type="text" data-column="5" class="search form-control form-control-sm" placeholder="Search Contact"></th>
+                <th><input type="text" data-column="6" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="7" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="8" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="9" class="search form-control form-control-sm" placeholder="Search Consent"></th>
+
+            </tr>
+            <tr>
                 <th>Full Name</th>
+                <th>With Comorbidity?</th>
                 <th>Division</th>
-                <th>Gender</th>
-                <th>Age</th>
                 <th>Contact</th>
                 <th>Schedule</th>
                 <th>1st Dosage</th>
@@ -53,10 +65,12 @@
 
             </tr>
             </thead>
+
             <tfoot>
             <tr>
                 <th></th>
                 <th><input type="text" data-column="1" class="search form-control form-control-sm" placeholder="Search Name"></th>
+                <th><input type="text" data-column="1" class="search form-control form-control-sm" placeholder="Search With Comorbidity"></th>
                 <th><input type="text" data-column="2" class="search form-control form-control-sm" placeholder="Search Division"></th>
                 <th></th>
                 <th></th>
@@ -86,6 +100,7 @@
                 columns: [
                     { data: 'action', name: 'action'},
                     { data: 'fullname', name: 'fullname'},
+                    { data: 'w_comorbidity', name: 'w_comorbidity'},
                     { data: 'division', name: 'division'},
                     { data: 'gender', name: 'gender'},
                     { data: 'age', name: 'age'},
@@ -100,9 +115,9 @@
                     makeEditable();
                 },
                 columnDefs: [
-                    { className: 'text-center' , targets: []},
+                    { className: 'text-center align-middle' , targets: [0,2,5,10]},
                     { className: 'text-right' , targets: []},
-                    { className: 'align-middle' , targets: [0,1,2,3,4,5,6,7,8,9]},
+                    { className: 'align-middle' , targets: [4]},
                 ],
                 "pageLength": 10,
                 "order": [[ 1, "asc" ]],
@@ -112,7 +127,10 @@
                     {
                         extend: 'copy',
                         className: 'btn btn-success',
-                        text: '<i class="fa fa-copy"></i> Copy Data'
+                        text: '<i class="fa fa-copy"></i> Copy Data',
+                        exportOptions: {
+                            columns: [ 1,2,3,4,5,6,7,8,9 ]
+                        }
                     },{
                         extend: 'print',
                         className: 'btn btn-info',
@@ -124,12 +142,21 @@
                         pageSize: 'LEGAL',
                         className: 'btn btn-danger',
                         text: '<i class="fa fa-file-pdf-o"></i> Download PDF',
+                        title: '{{ 'List as of '.date("M d, Y h:i A") }}',
+                        // customize: function (doc) {
+                        //     doc.content[1].table.widths =
+                        //         Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                        // },
                         customize: function (doc) {
-                            doc.content[1].table.widths =
-                                Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                            var colCount = new Array();
+                            for(var i=0;i<=9;i++){
+                                colCount.push('*');
+                            }
+                            doc.content[1].table.widths = colCount;
+                            console.log(colCount);
                         },
                         exportOptions: {
-                            columns: [ 0,1,2,3,4,5,6,7]
+                            columns: [ 1,2,3,4,5,6,7,8,9 ]
                         }
                     },{
                         extend: 'colvis',

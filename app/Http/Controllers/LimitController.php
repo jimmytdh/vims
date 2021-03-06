@@ -20,6 +20,15 @@ class LimitController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('fullname',function ($data){
+
+
+                    $lname = "<span class='text-success edit' data-pk='$data->id' data-name='lastname' data-title='Last Name'>$data->lastname</span>";
+                    $fname = "<span class='text-success edit' data-pk='$data->id' data-name='firstname' data-title='First Name'>$data->firstname</span>";
+                    $mname = "<span class='text-success edit' data-pk='$data->id' data-name='middlename' data-title='Middle Name'>$data->middlename</span>";
+                    $suffix = ($data->suffix=='NA' || $data->suffix=='N/A') ? '' : $data->suffix;
+                    return "$lname, $fname $mname $suffix";
+                })
+                ->addColumn('w_comorbidity',function ($data){
                     $w_commorbidty = false;
                     $header = array(
                         'comorbidity_01',
@@ -35,13 +44,8 @@ class LimitController extends Controller
                         if($data->$row=='01_Yes')
                             $w_commorbidty = true;
                     }
+                    return ($w_commorbidty) ? "<span class='text-danger'>Yes</span>" : '';
 
-                    $lname = "<span class='text-success edit' data-pk='$data->id' data-name='lastname' data-title='Last Name'>$data->lastname</span>";
-                    $fname = "<span class='text-success edit' data-pk='$data->id' data-name='firstname' data-title='First Name'>$data->firstname</span>";
-                    $mname = "<span class='text-success edit' data-pk='$data->id' data-name='middlename' data-title='Middle Name'>$data->middlename</span>";
-                    $suffix = ($data->suffix=='NA' || $data->suffix=='N/A') ? '' : $data->suffix;
-                    $w_commorbidty = ($w_commorbidty) ? "<br><small class='text-danger'>With Comorbidity</small>" : null;
-                    return "$lname, $fname $mname $suffix $w_commorbidty";
                 })
                 ->addColumn('division',function ($data){
                     $check = optional(User::select('division.code','division.id')
@@ -103,7 +107,7 @@ class LimitController extends Controller
                 })
 
 
-                ->rawColumns(['fullname','division','suffix','schedule','dosage_1','dosage_2','history','status','consent','action'])
+                ->rawColumns(['fullname','w_comorbidity','division','suffix','schedule','dosage_1','dosage_2','history','status','consent','action'])
                 ->make(true);
         }
         $divisions = Division::get();
