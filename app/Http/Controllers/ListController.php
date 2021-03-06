@@ -163,11 +163,12 @@ class ListController extends Controller
 
     public function fixUpdate(Request $req)
     {
+        $update[$req->name] = $req->value;
+        if($req->name=='consent'){
+            $update['consent_update'] = Carbon::now();
+        }
         FinalList::find($req->pk)
-            ->update([
-                $req->name => $req->value
-            ]);
-        return $req;
+            ->update($update);
         return 'success';
     }
 
@@ -193,14 +194,20 @@ class ListController extends Controller
             $row['employer_contact_no'] = "(032) 273-3226";
 
             $row['suffix'] = ($row['suffix']) ? $row['suffix']: 'NA';
+            $row['consent_update'] = Carbon::now();
 
             $match = array(
                 'firstname' => $row['firstname'],
                 'lastname' => $row['lastname'],
                 'middlename' => $row['middlename'],
             );
-            $check = FinalList::where($match)->count();
-            $countDuplicate += $check;
+            $check = FinalList::where($match)->first();
+
+            if($check->consent != $row['consent']){
+                $row['consent_update'] = Carbon::now();
+            }
+            $count = FinalList::where($match)->count();
+            $countDuplicate += $count;
 //            if(!$check)
 //                FinalList::create($row);
             FinalList::updateOrCreate($match,$row);

@@ -55,5 +55,6 @@ class FinalList extends Model
         'covid_date',
         'covid_classification',
         'consent',
+        'consent_update',
     ];
 }

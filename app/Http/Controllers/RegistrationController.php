@@ -66,12 +66,17 @@ class RegistrationController extends Controller
         $row['lastname'] = strtoupper(utf8_encode($row['lastname']));
         $row['middlename'] =strtoupper(utf8_encode($row['middlename']));
 
+
+
         $match = array(
             'firstname' => $row['firstname'],
             'lastname' => $row['lastname'],
             'middlename' => $row['middlename'],
         );
         $check = FinalList::where($match)->first();
+        if($check->consent != $row['consent']){
+            $row['consent_update'] = Carbon::now();
+        }
 
         FinalList::updateOrCreate($match,$row);
         $status = ($check) ? 'duplicate': 'saved';
@@ -107,37 +112,49 @@ class RegistrationController extends Controller
         }
     }
 
+//    public function updateUsers()
+//    {
+//        $filename = storage_path()."/app/list/employee.csv";
+//        $delimiter = ',';
+//        if (!file_exists($filename) || !is_readable($filename))
+//            return false;
+//
+//        $header = null;
+//        $data = array();
+//        if (($handle = fopen($filename, 'r')) !== false)
+//        {
+//            fgetcsv($handle);
+//            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
+//            {
+//                $lname = ucwords(utf8_encode(strtolower($row[0])));
+//                $fname = ucwords(utf8_encode(strtolower($row[1])));
+//                $mname = ucwords(utf8_encode(strtolower($row[2])));
+//                $suffix = $row[3];
+//                echo $suffix;
+//                $match = array(
+//                    'fname' => $fname,
+//                    'lname' => $lname
+//                );
+//                $data = array(
+//                    'suffix' => $suffix,
+//                );
+//                User::where($match)
+//                    ->update($data);
+//                //User::updateOrCreate($match,$data);
+//            }
+//            fclose($handle);
+//        }
+//    }
     public function updateUsers()
     {
-        $filename = storage_path()."/app/list/employee.csv";
-        $delimiter = ',';
-        if (!file_exists($filename) || !is_readable($filename))
-            return false;
-
-        $header = null;
-        $data = array();
-        if (($handle = fopen($filename, 'r')) !== false)
+        $data = FinalList::get();
+        foreach($data as $row)
         {
-            fgetcsv($handle);
-            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
-            {
-                $lname = ucwords(utf8_encode(strtolower($row[0])));
-                $fname = ucwords(utf8_encode(strtolower($row[1])));
-                $mname = ucwords(utf8_encode(strtolower($row[2])));
-                $suffix = $row[3];
-                echo $suffix;
-                $match = array(
-                    'fname' => $fname,
-                    'lname' => $lname
-                );
-                $data = array(
-                    'suffix' => $suffix,
-                );
-                User::where($match)
-                    ->update($data);
-                //User::updateOrCreate($match,$data);
-            }
-            fclose($handle);
+            FinalList::find($row->id)
+                ->update([
+                    'consent_update' => $row->updated_at
+                ]);
         }
+        echo 'Done';
     }
 }

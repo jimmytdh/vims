@@ -62,6 +62,7 @@
                 <th>1st Dosage</th>
                 <th>2nd Dosage</th>
                 <th>Consent</th>
+                <th>Consent Updated</th>
                 <th>Date Added</th>
             </tr>
             </thead>
@@ -93,8 +94,8 @@
                     { data: 'dosage1', name: 'dosage1'},
                     { data: 'dosage2', name: 'dosage2'},
                     { data: 'consent', name: 'consent'},
+                    { data: 'consent_updated', name: 'consent_updated'},
                     { data: 'created_at', name: 'created_at'},
-
                 ],
                 'createdRow': function( row, data, dataIndex ) {
                     $(row).attr('data-id', data.id)

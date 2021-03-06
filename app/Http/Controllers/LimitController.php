@@ -93,6 +93,9 @@ class LimitController extends Controller
                 ->addColumn('created_at',function ($data){
                     return date('m/d/Y h:i A',strtotime($data->created_at));
                 })
+                ->addColumn('consent_update',function ($data){
+                    return date('m/d/Y h:i A',strtotime($data->created_at));
+                })
                 ->addColumn('consent',function ($data){
                     $consent = 'Unknown';
                     $class = 'muted';

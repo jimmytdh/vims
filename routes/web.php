@@ -98,7 +98,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 
 
-//    Route::get('/fix/users',[RegistrationController::class,'updateUsers']);
+    Route::get('/fix/users',[RegistrationController::class,'updateUsers']);
 
     //
 
