@@ -267,7 +267,6 @@
                     id_list.push($(item).data('id'));
                 });
                 formData.append('id_list',id_list);
-                $('.count_ids').html("Selected Item: "+ count(id_list));
                 $.ajax({
                     url: url,
                     type: 'POST',
