@@ -116,10 +116,7 @@
                     {
                         extend: 'copy',
                         className: 'btn btn-success',
-                        text: '<i class="fa fa-copy"></i> Copy',
-                        exportOptions: {
-                            columns: [ 1,2,3,4,5,6,7,8,9,10 ]
-                        }
+                        text: '<i class="fa fa-copy"></i> Copy'
                     },{
                         extend: 'print',
                         className: 'btn btn-info',
