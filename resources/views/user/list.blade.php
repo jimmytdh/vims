@@ -281,7 +281,7 @@
                         setTimeout(function(){
                             // var oTable = $('#dataTable').dataTable();
                             // oTable.fnDraw(false);
-                            //hideLoader();
+                            // hideLoader();
                             location.reload();
                         },1000);
                     },

@@ -37,7 +37,7 @@ class VaccineController extends Controller
                 'lot_2' => $request->lot_2,
                 'vaccinator_2' => $request->vaccinator_2,
             );
-
+            Vaccine::updateOrCreate($match,$data);
         }
     }
 
