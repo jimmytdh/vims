@@ -92,6 +92,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/employees/update',[EmployeeController::class,'update']);
 
     Route::post('/vaccine/',[VaccineController::class,'update']);
+    Route::get('/vaccine/',[VaccineController::class,'show']);
     Route::get('/vaccine/{id}',[VaccineController::class,'show']);
     Route::post('/vaccine/schedule/',[VaccineController::class,'updateSchedule']);
 

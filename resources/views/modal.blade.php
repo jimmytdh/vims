@@ -58,6 +58,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <div class="count_ids alert alert-warning"></div>
             <div class="modal-body load_content">
                 <div class="text-center">
                     <i class="fa fa-spinner fa-spin"></i> Please Wait...
@@ -77,6 +78,7 @@
                 </button>
             </div>
             <form action="{{ url('/vaccine/schedule') }}" id="scheduleForm">
+                <div class="count_ids alert alert-warning"></div>
                 <input type="hidden" name="emp_id" id="schedule_id">
             <div class="modal-body">
                 <div class="form-group">

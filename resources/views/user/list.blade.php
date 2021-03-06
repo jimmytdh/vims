@@ -95,6 +95,10 @@
                     { data: 'consent', name: 'consent'},
 
                 ],
+                'createdRow': function( row, data, dataIndex ) {
+                    $(row).attr('data-id', data.id)
+                            .attr('data-willing', data.willing);
+                },
                 drawCallback: function (settings) {
                     makeEditable();
                 },
@@ -103,7 +107,7 @@
                     { className: 'text-right' , targets: []},
                     { className: 'align-middle' , targets: [4]},
                 ],
-                "pageLength": 10,
+                "pageLength": 50,
                 "order": [[ 1, "asc" ]],
                 searching: true,
                 dom: 'Bfrtip',
@@ -111,7 +115,7 @@
                     {
                         extend: 'copy',
                         className: 'btn btn-success',
-                        text: '<i class="fa fa-copy"></i> Copy Data',
+                        text: '<i class="fa fa-copy"></i> Copy',
                         exportOptions: {
                             columns: [ 1,2,3,4,5,6,7,8,9 ]
                         }
@@ -125,7 +129,7 @@
                         orientation: 'landscape',
                         pageSize: 'LEGAL',
                         className: 'btn btn-danger',
-                        text: '<i class="fa fa-file-pdf-o"></i> Download PDF',
+                        text: '<i class="fa fa-file-pdf-o"></i> PDF',
                         title: '{{ 'List as of '.date("M d, Y h:i A") }}',
                         // customize: function (doc) {
                         //     doc.content[1].table.widths =
@@ -143,20 +147,55 @@
                             columns: [ 1,2,3,4,5,6,7,8,9 ]
                         }
                     },{
-                        extend: 'colvis',
+                        text: '<i class="fa fa-eyedropper"></i> Vaccine',
                         className: 'btn btn-warning',
-                        text: '<i class="fa fa-filter"></i> Filter Columns',
+                        action: function () {
+                            $("#vaccineModal").modal();
+                            $(".count_ids").html(table.rows('.selected').data().length +' row(s) selected');
+                            $(".load_content").html('<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Please wait...</div>');
+                            var id = $(this).data('id');
+
+                            setTimeout(function(){
+                                var url = "{{ url('/vaccine/') }}";
+                                $(".load_content").load(url);
+                            },500);
+                        }
+                    },{
+                        text: '<i class="fa fa-calendar"></i> Schedule',
+                        className: 'btn btn-primary',
+                        action: function () {
+                            $("#scheduleModal").modal();
+                            $(".count_ids").html(table.rows('.selected').data().length +' row(s) selected');
+                        }
                     }
                 ]
             });
+            $('#dataTable tbody').on( 'click', 'tr', function (item) {
+                if($(this).data('willing')=='Yes'){
+                    $(this).toggleClass('selected');
+                }
+            } );
 
-            $('.search').on('keyup', function(){
-                var column = $(this).data('column');
-                table
-                    .column(column)
-                    .search(this.value)
-                    .draw();
+            $('#button').click( function () {
+                alert( table.rows('.selected').data().length +' row(s) selected' );
+            } );
 
+
+            $('.search').bind('keyup', function(e){
+                if(e.keyCode == 13) {
+                    var column = $(this).data('column');
+                    table
+                        .column(column)
+                        .search(this.value)
+                        .draw();
+                }
+            });
+            $('#dataTable_filter input').unbind();
+            $('#dataTable_filter input').bind('keyup', function(e) {
+                if(e.keyCode == 13) {
+                    var oTable = $('#dataTable').dataTable();
+                    oTable.fnFilter(this.value);
+                }
             });
 
             function makeEditable()
@@ -191,6 +230,7 @@
                 $('a[href="#vaccineModal"]').on('click',function (){
                     $(".load_content").html('<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Please wait...</div>');
                     var id = $(this).data('id');
+
                     setTimeout(function(){
                         var url = "{{ url('/vaccine/') }}/"+id;
                         $(".load_content").load(url);
@@ -222,6 +262,12 @@
 
             function submitForm(url,formData)
             {
+                var id_list = new Array();
+                $.map(table.rows('.selected').nodes(), function (item) {
+                    id_list.push($(item).data('id'));
+                });
+                formData.append('id_list',id_list);
+                $('.count_ids').html("Selected Item: "+ count(id_list));
                 $.ajax({
                     url: url,
                     type: 'POST',
@@ -230,6 +276,7 @@
                     contentType: false,
                     processData: false,
                     success: (data) => {
+                        console.log(data);
                         setTimeout(function(){
                             var oTable = $('#dataTable').dataTable();
                             oTable.fnDraw(false);
@@ -241,23 +288,6 @@
                     }
                 });
             }
-
-            $('#dataTable_filter input').unbind();
-            $('#dataTable_filter input').bind('keyup', function(e) {
-                if(e.keyCode == 13) {
-                    var oTable = $('#dataTable').dataTable();
-                    oTable.fnFilter(this.value);
-                }
-            });
-            $('#dataTable tbody').on( 'click', 'tr', function () {
-                if ( $(this).hasClass('selected') ) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                    table.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
-            } );
         });
     </script>
 

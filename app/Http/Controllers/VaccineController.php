@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class VaccineController extends Controller
 {
-    public function show($id)
+    public function show($id = 0)
     {
         $data = optional(Vaccine::where('emp_id',$id)->first());
         return view('load.vaccine',compact(
@@ -19,28 +19,38 @@ class VaccineController extends Controller
 
     public function update(Request $request)
     {
-        $match = array(
-            'emp_id' => $request->emp_id
-        );
+        $id_list = explode(',',$request->id_list);
+        foreach($id_list as $id)
+        {
+            $match = array(
+                'emp_id' => $id
+            );
+            $data = array(
+                'type' => $request->type,
+                'date_1' => $request->date_1,
+                'lot_1' => $request->lot_1,
+                'vaccinator_1' => $request->vaccinator_1,
+                'date_2' => $request->date_2,
+                'lot_2' => $request->lot_2,
+                'vaccinator_2' => $request->vaccinator_2,
+            );
 
-        $data = array(
-            'type' => $request->type,
-            'date_1' => $request->date_1,
-            'lot_1' => $request->lot_1,
-            'vaccinator_1' => $request->vaccinator_1,
-            'date_2' => $request->date_2,
-            'lot_2' => $request->lot_2,
-            'vaccinator_2' => $request->vaccinator_2,
-        );
-        Vaccine::updateOrCreate($match,$data);
+        }
     }
 
     public function updateSchedule(Request $request)
     {
-        Vaccine::where('emp_id',$request->emp_id)
-            ->update([
+        $id_list = explode(',',$request->id_list);
+        foreach($id_list as $id)
+        {
+            $match = array(
+                'emp_id' => $id
+            );
+            $update = array(
                 'schedule' => $request->date
-            ]);
+            );
+            Vaccine::updateOrCreate($match,$update);
+        }
     }
 
     public function exportDosage1()

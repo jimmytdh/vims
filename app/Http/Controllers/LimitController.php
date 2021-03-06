@@ -59,6 +59,9 @@ class LimitController extends Controller
                 ->addColumn('gender',function ($data){
                     return ($data->sex=='02_Male') ? 'Male' : 'Female';
                 })
+                ->addColumn('willing',function ($data){
+                    return ($data->consent == '01_Yes') ? 'Yes' : 'No';
+                })
                 ->addColumn('schedule',function ($data){
                     $date = '';
                     if($data->schedule){
