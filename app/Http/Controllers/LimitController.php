@@ -90,7 +90,9 @@ class LimitController extends Controller
                 ->addColumn('history',function ($data){
                     return ($data->covid_history=='02_No') ? 'No' : '<span class="text-danger">Yes</span>';
                 })
-
+                ->addColumn('updated_at',function ($data){
+                    return date('m/d/Y h:i A');
+                })
                 ->addColumn('consent',function ($data){
                     $consent = 'Unknown';
                     $class = 'muted';
