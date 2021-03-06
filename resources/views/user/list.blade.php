@@ -52,6 +52,7 @@
                 <th><input type="text" data-column="9" class="search form-control form-control-sm" placeholder="Search Date"></th>
                 <th><input type="text" data-column="10" class="search form-control form-control-sm" placeholder="Search Consent"></th>
                 <th><input type="text" data-column="11" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="12" class="search form-control form-control-sm" placeholder="Search Date"></th>
             </tr>
             <tr>
                 <th>Full Name</th>
