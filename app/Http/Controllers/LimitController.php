@@ -63,7 +63,7 @@ class LimitController extends Controller
                     return ($data->consent == '01_Yes') ? 'Yes' : 'No';
                 })
                 ->addColumn('schedule',function ($data){
-                    $date = '';
+                    $date = 'None';
                     if($data->schedule){
                         $date = ($data->schedule) ? date('m/d/y',strtotime($data->schedule)): '';
                         //$date .= "<br><small class='text-danger'>(Scheduled)</small>";
@@ -72,10 +72,20 @@ class LimitController extends Controller
                     return $date;
                 })
                 ->addColumn('dosage1',function ($data){
-                    return ($data->date_1) ? date('m/d/y',strtotime($data->date_1)): '';
+                    $date = 'None';
+                    if($data->date_1){
+                        $date = ($data->date_1) ? date('m/d/y',strtotime($data->date_1)): '';
+                    }
+
+                    return $date;
                 })
                 ->addColumn('dosage2',function ($data){
-                    return ($data->date_2) ? date('m/d/y',strtotime($data->date_2)): '';
+                    $date = 'None';
+                    if($data->date_2){
+                        $date = ($data->date_2) ? date('m/d/y',strtotime($data->date_2)): '';
+                    }
+
+                    return $date;
                 })
                 ->addColumn('history',function ($data){
                     return ($data->covid_history=='02_No') ? 'No' : '<span class="text-danger">Yes</span>';
