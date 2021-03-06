@@ -279,9 +279,10 @@
                     success: (data) => {
                         console.log(data);
                         setTimeout(function(){
-                            var oTable = $('#dataTable').dataTable();
-                            oTable.fnDraw(false);
-                            hideLoader();
+                            // var oTable = $('#dataTable').dataTable();
+                            // oTable.fnDraw(false);
+                            //hideLoader();
+                            location.reload();
                         },1000);
                     },
                     error: function(data){
