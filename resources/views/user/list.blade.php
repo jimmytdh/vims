@@ -77,6 +77,7 @@
     <script src="{{ asset('/plugins/bootstrap-editable/js/bootstrap-editable.js') }}"></script>
     <script>
         $(document).ready(function() {
+            showLoader();
             var table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: false,
@@ -170,6 +171,10 @@
                     }
                 ]
             });
+            table.on( 'draw', function () {
+                hideLoader();
+            } );
+
             $('#dataTable tbody').on( 'click', 'tr', function (item) {
                 if($(this).data('willing')=='Yes'){
                     $(this).toggleClass('selected');

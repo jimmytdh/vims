@@ -20,8 +20,11 @@ class VaccineController extends Controller
     public function update(Request $request)
     {
         $id_list = explode(',',$request->id_list);
+
         foreach($id_list as $id)
         {
+            if($id == null)
+                return 'Empty';
             $match = array(
                 'emp_id' => $id
             );
@@ -41,8 +44,11 @@ class VaccineController extends Controller
     public function updateSchedule(Request $request)
     {
         $id_list = explode(',',$request->id_list);
+
         foreach($id_list as $id)
         {
+            if($id == null)
+                return 'Empty';
             $match = array(
                 'emp_id' => $id
             );
