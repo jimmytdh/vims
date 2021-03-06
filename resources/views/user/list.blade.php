@@ -9,7 +9,7 @@
             white-space: nowrap;
             padding-left: 10px;
         }
-        tr.selected .text-success{
+        tr.selected .text-success,tr.selected .text-info{
             color: yellow !important;
         }
         tr.selected .text-danger{
