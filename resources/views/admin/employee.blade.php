@@ -59,7 +59,7 @@
         $(document).ready(function() {
             var table = $('#dataTable').DataTable({
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 ajax: "{{ route('list.employee') }}",
                 columns: [
                     { data: 'fullname', name: 'fullname'},
