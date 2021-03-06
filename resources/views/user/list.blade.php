@@ -42,15 +42,15 @@
             <tr>
                 <th rowspan="2">Action</th>
                 <th><input type="text" data-column="1" class="search form-control form-control-sm" placeholder="Search Name"></th>
-                <th><input type="text" data-column="1" class="search form-control form-control-sm" placeholder="Search With Comorbidity"></th>
-                <th><input type="text" data-column="2" class="search form-control form-control-sm" placeholder="Search Division"></th>
+                <th><input type="text" data-column="2" class="search form-control form-control-sm" placeholder="Search With Comorbidity"></th>
+                <th><input type="text" data-column="3" class="search form-control form-control-sm" placeholder="Search Division"></th>
                 <th rowspan="2">Gender</th>
                 <th rowspan="2">Age</th>
-                <th><input type="text" data-column="5" class="search form-control form-control-sm" placeholder="Search Contact"></th>
-                <th><input type="text" data-column="6" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="6" class="search form-control form-control-sm" placeholder="Search Contact"></th>
                 <th><input type="text" data-column="7" class="search form-control form-control-sm" placeholder="Search Date"></th>
                 <th><input type="text" data-column="8" class="search form-control form-control-sm" placeholder="Search Date"></th>
-                <th><input type="text" data-column="9" class="search form-control form-control-sm" placeholder="Search Consent"></th>
+                <th><input type="text" data-column="9" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="10" class="search form-control form-control-sm" placeholder="Search Consent"></th>
 
             </tr>
             <tr>
@@ -66,22 +66,6 @@
             </tr>
             </thead>
 
-            <tfoot>
-            <tr>
-                <th></th>
-                <th><input type="text" data-column="1" class="search form-control form-control-sm" placeholder="Search Name"></th>
-                <th><input type="text" data-column="1" class="search form-control form-control-sm" placeholder="Search With Comorbidity"></th>
-                <th><input type="text" data-column="2" class="search form-control form-control-sm" placeholder="Search Division"></th>
-                <th></th>
-                <th></th>
-                <th><input type="text" data-column="5" class="search form-control form-control-sm" placeholder="Search Contact"></th>
-                <th><input type="text" data-column="6" class="search form-control form-control-sm" placeholder="Search Date"></th>
-                <th><input type="text" data-column="7" class="search form-control form-control-sm" placeholder="Search Date"></th>
-                <th><input type="text" data-column="8" class="search form-control form-control-sm" placeholder="Search Date"></th>
-                <th><input type="text" data-column="9" class="search form-control form-control-sm" placeholder="Search Consent"></th>
-
-            </tr>
-            </tfoot>
         </table>
     </div>
 
