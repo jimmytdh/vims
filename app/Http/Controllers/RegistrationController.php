@@ -75,6 +75,7 @@ class RegistrationController extends Controller
         );
         $status = 'saved';
         $check = FinalList::where($match)->first();
+        $row['consent_update'] = Carbon::now();
         if($check){
             if($check->consent != $row['consent']){
                 $row['consent_update'] = Carbon::now();
