@@ -77,7 +77,6 @@
     <script src="{{ asset('/plugins/bootstrap-editable/js/bootstrap-editable.js') }}"></script>
     <script>
         $(document).ready(function() {
-            showLoader();
             var table = $('#dataTable').DataTable({
                 processing: false,
                 serverSide: false,
@@ -171,9 +170,7 @@
                     }
                 ]
             });
-            table.on( 'draw', function () {
-                hideLoader();
-            } );
+
 
             $('#dataTable tbody').on( 'click', 'tr', function (item) {
                 if($(this).data('willing')=='Yes'){
@@ -296,6 +293,22 @@
     </script>
 
     <script>
+        var down=false;
+        var scrollLeft=0;
+        var x = 0;
 
+        $('.table-responsive').mousedown(function(e) {
+            down = true;
+            scrollLeft = this.scrollLeft;
+            x = e.clientX;
+        }).mouseup(function() {
+            down = false;
+        }).mousemove(function(e) {
+            if (down) {
+                this.scrollLeft = scrollLeft + x - e.clientX;
+            }
+        }).mouseleave(function() {
+            down = false;
+        });
     </script>
 @endsection
