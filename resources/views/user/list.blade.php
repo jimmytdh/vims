@@ -95,7 +95,7 @@
                     { data: 'dosage1', name: 'dosage1'},
                     { data: 'dosage2', name: 'dosage2'},
                     { data: 'consent', name: 'consent'},
-                    { data: 'consent_updated', name: 'consent_updated'},
+                    { data: 'consent_update', name: 'consent_update'},
                     { data: 'created_at', name: 'created_at'},
                 ],
                 'createdRow': function( row, data, dataIndex ) {
