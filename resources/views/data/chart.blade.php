@@ -4,8 +4,10 @@
             url: "{{ route('chart') }}",
             type: "GET",
             success: function(data) {
-                console.log(data.donut);
-
+                $("#today").html(data.today);
+                $("#tomorrow").html(data.tomorrow);
+                $("#v_today").html(data.v_today);
+                $("#v_dosage1").html(data.v_dosage1);
                 // transaction chart
                 new Chart('areaChart', {
                     type: 'line',
@@ -14,20 +16,38 @@
                         datasets: [{
                             backgroundColor: utils.transparentize(presets.green),
                             borderColor: presets.green,
-                            data: data.area.early,
-                            label: 'Early Pregnancy',
+                            data: data.area.mcc,
+                            label: 'MCC',
                             fill: false
                         },{
                             backgroundColor: utils.transparentize(presets.yellow),
                             borderColor: presets.yellow,
-                            data: data.area.sono,
-                            label: 'Sonographic Findings',
+                            data: data.area.hopss,
+                            label: 'HOPSS',
                             fill: false
                         },{
                             backgroundColor: utils.transparentize(presets.blue),
                             borderColor: presets.blue,
-                            data: data.area.tri,
-                            label: '2nd and 3rd Trimester',
+                            data: data.area.mpsd,
+                            label: 'MPSD',
+                            fill: false
+                        },{
+                            backgroundColor: utils.transparentize(presets.red),
+                            borderColor: presets.red,
+                            data: data.area.nsd,
+                            label: 'NSD',
+                            fill: false
+                        },{
+                            backgroundColor: utils.transparentize(presets.orange),
+                            borderColor: presets.red,
+                            data: data.area.fms,
+                            label: 'FMS',
+                            fill: false
+                        },{
+                            backgroundColor: utils.transparentize(presets.purple),
+                            borderColor: presets.purple,
+                            data: data.area.qmd,
+                            label: 'QMD',
                             fill: false
                         },]
                     }
@@ -38,22 +58,19 @@
                     data: {
                         datasets: [{
                             data: [
-                                data.donut.early,
-                                data.donut.sono,
-                                data.donut.tri
+                                data.donut.vaccinated,
+                                data.donut.waiting
 
                             ],
                             backgroundColor: [
                                 window.chartColors.green,
-                                window.chartColors.yellow,
-                                window.chartColors.blue
+                                window.chartColors.red,
                             ],
-                            label: 'Dataset 1'
+                            label: 'Dataset'
                         }],
                         labels: [
-                            'Early Pregnancy',
-                            'Sonographic Findings',
-                            '2nd and 3rd Trimester',
+                            'Vaccinated',
+                            'Waiting List'
                         ]
                     },
                     options: {
@@ -73,10 +90,10 @@
                 };
                 var ctx = document.getElementById('donutChart').getContext('2d');
                 window.myDoughnut = new Chart(ctx, config);
-
+                console.log('where');
                 setTimeout(function () {
-                    $("#loader-wrapper").css('visibility','hidden');
-                },1000);
+                    hideLoader();
+                },500);
             },
             error: function (err) {
                 console.log(err);

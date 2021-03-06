@@ -52,12 +52,12 @@ class HomeController extends Controller
 
     public function chart(){
         return array(
-            'today' => '',
-            'tomorrow' => '',
-            'v_today' => '',
-            'v_dosage1' => '',
-            'area' => '',
-            'donut' => '',
+            'today' => Vaccine::where('schedule',Carbon::today())->count(),
+            'tomorrow' => Vaccine::where('schedule',Carbon::tomorrow())->count(),
+            'v_today' => Vaccine::where('date_1',Carbon::today())->count(),
+            'v_dosage1' => Vaccine::where('date_1','<>',null)->count(),
+            'area' => $this->transactionChart(),
+            'donut' => $this->categoricalChart(),
         );
     }
 
@@ -77,13 +77,41 @@ class HomeController extends Controller
             $start = Carbon::parse($date)->startOfDay();
             $end = Carbon::parse($date)->endOfDay();
             $data['label'][] = $date->format("M d");
-
+            $data['mcc'][] = $this->countVaccinated($start,$end,1);
+            $data['hopss'][] = $this->countVaccinated($start,$end,2);
+            $data['mpsd'][] = $this->countVaccinated($start,$end,3);
+            $data['nsd'][] = $this->countVaccinated($start,$end,4);
+            $data['fms'][] = $this->countVaccinated($start,$end,5);
+            $data['qmd'][] = $this->countVaccinated($start,$end,6);
         }
+        return $data;
     }
 
     public function countVaccinated($start,$end,$division)
     {
-        $count = Vaccine::leftJoin('final_lists','final_lists.id','=','');
+        $list = Vaccine::leftJoin('final_lists','final_lists.id','=','vaccines.emp_id')
+                    ->whereBetween('date_1',[$start,$end])
+                    ->get();
+        $count = 0;
+        foreach($list as $row){
+            $c = User::where('fname',$row->firstname)
+                    ->where('lname',$row->lastname)
+                    ->where('division',$division)
+                    ->count();
+            $count += $c;
+        }
+        return $count;
+    }
+
+    public function categoricalChart(){
+        $data['vaccinated'] = Vaccine::where('date_1','<>',null)
+                                ->orwhere('date_2','<>',null)
+                                ->count();
+        $data['waiting'] = FinalList::leftJoin('vaccines','vaccines.emp_id','=','final_lists.id')
+                                ->where('consent','01_Yes')
+                                ->where('date_1',null)
+                                ->count();
+        return $data;
     }
 
     public function myData(Request $request)

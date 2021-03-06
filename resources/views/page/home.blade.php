@@ -15,7 +15,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3 id="scheduled">0</h3>
+                    <h3 id="today">0</h3>
                     <p>Scheduled<br>Today</p>
                 </div>
                 <div class="icon">
@@ -31,7 +31,7 @@
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3 id="yesterday">0</h3>
+                    <h3 id="tomorrow">0</h3>
                     <p>Scheduled<br>Tomorrow</p>
                 </div>
                 <div class="icon">
@@ -47,7 +47,7 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3 id="today">0</h3>
+                    <h3 id="v_today">0</h3>
                     <p>Vaccinated Today<br><em>({{ date('D') }})</em></p>
                 </div>
                 <div class="icon">
@@ -63,7 +63,7 @@
             <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3 id="minor">0</h3>
+                    <h3 id="v_dosage1">0</h3>
                     <p>Vaccinated<br><em>(1st Dosage)</em></p>
                 </div>
                 <div class="icon">
@@ -146,9 +146,39 @@
     </div>
 @endsection
 
+@section('modal')
+    <div class="modal" tabindex="-1" role="dialog" id="modalLoadError">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title">Unable to Fetch Data</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button class="btn btn-default btn-block" onclick="window.location.replace('{{ url('/patients') }}')">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="btn btn-success btn-block" onclick="window.location.reload();">
+                                <i class="fa fa-refresh"></i> Reload
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
 @section('js')
     <script src="{{ url('/plugins/chart.js/dist/Chart.js') }}"></script>
     <script src="{{ url('/plugins/chart.js/dist/utils.js') }}"></script>
+    <script>
+        showLoader();
+    </script>
     @include('data.config')
     @include('data.chart')
     @include('data.donut')
