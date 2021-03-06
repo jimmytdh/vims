@@ -51,7 +51,7 @@
                 <th><input type="text" data-column="8" class="search form-control form-control-sm" placeholder="Search Date"></th>
                 <th><input type="text" data-column="9" class="search form-control form-control-sm" placeholder="Search Date"></th>
                 <th><input type="text" data-column="10" class="search form-control form-control-sm" placeholder="Search Consent"></th>
-                <th rowspan="2">Date Updated</th>
+                <th><input type="text" data-column="11" class="search form-control form-control-sm" placeholder="Search Date"></th>
             </tr>
             <tr>
                 <th>Full Name</th>
@@ -62,6 +62,7 @@
                 <th>1st Dosage</th>
                 <th>2nd Dosage</th>
                 <th>Consent</th>
+                <th>Date Added</th>
             </tr>
             </thead>
 
@@ -92,7 +93,7 @@
                     { data: 'dosage1', name: 'dosage1'},
                     { data: 'dosage2', name: 'dosage2'},
                     { data: 'consent', name: 'consent'},
-                    { data: 'updated_at', name: 'updated_at'},
+                    { data: 'created_at', name: 'created_at'},
 
                 ],
                 'createdRow': function( row, data, dataIndex ) {
