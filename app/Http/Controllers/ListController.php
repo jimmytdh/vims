@@ -169,7 +169,7 @@ class ListController extends Controller
         }
         FinalList::find($req->pk)
             ->update($update);
-        return 'success';
+        return $update;
     }
 
     public function upload()

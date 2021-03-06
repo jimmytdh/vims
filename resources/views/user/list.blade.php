@@ -211,7 +211,10 @@
                         {value: '01_Yes', text: 'Yes'},
                         {value: '02_No', text: 'No'},
                         {value: '03_Unknown', text: 'Unknown'}
-                    ]
+                    ],
+                    success: function(data){
+                        console.log(data);
+                    }
                 });
 
                 $('.editUser').editable({
