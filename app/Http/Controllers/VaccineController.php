@@ -57,6 +57,11 @@ class VaccineController extends Controller
             );
             Vaccine::updateOrCreate($match,$update);
         }
+        if($request->emp_id){
+            $match['emp_id'] = $request->emp_id;
+            $update['schedule'] = $request->date;
+            Vaccine::updateOrCreate($match,$update);
+        }
     }
 
     public function exportDosage1()

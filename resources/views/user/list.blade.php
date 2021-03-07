@@ -180,14 +180,19 @@
             } );
 
 
-            $('.search').bind('keyup', function(e){
-                if(e.keyCode == 13) {
-                    var column = $(this).data('column');
-                    table
-                        .column(column)
-                        .search(this.value)
-                        .draw();
-                }
+            $('.search').on('keyup', function(e){
+                // if(e.keyCode == 13) {
+                //     var column = $(this).data('column');
+                //     table
+                //         .column(column)
+                //         .search(this.value)
+                //         .draw();
+                // }
+                var column = $(this).data('column');
+                table
+                    .column(column)
+                    .search(this.value)
+                    .draw();
             });
             $('#dataTable_filter input').unbind();
             $('#dataTable_filter input').bind('keyup', function(e) {
@@ -242,6 +247,7 @@
                 $('a[href="#scheduleModal"]').on('click',function (){
                     var id = $(this).data('id');
                     $("#schedule_id").val(id);
+                    console.log(id);
                 });
             }
             $("body").on('submit',"#vaccineForm",function(e){
