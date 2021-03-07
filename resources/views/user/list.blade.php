@@ -165,21 +165,18 @@
             } );
 
 
-            $('body').on('keyup','.search', function(e){
-                // if(e.keyCode == 13) {
-                //     var column = $(this).data('column');
-                //     table
-                //         .column(column)
-                //         .search(this.value)
-                //         .draw();
-                // }
+            $('.search').on('keyup', function(e){
                 var column = $(this).data('column');
+                search(column,this.value)
+            });
+
+            function search(column,value)
+            {
                 table
                     .column(column)
-                    .search(this.value)
+                    .search(value)
                     .draw();
-                console.log(column,this.value);
-            });
+            }
             $('#dataTable_filter input').unbind();
             $('#dataTable_filter input').bind('keyup', function(e) {
                 if(e.keyCode == 13) {
