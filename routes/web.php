@@ -32,7 +32,7 @@ Route::post('/verify',[RegistrationController::class,'verify']);
 Route::post('/key',[RegistrationController::class,'verifyKey']);
 
 Route::get('/error',function (){
-    return view('error');
+    return view('errors.503');
 })->name('error');
 
 Route::get('/provinces/{regCode}',[AreaController::class,'getProvinces']);
