@@ -237,12 +237,9 @@ class ListController extends Controller
             $check = FinalList::where($where)->first();
             if($check){
                 array_push($id_list, $check->id);
-            }else{
-                print_r($where);
             }
 
         }
-        dd('');
         $this->deleteFiles();
         Session::put('id_list',$id_list);
         return redirect()->back();
