@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 use PDF;
 
@@ -179,10 +180,6 @@ class ListController extends Controller
         foreach($data as $row)
         {
             $row['birthdate'] = Carbon::parse($row['birthdate'])->format('Y-m-d');
-//            $row['firstname'] = strtoupper(utf8_encode($row['firstname']));
-//            $row['lastname'] = strtoupper(utf8_encode($row['lastname']));
-//            $row['middlename'] =strtoupper(utf8_encode($row['middlename']));
-
             $row['firstname'] = utf8_encode(strtoupper($row['firstname']));
             $row['lastname'] = utf8_encode(strtoupper($row['lastname']));
             $row['middlename'] = utf8_encode(strtoupper($row['middlename']));
@@ -215,6 +212,46 @@ class ListController extends Controller
         $this->deleteFiles();
         $status = ($countDuplicate>0) ? 'duplicate': 'saved';
         return redirect('/list/master')->with($status,$countDuplicate);
+    }
+
+    public function compareCSV(Request $request)
+    {
+        $path = null;
+        $id_list = [];
+        if($request->hasFile('file'))
+        {
+
+            $file_name = $request->file('file')->getClientOriginalName();
+            $request->file('file')->storeAs('upload',$file_name);
+            $path = storage_path('app/upload/'.$file_name);
+        }
+        $data = $this->csvToArray($path);
+        foreach($data as $row)
+        {
+            $where['birthdate'] = Carbon::parse($row['birthdate'])->format('Y-m-d');
+            $where['firstname'] = utf8_encode(strtoupper($row['firstname']));
+            $where['lastname'] = utf8_encode(strtoupper($row['lastname']));
+            $where['middlename'] = utf8_encode(strtoupper($row['middlename']));
+            $where['consent'] =utf8_encode($row['consent']);
+
+            $check = FinalList::where($where)->first();
+            if($check){
+                array_push($id_list, $check->id);
+            }else{
+                print_r($where);
+            }
+
+        }
+        dd('');
+        $this->deleteFiles();
+        Session::put('id_list',$id_list);
+        return redirect()->back();
+    }
+
+    public function exportLacking()
+    {
+        $id_list = Session::get('id_list');
+        return $this->export($id_list);
     }
 
     public function edit($id)
@@ -454,12 +491,15 @@ class ListController extends Controller
         }
     }
 
-    public function export()
+    public function export($id_list=null)
     {
         $fileName = 'CentralVisayas-CebuSouthMedicalCenter_'.date('(M d)').'.csv';
-        $finalList = FinalList::where('muncity','LIKE',"%7%")
-            ->where('barangay','LIKE',"%7%")
-            ->get();
+        $finalList = FinalList::select('*');
+        if($id_list){
+            $finalList = $finalList->whereNotIn('id',$id_list);
+        }
+
+        $finalList = $finalList->get();
 
         //whereRaw('LENGTH(philhealthid) > 3')
         $headers = array(

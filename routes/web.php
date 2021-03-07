@@ -67,7 +67,9 @@ Route::group(['middleware' => 'auth'], function() {
 
         //upload csv
         Route::post('/upload/file',[ListController::class,'uploadCSV']);
+        Route::post('/upload/compare',[ListController::class,'compareCSV']);
         Route::get('/export',[ListController::class,'export']);
+        Route::get('/export/lacking',[ListController::class,'exportLacking']);
 
         //fix
         Route::get('/list/fix/muncity',[FixController::class,'muncity']);

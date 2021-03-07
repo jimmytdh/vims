@@ -30,6 +30,14 @@
             <a href="{{ url('export') }}" target="_blank" class="btn btn-success btn-sm">
                 <i class="fa fa-file-excel-o"></i> Export
             </a>
+            <a href="#uploadCompareModal" data-toggle="modal" data-backdrop="static" target="_blank" class="btn btn-info btn-sm">
+                <i class="fa fa-gears"></i> Upload and Compare
+            </a>
+            @if(Session::get('id_list'))
+            <a href="{{ url('export/lacking') }}" target="_blank" class="btn btn-success btn-sm">
+                <i class="fa fa-file-excel-o"></i> Export Update
+            </a>
+            @endif
         </span>
     </h2>
     @if($countRecords > 0)
