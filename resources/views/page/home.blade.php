@@ -21,7 +21,7 @@
                 <div class="icon">
                     <i class="fa fa-calendar-check-o"></i>
                 </div>
-                <a href="{{ url('/schedule') }}" class="small-box-footer">
+                <a href="{{ url('/list') }}" class="small-box-footer">
                     More info <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -37,7 +37,7 @@
                 <div class="icon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <a href="{{ url('/patients') }}" class="small-box-footer">
+                <a href="{{ url('/list') }}" class="small-box-footer">
                     More info <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -53,7 +53,7 @@
                 <div class="icon">
                     <i class="fa fa-eyedropper"></i>
                 </div>
-                <a href="{{ url('/patients') }}" class="small-box-footer">
+                <a href="{{ url('/list') }}" class="small-box-footer">
                     More info <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -69,7 +69,7 @@
                 <div class="icon">
                     <i class="fa fa-pie-chart"></i>
                 </div>
-                <a href="#" class="small-box-footer">
+                <a href="{{ url('/list') }} class="small-box-footer">
                     More info <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -90,7 +90,7 @@
                 <div class="icon">
                     <i class="fa fa-users"></i>
                 </div>
-                <a href="{{ url('/list/master') }}" class="small-box-footer">
+                <a href="{{ url('/list') }}" class="small-box-footer">
                     More info <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -108,7 +108,7 @@
                 <div class="icon">
                     <i class="fa fa-thumbs-up"></i>
                 </div>
-                <a href="{{ url('/list/master') }}" class="small-box-footer">
+                <a href="{{ url('/list') }}" class="small-box-footer">
                     More info <i class="fa fa-arrow-circle-right"></i>
                 </a>
             </div>
