@@ -36,6 +36,7 @@
         </span>
     </h2>
 
+    <hr style="size: 2px;border:none;color:#ccc;">
     <div class="table-responsive">
         <table id="dataTable" class="table table-bordered table-striped" style="width:100%">
             <thead class="bg-dark text-white">
@@ -109,43 +110,27 @@
                     { className: 'text-center align-middle' , targets: [0,2,5,10]},
                     { className: 'text-right' , targets: []},
                     { className: 'align-middle' , targets: [4]},
+                    {
+                        targets: [0,2,4,6,9,10,11,12], visible: false, searchable: false
+                    }
                 ],
-                "pageLength": 50,
+                "pageLength": 10,
                 "order": [[ 1, "asc" ]],
                 searching: true,
                 dom: 'Bfrtip',
                 buttons: [
                     {
-                        extend: 'copy',
-                        className: 'btn btn-success',
-                        text: '<i class="fa fa-copy"></i> Copy'
-                    },{
-                        extend: 'print',
-                        className: 'btn btn-info',
-                        text: '<i class="fa fa-print"></i> Print'
+                        extend: 'colvis',
+                        className: 'btn btn-default',
+                        text: '<i class="fa fa-copy"></i> Show'
                     },
                     {
-                        extend: 'pdfHtml5',
-                        orientation: 'landscape',
-                        pageSize: 'LEGAL',
-                        className: 'btn btn-danger',
-                        text: '<i class="fa fa-file-pdf-o"></i> PDF',
-                        title: '{{ 'List as of '.date("M d, Y h:i A") }}',
-
-                        customize: function (doc) {
-                            var colCount = new Array();
-                            for(var i=0;i<=9;i++){
-                                colCount.push('*');
-                            }
-                            doc.content[1].table.widths = colCount;
-                            doc.content[1].margin = [ 50, 0, 0, 0 ] //left, top, right, bottom
-                        },
-                        exportOptions: {
-                            columns: [ 1,2,3,4,5,6,7,8,9,10 ]
-                        }
+                        extend: 'copy',
+                        className: 'btn btn-default',
+                        text: '<i class="fa fa-copy"></i> Copy'
                     },{
                         text: '<i class="fa fa-eyedropper"></i> Vaccine',
-                        className: 'btn btn-warning',
+                        className: 'btn btn-default',
                         action: function () {
                             $("#vaccineModal").modal();
                             $(".count_ids").html(table.rows('.selected').data().length +' row(s) selected');
@@ -159,7 +144,7 @@
                         }
                     },{
                         text: '<i class="fa fa-calendar"></i> Schedule',
-                        className: 'btn btn-primary',
+                        className: 'btn btn-default',
                         action: function () {
                             $("#scheduleModal").modal();
                             $(".count_ids").html(table.rows('.selected').data().length +' row(s) selected');

@@ -20,11 +20,11 @@ class LimitController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('fullname',function ($data){
+                    $class = ($data->consent=='01_Yes') ? 'success' : 'danger';
 
-
-                    $lname = "<span class='text-success edit' data-pk='$data->id' data-name='lastname' data-title='Last Name'>$data->lastname</span>";
-                    $fname = "<span class='text-success edit' data-pk='$data->id' data-name='firstname' data-title='First Name'>$data->firstname</span>";
-                    $mname = "<span class='text-success edit' data-pk='$data->id' data-name='middlename' data-title='Middle Name'>$data->middlename</span>";
+                    $lname = "<span class='text-$class edit' data-pk='$data->id' data-name='lastname' data-title='Last Name'>$data->lastname</span>";
+                    $fname = "<span class='text-$class edit' data-pk='$data->id' data-name='firstname' data-title='First Name'>$data->firstname</span>";
+                    $mname = "<span class='text-$class edit' data-pk='$data->id' data-name='middlename' data-title='Middle Name'>$data->middlename</span>";
                     $suffix = ($data->suffix=='NA' || $data->suffix=='N/A') ? '' : $data->suffix;
                     return "$lname, $fname $mname $suffix";
                 })
