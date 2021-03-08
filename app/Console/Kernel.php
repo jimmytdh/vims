@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Http\Controllers\LogsController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,7 +25,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+         $schedule->command('inspire')->hourly();
+        $schedule
+            ->command('backup:run --only-db')->daily()->at('17:00')
+            ->onFailure(function() {
+                LogsController::createLog('Backup Failed! Please do manual backup.');
+            })
+            ->onSuccess(function(){
+                LogsController::createLog('Backup Successful!');
+            });
+
     }
 
     /**

@@ -164,6 +164,10 @@
                 alert( table.rows('.selected').data().length +' row(s) selected' );
             } );
 
+            $('#dataTable').on('column-visibility.dt', function(e, settings, column, state ){
+                //console.log('Column:', column, "State:", state);
+                makeEditable();
+            });
 
             $('body').on('keyup','.search', function(e){
                 var column = $(this).data('column');
