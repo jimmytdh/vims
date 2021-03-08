@@ -53,8 +53,10 @@ class LimitController extends Controller
                                 ->where('fname',$data->firstname)
                                 ->where('lname',$data->lastname)
                                 ->first());
-                    $class = ($check) ? 'success' : '';
-                    return "<span class='editUser' data-type='select' data-value='$check->id' data-pk='$data->id' data-name='user_id' data-title='Select Division'>$check->code</span>";
+                    $class = ($check->code) ? 'success' : 'danger text-italic';
+                    $code = ($check->code) ? $check->code : 'Empty';
+                    $id = ($check->id) ? $check->id : 0;
+                    return "<span class='editUser text-$class' data-type='select' data-value='$id' data-pk='$data->id' data-name='user_id' data-title='Select Division'>$code</span>";
                 })
                 ->addColumn('gender',function ($data){
                     return ($data->sex=='02_Male') ? 'Male' : 'Female';

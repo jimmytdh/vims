@@ -208,6 +208,7 @@
                 $('.editUser').editable({
                     url: "{{ url('/employees/update') }}",
                     source: [
+                        {value: "0", text: "Empty"},
                         @foreach($divisions as $div)
                         {value: "{{ $div->id }}", text: "{{ $div->code }}"},
                         @endforeach
