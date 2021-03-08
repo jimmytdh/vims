@@ -165,7 +165,7 @@
             } );
 
 
-            $('.search').on('keyup', function(e){
+            $('body').on('keyup','.search', function(e){
                 var column = $(this).data('column');
                 search(column,this.value)
             });
