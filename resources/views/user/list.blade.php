@@ -195,11 +195,11 @@
             function makeEditable()
             {
                 var url = "{{ url('/list/fix/update') }}";
-                $('.edit').editable({
-                    url: url,
-                    type: 'text',
-
-                });
+                // $('.edit').editable({
+                //     url: url,
+                //     type: 'text',
+                //
+                // });
                 $('.consent').editable({
                     url: url,
                     source: [
