@@ -91,6 +91,40 @@
     </div>
 </div>
 
+<div class="modal" tabindex="-1" role="dialog" id="listModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Group Listing</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ url('/vaccine/list') }}" id="groupListForm">
+                <div class="count_ids alert alert-warning"></div>
+                <input type="hidden" name="emp_id" id="schedule_id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Select List:</label>
+                        <select name="list" class="custom-select">
+                            <option>Empty</option>
+                            <option>QSL 1</option>
+                            <option>QSL 2</option>
+                            <option>QSL 3</option>
+                            <option>Wait List</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success btn-lg btn-block">
+                        <i class="fa fa-calendar"></i> Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal" tabindex="-1" role="dialog" id="scheduleModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

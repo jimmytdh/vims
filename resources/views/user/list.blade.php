@@ -132,6 +132,13 @@
                         className: 'btn btn-default',
                         text: '<i class="fa fa-copy"></i> Copy'
                     },{
+                        text: '<i class="fa fa-list"></i> Group List',
+                        className: 'btn btn-default',
+                        action: function () {
+                            $("#listModal").modal();
+                            $(".count_ids").html(table.rows('.selected').data().length +' row(s) selected');
+                        }
+                    },{
                         text: '<i class="fa fa-eyedropper"></i> Vaccine',
                         className: 'btn btn-default',
                         action: function () {
@@ -255,6 +262,15 @@
                     console.log(id);
                 });
             }
+            $("body").on('submit',"#groupListForm",function(e){
+                e.preventDefault();
+                showLoader();
+                $("#listModal").modal('hide');
+                var url = $(this).attr('action');
+                var formData = new FormData(this);
+                submitForm(url, formData);
+            });
+
             $("body").on('submit',"#vaccineForm",function(e){
                 e.preventDefault();
                 showLoader();

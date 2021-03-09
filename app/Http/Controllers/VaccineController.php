@@ -75,6 +75,24 @@ class VaccineController extends Controller
         }
     }
 
+    public function updateGroupList(Request $request)
+    {
+        $id_list = explode(',',$request->id_list);
+
+        foreach($id_list as $id)
+        {
+            if($id == null)
+                return 'Empty';
+            $match = array(
+                'emp_id' => $id
+            );
+            $update = array(
+                'list' => $request->list
+            );
+            Vaccine::updateOrCreate($match,$update);
+        }
+    }
+
     public function exportDosage1()
     {
         $fileName = 'List_1st_Dosage_'.date('(M d)').'.csv';
