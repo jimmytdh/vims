@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Division;
 use App\Models\FinalList;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
@@ -93,5 +94,45 @@ class EmployeeController extends Controller
             'status' => 0,
         );
         User::create($data);
+    }
+
+    public function importUser()
+    {
+        $path = storage_path('app/import/guard.csv');
+        $data = array();
+        $delimiter = ',';
+        $header = null;
+        if (($handle = fopen($path, 'r')) !== false)
+        {
+            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
+            {
+                if(!$row[0])
+                    break;
+
+                if (!$header){
+                    $header = $row;
+                }else{
+                    $match = array(
+                        'lname' => ucfirst(strtolower(utf8_encode($row[2]))),
+                        'fname' => ucfirst(strtolower(utf8_encode($row[0]))),
+                        'mname' => ucfirst(strtolower(utf8_encode($row[1]))),
+                    );
+                    $data = array(
+
+                        'suffix' => $row[3],
+                        'username' => strtolower(utf8_encode($row[4])),
+                        'password' => bcrypt(strtolower(utf8_encode($row[5])),),
+                        'designation' => $row[6],
+                        'division' => $row[7],
+                        'section' => 0,
+                        'user_priv' => 0,
+                        'status' => 0,
+                    );
+                    User::updateOrCreate($match,$data);
+                }
+            }
+            fclose($handle);
+        }
+        return 'Done!';
     }
 }

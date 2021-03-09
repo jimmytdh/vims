@@ -93,6 +93,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/employees',[EmployeeController::class,'index'])->name('list.employee');
     Route::post('/employees/search',[EmployeeController::class,'search']);
     Route::post('/employees/update',[EmployeeController::class,'update']);
+    Route::get('/employees/import',[EmployeeController::class,'importUser']);
 
     Route::post('/vaccine/',[VaccineController::class,'update']);
     Route::get('/vaccine/',[VaccineController::class,'show']);
