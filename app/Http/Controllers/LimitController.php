@@ -14,7 +14,7 @@ class LimitController extends Controller
     public function showList()
     {
         if(request()->ajax()){
-            $data = FinalList::select('final_lists.*','vaccines.id as vac_id','vaccines.date_1','vaccines.date_2','vaccines.schedule')
+            $data = FinalList::select('final_lists.*','vaccines.id as vac_id','vaccines.date_1','vaccines.date_2','vaccines.schedule','vaccines.list')
                         ->leftJoin('vaccines','vaccines.emp_id','=','final_lists.id')
                         ->orderBy('lastname','asc')->get();
 
@@ -58,6 +58,13 @@ class LimitController extends Controller
                     $id = ($check->id) ? $check->id : 0;
                     return "<span class='editUser text-$class' data-type='select' data-value='$id' data-pk='$data->id' data-name='user_id' data-title='Select Division'>$code</span>";
                 })
+                ->addColumn('list',function ($data){
+
+                    $class = ($data->list) ? 'success' : 'danger text-italic';
+                    $code = ($data->list) ? strtoupper($data->list) : 'Empty';
+
+                    return "<span class='editList text-$class' data-type='select' data-value='$data->list' data-pk='$data->id' data-name='list' data-title='Select Group List'>$code</span>";
+                })
                 ->addColumn('gender',function ($data){
                     return ($data->sex=='02_Male') ? 'Male' : 'Female';
                 })
@@ -73,6 +80,7 @@ class LimitController extends Controller
 
                     return "<small class='text-info font-weight-bold'>$date</small>";
                 })
+
                 ->addColumn('dosage1',function ($data){
                     $date = '-';
                     if($data->date_1){
@@ -127,7 +135,7 @@ class LimitController extends Controller
                 })
 
 
-                ->rawColumns(['fullname','w_comorbidity','division','suffix','schedule','dosage1','dosage2','history','status','consent','action'])
+                ->rawColumns(['fullname','list','w_comorbidity','division','suffix','schedule','dosage1','dosage2','history','status','consent','action'])
                 ->make(true);
         }
         $divisions = Division::get();

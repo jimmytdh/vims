@@ -17,6 +17,17 @@ class VaccineController extends Controller
         ));
     }
 
+    public function fixUpdate(Request $req)
+    {
+        $match = array(
+            'emp_id' => $req->pk
+        );
+        $data = array(
+            $req->name => $req->value
+        );
+        Vaccine::updateOrCreate($match,$data);
+    }
+
     public function update(Request $request)
     {
         $id_list = explode(',',$request->id_list);

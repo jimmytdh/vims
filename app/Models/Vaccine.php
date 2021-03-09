@@ -10,6 +10,7 @@ class Vaccine extends Model
     use HasFactory;
     protected $fillable = [
         'emp_id',
+        'list',
         'schedule',
         'type',
         'date_1',

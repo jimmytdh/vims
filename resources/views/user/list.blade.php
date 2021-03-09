@@ -43,20 +43,22 @@
             <tr>
                 <th rowspan="2">Action</th>
                 <th><input type="text" data-column="1" class="search form-control form-control-sm" placeholder="Search Name"></th>
-                <th><input type="text" data-column="2" class="search form-control form-control-sm" placeholder="Search With Comorbidity"></th>
-                <th><input type="text" data-column="3" class="search form-control form-control-sm" placeholder="Search Division"></th>
+                <th><input type="text" data-column="2" class="search form-control form-control-sm" placeholder="Search List"></th>
+                <th><input type="text" data-column="3" class="search form-control form-control-sm" placeholder="Search With Comorbidity"></th>
+                <th><input type="text" data-column="4" class="search form-control form-control-sm" placeholder="Search Division"></th>
                 <th rowspan="2">Gender</th>
                 <th rowspan="2">Age</th>
-                <th><input type="text" data-column="6" class="search form-control form-control-sm" placeholder="Search Contact"></th>
-                <th><input type="text" data-column="7" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="7" class="search form-control form-control-sm" placeholder="Search Contact"></th>
                 <th><input type="text" data-column="8" class="search form-control form-control-sm" placeholder="Search Date"></th>
                 <th><input type="text" data-column="9" class="search form-control form-control-sm" placeholder="Search Date"></th>
-                <th><input type="text" data-column="10" class="search form-control form-control-sm" placeholder="Search Consent"></th>
-                <th><input type="text" data-column="11" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="10" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="11" class="search form-control form-control-sm" placeholder="Search Consent"></th>
                 <th><input type="text" data-column="12" class="search form-control form-control-sm" placeholder="Search Date"></th>
+                <th><input type="text" data-column="13" class="search form-control form-control-sm" placeholder="Search Date"></th>
             </tr>
             <tr>
                 <th>Full Name</th>
+                <th>List</th>
                 <th>With Comorbidity?</th>
                 <th>Division</th>
                 <th>Contact</th>
@@ -87,6 +89,7 @@
                 columns: [
                     { data: 'action', name: 'action'},
                     { data: 'fullname', name: 'fullname'},
+                    { data: 'list', name: 'list'},
                     { data: 'w_comorbidity', name: 'w_comorbidity'},
                     { data: 'division', name: 'division'},
                     { data: 'gender', name: 'gender'},
@@ -107,11 +110,11 @@
                     makeEditable();
                 },
                 columnDefs: [
-                    { className: 'text-center align-middle' , targets: [0,2,5,10]},
+                    { className: 'text-center align-middle' , targets: [0,3,6,11]},
                     { className: 'text-right' , targets: []},
                     { className: 'align-middle' , targets: [4]},
                     {
-                        targets: [0,2,4,6,9,10,11,12], visible: false, searchable: true
+                        targets: [0,3,5,7,10,11,12,13], visible: false, searchable: true
                     }
                 ],
                 "pageLength": 10,
@@ -216,6 +219,20 @@
                         @foreach($divisions as $div)
                         {value: "{{ $div->id }}", text: "{{ $div->code }}"},
                         @endforeach
+                    ],
+                    success: function(data){
+                        console.log(data);
+                    }
+                });
+
+                $('.editList').editable({
+                    url: "{{ route('vaccine.update.list') }}",
+                    source: [
+                        {value: "", text: "Empty"},
+                        {value: "QSL 1", text: "QSL 1"},
+                        {value: "QSL 2", text: "QSL 2"},
+                        {value: "QSL 3", text: "QSL 3"},
+                        {value: "Wait List", text: "Wait List"},
                     ],
                     success: function(data){
                         console.log(data);

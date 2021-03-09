@@ -84,6 +84,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/export/confirmed',[LimitController::class,'exportList']);
     Route::get('/export/1stDosage',[VaccineController::class,'exportDosage1']);
     Route::get('/export/2ndDosage',[VaccineController::class,'exportDosage2']);
+    Route::post('/vaccine/update/list',[VaccineController::class,'fixUpdate'])->name('vaccine.update.list');
 
     Route::get('/list/card/all/{offset}/{limit}',[ListController::class,'generateAllCard']);
     Route::get('/list/card/{id}',[ListController::class,'generateCard'])->name('list.card');
