@@ -35,7 +35,7 @@ class EmployeeController extends Controller
                     $status = $this->checkStatus($data->lname, $data->fname);
                     if($status)
                         return "<span class='text-success'>Registered</span>";
-                    return "<span class='text-danger'>Not Registered</span>";
+                    return "<span class='text-danger'>-</span>";
                 })
                 ->rawColumns(['fullname','status'])
                 ->make(true);

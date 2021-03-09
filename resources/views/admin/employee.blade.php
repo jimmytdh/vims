@@ -38,7 +38,7 @@
     </h2>
 
     <div class="table-responsive">
-        <table id="dataTable" class="table table-sm table-striped">
+        <table id="dataTable" class="table table-bordered table-sm table-striped">
             <thead>
             <tr>
                 <th>Name</th>
