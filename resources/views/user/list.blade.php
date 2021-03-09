@@ -240,6 +240,7 @@
                         {value: "QSL 2", text: "QSL 2"},
                         {value: "QSL 3", text: "QSL 3"},
                         {value: "Wait List", text: "Wait List"},
+                        {value: "Outside", text: "Outside"},
                     ],
                     success: function(data){
                         console.log(data);

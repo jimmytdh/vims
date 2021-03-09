@@ -112,6 +112,7 @@
                             <option>QSL 2</option>
                             <option>QSL 3</option>
                             <option>Wait List</option>
+                            <option>Outside</option>
                         </select>
                     </div>
                 </div>
