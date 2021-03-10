@@ -81,6 +81,7 @@ return [
              */
             'databases' => [
                 'mysql',
+                'users'
             ],
         ],
 
