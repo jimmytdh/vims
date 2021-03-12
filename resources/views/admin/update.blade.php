@@ -236,7 +236,7 @@
                 <select name="w_comorbidities" id="with_comorbidity" class="custom-select" required>
                     <option value="">Select Here...</option>
                     <option {{ ($data->w_comorbidities=='01_Yes') ? 'selected':'' }} value="01_Yes">Yes</option>
-                    <option {{ ($data->w_comorbidities=='02_None') ? 'selected':'' }} value="02_None">No</option>
+                    <option {{ ($data->w_comorbidities=='02_No') ? 'selected':'' }} value="02_No">No</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
