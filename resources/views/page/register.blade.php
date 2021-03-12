@@ -231,7 +231,7 @@
         <div class="form-row mt-3">
             <div class="form-group col-md-6">
                 <label>LGU <span class="required">*</span></label>
-                <input type="text" name="employer_lgu" value="722 - CEBU" class="form-control" readonly>
+                <input type="text" name="employer_lgu" value="_72250_CITY_OF_TALISAY" class="form-control" readonly>
             </div>
             <div class="form-group col-md-6">
                 <label>Contact No. <span class="required">*</span></label>
