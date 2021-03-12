@@ -262,7 +262,7 @@
                 <select name="w_comorbidities" id="with_comorbidity" class="custom-select" required>
                     <option value="">Select Here...</option>
                     <option value="01_Yes">Yes</option>
-                    <option value="02_None">No</option>
+                    <option value="02_No">No</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
