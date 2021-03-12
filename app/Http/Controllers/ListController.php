@@ -517,7 +517,6 @@ class ListController extends Controller
                 }
                 $row['employer_name'] = "Cebu South Medical Center";
                 $row['employer_address'] = "San Isidro, Talisay City, Cebu";
-                $row['employer_lgu'] = "722 - CEBU";
                 $row['employer_contact_no'] = "(032) 273-3226";
                 $row['suffix'] = ($row['suffix']) ? $row['suffix']: 'NA';
 
