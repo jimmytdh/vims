@@ -24,9 +24,6 @@ Route::get('/login',[LoginController::class,'index'])->name('login');
 Route::post('/login',[LoginController::class,'validateLogin'])->name('validate.login');
 Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 
-Route::get('/register',[RegistrationController::class,'index'])->name('register');
-Route::post('/register',[RegistrationController::class,'register'])->name('post.register');
-
 Route::get('/verify',[RegistrationController::class,'verify']);
 Route::post('/verify',[RegistrationController::class,'verify']);
 Route::post('/key',[RegistrationController::class,'verifyKey']);
@@ -103,6 +100,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/vaccine/update/list',[VaccineController::class,'fixUpdate'])->name('vaccine.update.list');
 
 
+    //Registration
+    Route::get('/register',[RegistrationController::class,'index'])->name('register');
+    Route::post('/register',[RegistrationController::class,'register'])->name('post.register');
 
 //    Route::get('/fix/users',[RegistrationController::class,'updateUsers']);
 

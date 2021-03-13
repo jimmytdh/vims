@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}"><span class="text-warning">CSMC</span> VIMS-IR</a>
+        <a class="navbar-brand" href="{{ url('/') }}"><span class="text-warning">CSMC</span> VIMS</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -16,18 +16,39 @@
                     <a class="nav-link" href="{{ url('/list/master') }}"><i class="fa fa-database"></i> Advance List</a>
                 </li>
                 @endif
-                <li class="nav-item {{ request()->is('list') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('list') ? 'active' : '' }}" hidden>
                     <a class="nav-link" href="{{ url('/list') }}"><i class="fa fa-database"></i> Master List</a>
                 </li>
 
-                <li class="nav-item {{ request()->is('employees') ? 'active' : '' }}">
+                <li class="nav-item dropdown {{ request()->is('list*') ? 'active' : '' }}">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                        <i class="fa fa-database"></i> Master List
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item {{ request()->is('list') ? 'active' : '' }}" href="{{ url('/list') }}"><i class="fa fa-users mr-1"></i> Immunization Registry</a>
+                        <a class="dropdown-item {{ request()->is('list/vas') ? 'active' : '' }}" href="{{ url('/list/vas') }}"><i class="fa fa-users mr-1"></i> VAS</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown {{ request()->is('register*') ? 'active' : '' }}">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                        <i class="fa fa-list"></i> Registration
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item {{ request()->is('register') ? 'active' : '' }}" href="{{ url('/register') }}"><i class="fa fa-user-plus mr-1"></i> Immunization Registry</a>
+                        <a class="dropdown-item {{ request()->is('register/vas') ? 'active' : '' }}" href="{{ url('/register/vas') }}"><i class="fa fa-user-plus mr-1"></i> VAS</a>
+                        <a class="dropdown-item {{ request()->is('register/vaccinator') ? 'active' : '' }}" href="{{ url('/register/vaccinator') }}"><i class="fa fa-user-md mr-1"></i> Vaccinator</a>
+                    </div>
+                </li>
+
+                <li class="nav-item {{ request()->is('employees') ? 'active' : '' }}" hidden>
                     <a class="nav-link" href="{{ url('/employees') }}"><i class="fa fa-users"></i> Employees</a>
                 </li>
                 @if(auth()->user()->isAdmin())
                 <li class="nav-item {{ request()->is('mydata*') ? 'active' : '' }} hidden">
                     <a class="nav-link" href="{{ url('/mydata') }}"><i class="fa fa-database"></i> My Data</a>
                 </li>
-                <li class="nav-item dropdown {{ request()->is('list/fix*') ? 'active' : '' }}">
+                <li class="nav-item dropdown {{ request()->is('list/fix*') ? 'active' : '' }} hidden">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                         <i class="fa fa-gears"></i> Fix Data
                     </a>
