@@ -10,6 +10,8 @@ use App\Http\Controllers\FixController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LimitController;
 use App\Http\Controllers\VaccineController;
+use App\Http\Controllers\VasController;
+use App\Http\Controllers\VaccinatorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -106,6 +108,16 @@ Route::group(['middleware' => 'auth'], function() {
 
 //    Route::get('/fix/users',[RegistrationController::class,'updateUsers']);
 
-    //
+    //mange VAS
+    Route::get('/list/vas',[VasController::class,'index'])->name('vas.list');
+    Route::get('/register/vas',[VasController::class,'register'])->name('vas.register');
+    Route::post('/register/vas',[VasController::class,'saveRegistration'])->name('vas.save.register');
+
+    Route::get('/vas/vaccination/{id}',[VasController::class,'vaccination']);
+    Route::post('/vas/vaccination/{id}',[VasController::class,'saveVaccination']);
+    Route::get('/vas/health/{id}',[VasController::class,'healthCondition']);
+    Route::post('/vas/health/{id}',[VasController::class,'saveHealthCondition']);
+
+    Route::get('/export/vas',[VasController::class,'exportData']);
 
 });

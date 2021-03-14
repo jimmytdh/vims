@@ -59,8 +59,8 @@ class CreateVasTable extends Migration
             $table->string('lot_no')->nullable();
             $table->string('vaccinator_name')->nullable();
             $table->string('vaccinator_profession')->nullable();
-            $table->date('date_dose1')->nullable();
-            $table->date('date_dose2')->nullable();
+            $table->string('dose1')->nullable();
+            $table->string('dose2')->nullable();
             $table->timestamps();
         });
     }

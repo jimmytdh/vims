@@ -54,7 +54,7 @@ class Vas extends Model
         'lot_no',
         'vaccinator_name',
         'vaccinator_profession',
-        'date_dose1',
-        'date_dose2',
+        'dose1',
+        'dose2',
     ];
 }
