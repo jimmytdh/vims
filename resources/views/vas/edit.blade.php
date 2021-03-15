@@ -174,18 +174,11 @@
                 <input type="text" name="street_name" value="{{ $data->street_name }}" class="form-control" required>
             </div>
         </div>
-
-        <h4 class="title-header text-danger mt-5">Date of Vaccination</h4>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label>Select Date <span class="required">*</span></label>
-                <input type="date" name="vaccination_date" value="{{ $data->vaccination_date }}" class="form-control" required>
-            </div>
-        </div>
         <hr>
-        <button class="btn btn-success btn-lg btn-block" type="submit">
+        <button name="btnUpdate" value="true" class="btn btn-success btn-lg btn-block" type="submit">
             <i class="fa fa-send"></i> Submit Data
         </button>
+
     </form>
 @endsection
 

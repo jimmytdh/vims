@@ -1,4 +1,5 @@
 <form action="{{ url('/vas/health/'.$id) }}" method="post" id="healthForm">
+    <input type="hidden" value="{{ $data->id }}" name="pk">
     <div class="form-group">
         <label>Deferral</label>
         <select name="deferral" class="custom-select">

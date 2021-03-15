@@ -128,5 +128,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/vas/vaccinator/destroy',[VaccinatorController::class,'destroy'])->name('destroy.vaccinator');
 
     Route::get('/export/vas',[VasController::class,'exportData']);
+    Route::post('/vas/schedule',[VasController::class,'schedule']);
 
 });

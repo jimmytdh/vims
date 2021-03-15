@@ -36,6 +36,7 @@
                 <th>Gender</th>
                 <th>Age</th>
                 <th>Vaccination Date</th>
+                <th>Manufacturer</th>
                 <th>Dose</th>
                 <th>Deferral</th>
                 <th>Consent</th>
@@ -67,6 +68,7 @@
                     { data: 'gender', name: 'gender'},
                     { data: 'age', name: 'age'},
                     { data: 'vaccination_date', name: 'vaccination_date'},
+                    { data: 'vaccine_manufacturer', name: 'vaccine_manufacturer'},
                     { data: 'dose', name: 'dose'},
                     { data: 'deferral', name: 'deferral'},
                     { data: 'consent', name: 'consent'},
@@ -83,7 +85,7 @@
                     { className: 'text-right' , targets: []},
                     { className: 'align-middle' , targets: []},
                     {
-                        targets: [7,8], visible: false, searchable: true
+                        targets: [2,8,9], visible: false, searchable: true
                     }
                 ],
                 "pageLength": 10,
@@ -100,12 +102,6 @@
                         extend: 'copy',
                         className: 'btn btn-success',
                         text: '<i class="fa fa-copy"></i> Copy'
-                    },{
-                        text: '<i class="fa fa-user-plus"></i> Register',
-                        className: 'btn btn-success',
-                        action: function () {
-                            location.href = "{{ url('/register/vas') }}";
-                        }
                     },{
                         text: '<i class="fa fa-file-excel-o"></i> Export',
                         className: 'btn btn-success',
@@ -177,6 +173,13 @@
                         $("#healthContent").load(url);
                     },500);
                 });
+
+                $('a[href="#nextVisitModal"]').on('click',function(){
+                    var id = $(this).data('id');
+                    var date = $(this).data('date');
+                    $("#nextDate").val(date);
+                    $("#vac_id").val(id);
+                });
             }
 
             $('body').on('submit','#vaccinationForm',function(e){
@@ -192,6 +195,15 @@
                 e.preventDefault();
                 showLoader();
                 $("#healthModal").modal('hide');
+                var url = $(this).attr('action');
+                var formData = new FormData(this);
+                submitForm(url, formData);
+            });
+
+            $('body').on('submit','#nextVisitForm',function(e){
+                e.preventDefault();
+                showLoader();
+                $("#nextVisitModal").modal('hide');
                 var url = $(this).attr('action');
                 var formData = new FormData(this);
                 submitForm(url, formData);

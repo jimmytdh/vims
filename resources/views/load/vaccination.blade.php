@@ -19,11 +19,15 @@
     <div class="consent_content {{ ($data->consent=='02_No') ? 'hidden' : '' }}">
         <div class="form-group">
             <label>Vaccination Date</label>
-            <input type="date" class="form-control" name="vaccination_date" value="{{ date('Y-m-d') }}">
+            <input type="date" class="form-control" name="vaccination_date" value="{{ $data->vaccination_date }}" readonly>
         </div>
         <div class="form-group">
             <label>Vaccine Manufacturer Name</label>
-            <input type="text" readonly class="form-control" name="vaccine_manufacturer" value="Astrazeneca">
+            <select name="vaccine_manufacturer" class="custom-select consent" required>
+                <option value="">Select...</option>
+                <option {{ ($data->vaccine_manufacturer=='Astrazeneca') ? 'selected':'' }}>Astrazeneca</option>
+                <option {{ ($data->vaccine_manufacturer=='Sinovac') ? 'selected':'' }}>Sinovac</option>
+            </select>
         </div>
         <div class="form-group">
             <label>Batch Number</label>
@@ -45,9 +49,8 @@
         <div class="form-group">
             <label>Dose</label>
             <select name="dose" class="custom-select">
-                <option value="">Select...</option>
-                <option {{ ($data->dose1=='01_Yes') ? 'selected':'' }} value="dose1">1st Dose</option>
-                <option {{ ($data->dose2=='01_Yes') ? 'selected':'' }} value="dose2">2nd Dose</option>
+                <option {{ ($dose==0) ? 'selected':'' }} value="dose1">1st Dose</option>
+                <option {{ ($dose>0) ? 'selected':'' }} value="dose2">2nd Dose</option>
             </select>
         </div>
     </div>

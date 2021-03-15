@@ -8,6 +8,7 @@ use App\Models\CivilStatus;
 use App\Models\Deferral;
 use App\Models\Refusal;
 use App\Models\Region;
+use App\Models\Vaccination;
 use App\Models\Vaccinator;
 use App\Models\Vas;
 use Carbon\Carbon;
@@ -81,7 +82,10 @@ class VasController extends Controller
         $date = Session::get('vaccination_date');
         $date = ($date) ? $date: date('Y-m-d');
         if(request()->ajax()) {
-            $data = Vas::where('vaccination_date',$date)->orderBy('lastname','asc')->get();
+            $data = Vas::leftJoin('vaccinations','vaccinations.vac_id','=','vas.id')
+                    ->where('vaccination_date',$date)
+                    ->orderBy('lastname','asc')
+                    ->get();
 
             return DataTables::of($data)
                 ->addColumn('fullname',function ($data){
@@ -121,19 +125,25 @@ class VasController extends Controller
                     return ($data->consent=='01_Yes') ? 'Yes' : 'No';
                 })
                 ->addColumn('action', function($data){
-                    $editUrl = url('list/vas/edit',$data->id);
-                    $deleteUrl = url('list/vas/delete/'.$data->id);
+                    $editUrl = url('list/vas/edit',$data->vac_id);
+                    $deleteUrl = url('list/vas/delete/'.$data->vac_id);
                     $btn1 = "<a href='$editUrl' class='btn btn-sm btn-success'><i class='fa fa-edit'></i></a>";
                     $btn2 = null;
                     if(Auth::user()->isAdmin()):
-                    $btn2 = "<a href='#deleteModal' data-toggle='modal' data-backdrop='static' data-url='$deleteUrl' data-title='Delete Record?' data-id='$data->id' class='btnDelete btn btn-sm btn-danger'><i class='fa fa-trash'></i></a>";
+                    $btn2 = "<a href='#deleteModal' data-toggle='modal' data-backdrop='static' data-url='$deleteUrl' data-title='Delete Record?' data-id='$data->vac_id' class='btnDelete btn btn-sm btn-danger'><i class='fa fa-trash'></i></a>";
                     endif;
                     $btn4 = null;
-                    $btn3 = "<a href='#healthModal' data-toggle='modal' data-backdrop='static' data-id='$data->id' class='btn btn-sm btn-info'><i class='fa fa-stethoscope'></i></a>";
+                    $btn3 = "<a href='#healthModal' data-toggle='modal' data-backdrop='static' data-id='$data->vac_id' class='btn btn-sm btn-info'><i class='fa fa-stethoscope'></i></a>";
                     if(!$data->deferral){
-                        $btn4 = "<a href='#vaccinationModal' data-toggle='modal' data-backdrop='static' data-id='$data->id' class='btn btn-sm btn-warning'><i class='fa fa-eyedropper'></i></a>";
+                        $btn4 = "<a href='#vaccinationModal' data-toggle='modal' data-backdrop='static' data-id='$data->vac_id' class='btn btn-sm btn-warning'><i class='fa fa-eyedropper'></i></a>";
                     }
-                    return "$btn1 $btn2 $btn3 $btn4";
+                    $btn5 = null;
+                    $dose = Vaccination::where('vac_id',$data->vac_id)->count();
+                    if($dose == 1 && $data->dose1=='01_Yes'){
+                        $date = Carbon::parse($data->vaccination_date)->addDay(30)->format('Y-m-d');
+                        $btn5 = "<a href='#nextVisitModal' data-toggle='modal' data-backdrop='static' data-date='$date' data-id='$data->vac_id' class='btn btn-sm btn-warning'><i class='fa fa-calendar'></i></a>";
+                    }
+                    return "$btn1 $btn2 $btn3 $btn4 $btn5";
                 })
                 ->rawColumns(['fullname','deferral','action'])
                 ->make(true);
@@ -169,14 +179,15 @@ class VasController extends Controller
         $row['firstname'] = mb_strtoupper($row['firstname']);
         $row['lastname'] = mb_strtoupper($row['lastname']);
         $row['middlename'] =mb_strtoupper($row['middlename']);
-        Vas::find($id)->update($row);
 
+        Vas::find($id)->update($row);
         return redirect()->back()->with('success',true);
     }
 
     public function delete($id)
     {
         Vas::find($id)->delete();
+        Vaccination::where('vac_id',$id)->first()->delete();
         return redirect()->back()->with('deleted',true);
     }
 
@@ -207,35 +218,51 @@ class VasController extends Controller
         $row['lastname'] = mb_strtoupper($row['lastname']);
         $row['middlename'] =mb_strtoupper($row['middlename']);
 
-        $row['consent'] = '01_Yes';
         $match = array(
             'firstname' => $row['firstname'],
             'lastname' => $row['lastname'],
             'middlename' => $row['middlename'],
-            'vaccination_date' => $row['vaccination_date'],
         );
         $status = 'saved';
         $check = Vas::where($match)->first();
         if($check){
             $status = 'duplicate';
         }
-        for($i=1; $i<=18;$i++)
+        $vac = Vas::updateOrCreate($match,$row);
+        $this->generateVaccinationDate($vac->id,$request->vaccination_date);
+        return redirect()->back()->with($status,true);
+    }
+
+    public function generateVaccinationDate($id,$date)
+    {
+        $data = Vas::find($id);
+        $row['consent'] = '01_Yes';
+        $age = Carbon::parse($data->birthdate)->diff(Carbon::now())->format('%y');
+        $row['question_01'] = ($age > 16) ? '01_Yes' : '02_No';
+        for($i=2; $i<=18;$i++)
         {
             $question = "question_".str_pad($i,2,0,STR_PAD_LEFT);
-            if($i==1 || $i==9 || $i==17){
+            if( $i==9 || $i==17){
                 continue;
             }
             $row[$question] = '02_No';
         }
-        Vas::updateOrCreate($match,$row);
-        return redirect()->back()->with($status,true);
+        $row['vac_id'] = $data->id;
+        $row['vaccination_date'] = $date;
+        Vaccination::create($row);
+
+        return 1;
     }
 
     public function healthCondition($id)
     {
-        $data = Vas::find($id);
+        $date = Session::get('vaccination_date');
+        $date = ($date) ? $date: date('Y-m-d');
+
+        $data = Vaccination::where('vac_id',$id)->where('vaccination_date',$date)->first();
         $deferral = Deferral::get();
         $questions = $this->questions();
+        $id = $data->id;
         return view('load.health',compact(
             'data',
             'deferral',
@@ -271,19 +298,26 @@ class VasController extends Controller
     public function saveHealthCondition(Request $request,$id)
     {
         $row = $_POST;
+
         if($request->deferral){
             $data = $this->emptyVaccination();
             $row = array_merge($row,$data);
         }
-        Vas::find($id)->update($row);
+        Vaccination::find($id)->update($row);
     }
 
     public function vaccination($id)
     {
-        $data = Vas::find($id);
+        $date = Session::get('vaccination_date');
+        $date = ($date) ? $date: date('Y-m-d');
+
+        $data = Vaccination::where('vac_id',$id)->where('vaccination_date',$date)->first();
         $vaccinator = Vaccinator::orderBy('name','asc')->get();
         $refusal = Refusal::get();
-        return view('load.vaccination',compact('data','vaccinator','id','refusal'));
+        $dose = Vaccination::where('vac_id',$id)->where('dose1','01_Yes')->count();
+        $id = $data->id;
+
+        return view('load.vaccination',compact('data','vaccinator','id','refusal','dose'));
     }
 
     public function saveVaccination(Request $request,$id)
@@ -303,7 +337,7 @@ class VasController extends Controller
         }else{
             $row['refusal_reason'] = null;
         }
-        Vas::find($id)->update($row);
+        Vaccination::find($id)->update($row);
         return $row;
     }
 
@@ -325,7 +359,7 @@ class VasController extends Controller
         $fileName = date('(m-d-Y)').'_CBC05596_CebuSouthMedicalCenter'.'.csv';
         $date = Session::get('vaccination_date');
         $date = ($date) ? $date: date('Y-m-d');
-        $data = Vas::where('vaccination_date',$date)->orderBy('lastname','asc')->get();
+        $data = Vas::leftJoin('vaccinations','vaccinations.vac_id','=','vas.id')->where('vaccination_date',$date)->orderBy('lastname','asc')->get();
 
         //whereRaw('LENGTH(philhealthid) > 3')
         $headers = array(
@@ -349,5 +383,14 @@ class VasController extends Controller
             fclose($file);
         };
         return response()->stream($callback, 200, $headers);
+    }
+
+    public function schedule(Request $request)
+    {
+        $date = $request->nextDate;
+        $id = $request->vac_id;
+        $this->generateVaccinationDate($id,$date);
+
+        return 1;
     }
 }
