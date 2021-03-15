@@ -12,6 +12,7 @@ use App\Http\Controllers\LimitController;
 use App\Http\Controllers\VaccineController;
 use App\Http\Controllers\VasController;
 use App\Http\Controllers\VaccinatorController;
+use App\Http\Controllers\QuickCountController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -110,9 +111,11 @@ Route::group(['middleware' => 'auth'], function() {
 
     //mange VAS
     Route::get('/list/vas',[VasController::class,'index'])->name('vas.list');
+    Route::get('/list/vas/all',[VasController::class,'allData'])->name('vas.all');
     Route::get('/list/vas/edit/{id}',[VasController::class,'edit']);
     Route::get('/list/vas/delete/{id}',[VasController::class,'delete']);
     Route::post('/list/vas/date',[VasController::class,'changeDate']);
+    Route::post('/list/vas/status',[VasController::class,'changeStatus']);
     Route::post('/list/vas/update/{id}',[VasController::class,'update']);
     Route::get('/register/vas',[VasController::class,'register'])->name('vas.register');
     Route::post('/register/vas',[VasController::class,'saveRegistration'])->name('vas.save.register');
@@ -129,5 +132,11 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/export/vas',[VasController::class,'exportData']);
     Route::post('/vas/schedule',[VasController::class,'schedule']);
+    Route::get('/vas/schedule/delete/{id}',[VasController::class,'deleteVaccination']);
+
+    //CBCR Reporting
+    Route::get('/cbcr',[QuickCountController::class,'index']);
+    Route::post('/cbcr/date',[QuickCountController::class,'changeDate']);
+    Route::post('/cbcr/update',[QuickCountController::class,'update']);
 
 });

@@ -23,7 +23,7 @@
 
 @section('content')
     <h2 class="text-success title-header">
-        Vaccinees <small class="text-danger">({{ date('F d, Y',strtotime($date)) }})</small>
+        All Vaccinees
     </h2>
 
     <hr style="size: 2px;border:none;color:#ccc;">
@@ -51,7 +51,7 @@
 @endsection
 
 @section('modal')
-    @include('vas.modal')
+
 @endsection
 @section('js')
     <script src="{{ url('/plugins/DataTables/datatables.min.js') }}"></script>
@@ -62,7 +62,7 @@
             var table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ url('/list/vas') }}",
+                ajax: "{{ route('vas.all') }}",
                 columns: [
                     { data: 'action', name: 'action'},
                     { data: 'fullname', name: 'fullname'},
@@ -104,18 +104,6 @@
                         extend: 'copy',
                         className: 'btn btn-success',
                         text: '<i class="fa fa-copy"></i> Copy'
-                    },{
-                        text: '<i class="fa fa-file-excel-o"></i> Export',
-                        className: 'btn btn-success',
-                        action: function () {
-                            location.href = "{{ url('/export/vas') }}";
-                        }
-                    },{
-                        text: '<i class="fa fa-calendar"></i> Change Date',
-                        className: 'btn btn-success',
-                        action: function () {
-                            $("#calendarModal").modal();
-                        }
                     }
                 ]
             });
@@ -182,11 +170,6 @@
                     $("#nextDate").val(date);
                     $("#vac_id").val(id);
                 });
-
-                $('a[href="#statusModal"]').on('click',function(){
-                    var id = $(this).data('id');
-                    $("#status_id").val(id);
-                });
             }
 
             $('body').on('submit','#vaccinationForm',function(e){
@@ -211,15 +194,6 @@
                 e.preventDefault();
                 showLoader();
                 $("#nextVisitModal").modal('hide');
-                var url = $(this).attr('action');
-                var formData = new FormData(this);
-                submitForm(url, formData);
-            });
-
-            $('body').on('submit','#statusForm',function(e){
-                e.preventDefault();
-                showLoader();
-                $("#statusModal").modal('hide');
                 var url = $(this).attr('action');
                 var formData = new FormData(this);
                 submitForm(url, formData);

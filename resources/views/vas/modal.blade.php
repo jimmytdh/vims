@@ -86,3 +86,36 @@
         </div>
     </div>
 </div>
+
+<div class="modal" tabindex="-1" role="dialog" id="statusModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Select Status</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ url('/list/vas/status') }}" id="statusForm">
+                <input type="hidden" name="id" id="status_id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <select name="status" id="status" class="custom-select">
+                            <option value="">None</option>
+                            <option>Previous deferral</option>
+                            <option>Previous refusal</option>
+                            <option>AEFI reported</option>
+                            <option>Serious AEFI</option>
+                            <option>Death related to AEFI</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success btn-lg btn-block">
+                        <i class="fa fa-save"></i> Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

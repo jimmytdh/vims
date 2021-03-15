@@ -55,4 +55,5 @@ class VaccinatorController extends Controller
         Vaccinator::find($req->id)->delete();
         return $req;
     }
+
 }
