@@ -122,6 +122,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/vas/health/{id}',[VasController::class,'healthCondition']);
     Route::post('/vas/health/{id}',[VasController::class,'saveHealthCondition']);
 
+    Route::get('/vas/vaccinator',[VaccinatorController::class,'index']);
+    Route::post('/vas/vaccinator/save',[VaccinatorController::class,'store'])->name('add.vaccinator');
+    Route::post('/vas/vaccinator/update',[VaccinatorController::class,'update'])->name('update.vaccinator');
+    Route::post('/vas/vaccinator/destroy',[VaccinatorController::class,'destroy'])->name('destroy.vaccinator');
+
     Route::get('/export/vas',[VasController::class,'exportData']);
 
 });

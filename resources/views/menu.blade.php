@@ -16,6 +16,9 @@
                     <a class="nav-link" href="{{ url('/list/master') }}"><i class="fa fa-database"></i> Advance List</a>
                 </li>
                 @endif
+                <li class="nav-item {{ request()->is('cbcr*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/cbcr') }}"><i class="fa fa-line-chart"></i> CBCR Report</a>
+                </li>
                 <li class="nav-item {{ request()->is('list') ? 'active' : '' }}" hidden>
                     <a class="nav-link" href="{{ url('/list') }}"><i class="fa fa-database"></i> Master List</a>
                 </li>
@@ -37,7 +40,7 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item {{ request()->is('register') ? 'active' : '' }}" href="{{ url('/register') }}"><i class="fa fa-user-plus mr-1"></i> Immunization Registry</a>
                         <a class="dropdown-item {{ request()->is('register/vas') ? 'active' : '' }}" href="{{ url('/register/vas') }}"><i class="fa fa-user-plus mr-1"></i> Vaccine Administration System</a>
-                        <a class="dropdown-item {{ request()->is('register/vaccinator') ? 'active' : '' }}" href="{{ url('/register/vaccinator') }}"><i class="fa fa-user-md mr-1"></i> Vaccinator</a>
+                        <a class="dropdown-item {{ request()->is('vas/vaccinator') ? 'active' : '' }}" href="{{ url('/vas/vaccinator') }}"><i class="fa fa-user-md mr-1"></i> Vaccinator</a>
                     </div>
                 </li>
 
