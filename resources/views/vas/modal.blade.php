@@ -33,3 +33,30 @@
         </div>
     </div>
 </div>
+
+<div class="modal" tabindex="-1" role="dialog" id="calendarModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Health Condition</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ url('/list/vas/date') }}" method="post" id="calendarForm">
+            {{ csrf_field() }}
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Change Date</label>
+                    <input type="date" name="vaccination_date" class="form-control" value="{{ $date }}" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success btn-block">
+                    <i class="fa fa-calendar"></i> Change Date
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

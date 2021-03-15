@@ -70,6 +70,12 @@ class VasController extends Controller
         );
     }
 
+    public function changeDate(Request $request)
+    {
+        Session::put('vaccination_date',$request->vaccination_date);
+        return redirect()->back();
+    }
+
     public function index()
     {
         $date = Session::get('vaccination_date');
@@ -122,10 +128,10 @@ class VasController extends Controller
                     if(Auth::user()->isAdmin()):
                     $btn2 = "<a href='#deleteModal' data-toggle='modal' data-backdrop='static' data-url='$deleteUrl' data-title='Delete Record?' data-id='$data->id' class='btnDelete btn btn-sm btn-danger'><i class='fa fa-trash'></i></a>";
                     endif;
-                    $btn3 = null;
-                    $btn4 = "<a href='#healthModal' data-toggle='modal' data-backdrop='static' data-id='$data->id' class='btn btn-sm btn-info'><i class='fa fa-stethoscope'></i></a>";
+                    $btn4 = null;
+                    $btn3 = "<a href='#healthModal' data-toggle='modal' data-backdrop='static' data-id='$data->id' class='btn btn-sm btn-info'><i class='fa fa-stethoscope'></i></a>";
                     if(!$data->deferral){
-                        $btn3 = "<a href='#vaccinationModal' data-toggle='modal' data-backdrop='static' data-id='$data->id' class='btn btn-sm btn-warning'><i class='fa fa-eyedropper'></i></a>";
+                        $btn4 = "<a href='#vaccinationModal' data-toggle='modal' data-backdrop='static' data-id='$data->id' class='btn btn-sm btn-warning'><i class='fa fa-eyedropper'></i></a>";
                     }
                     return "$btn1 $btn2 $btn3 $btn4";
                 })
@@ -133,6 +139,45 @@ class VasController extends Controller
                 ->make(true);
         }
         return view('vas.index',compact('date'));
+    }
+
+    public function edit($id)
+    {
+        $data = Vas::find($id);
+        $category = Categories::get();
+        $categoryID = CategoryID::get();
+
+        $region = Region::get();
+        $provinces = AreaController::getProvinces('CentralVisayas');
+        $muncity = AreaController::getMuncity('_0722_CEBU');
+        $brgy = AreaController::getBrgy($data->muncity);
+        return view('vas.edit',compact(
+            'category',
+            'categoryID',
+            'region',
+            'provinces',
+            'muncity',
+            'brgy',
+            'id',
+            'data'
+        ));
+    }
+
+    public function update(Request $req,$id)
+    {
+        $row = $_POST;
+        $row['firstname'] = mb_strtoupper($row['firstname']);
+        $row['lastname'] = mb_strtoupper($row['lastname']);
+        $row['middlename'] =mb_strtoupper($row['middlename']);
+        Vas::find($id)->update($row);
+
+        return redirect()->back()->with('success',true);
+    }
+
+    public function delete($id)
+    {
+        Vas::find($id)->delete();
+        return redirect()->back()->with('deleted',true);
     }
 
     public function register()
@@ -158,9 +203,9 @@ class VasController extends Controller
     {
         $row = $_POST;
         $row['birthdate'] = Carbon::parse($row['birthdate'])->format('Y-m-d');
-        $row['firstname'] = strtoupper(utf8_encode($row['firstname']));
-        $row['lastname'] = strtoupper(utf8_encode($row['lastname']));
-        $row['middlename'] =strtoupper(utf8_encode($row['middlename']));
+        $row['firstname'] = mb_strtoupper($row['firstname']);
+        $row['lastname'] = mb_strtoupper($row['lastname']);
+        $row['middlename'] =mb_strtoupper($row['middlename']);
 
         $row['consent'] = '01_Yes';
         $match = array(
@@ -173,6 +218,14 @@ class VasController extends Controller
         $check = Vas::where($match)->first();
         if($check){
             $status = 'duplicate';
+        }
+        for($i=1; $i<=18;$i++)
+        {
+            $question = "question_".str_pad($i,2,0,STR_PAD_LEFT);
+            if($i==1 || $i==9 || $i==17){
+                continue;
+            }
+            $row[$question] = '02_No';
         }
         Vas::updateOrCreate($match,$row);
         return redirect()->back()->with($status,true);
@@ -245,6 +298,8 @@ class VasController extends Controller
         $row['vaccinator_profession'] = $vac->profession;
         if($request->consent=='02_No'){
             $row = $this->emptyVaccination();
+            $row['consent'] = $request->consent;
+            $row['refusal_reason'] = $request->refusal_reason;
         }else{
             $row['refusal_reason'] = null;
         }

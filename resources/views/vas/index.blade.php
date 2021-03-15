@@ -23,7 +23,7 @@
 
 @section('content')
     <h2 class="text-success title-header">
-        Vaccinees <small class="text-danger">({{ date('F d, Y') }})</small>
+        Vaccinees <small class="text-danger">({{ date('F d, Y',strtotime($date)) }})</small>
     </h2>
 
     <hr style="size: 2px;border:none;color:#ccc;">
@@ -83,7 +83,7 @@
                     { className: 'text-right' , targets: []},
                     { className: 'align-middle' , targets: []},
                     {
-                        targets: [], visible: false, searchable: true
+                        targets: [7,8], visible: false, searchable: true
                     }
                 ],
                 "pageLength": 10,
@@ -111,6 +111,12 @@
                         className: 'btn btn-success',
                         action: function () {
                             location.href = "{{ url('/export/vas') }}";
+                        }
+                    },{
+                        text: '<i class="fa fa-calendar"></i> Change Date',
+                        className: 'btn btn-success',
+                        action: function () {
+                            $("#calendarModal").modal();
                         }
                     }
                 ]
@@ -200,6 +206,32 @@
                     $('.refusal_reason').removeClass('hidden');
                     $('.consent_content').addClass('hidden');
                 }
+            });
+
+            $('body').on('click','.btnDelete',function(e){
+                e.preventDefault();
+                var url = $(this).data('url');
+                var title = $(this).data('title');
+                $('.btnYes').attr('href',url);
+                $('.modal-title').html(title);
+            });
+
+            $('body').on('click','.btnYes',function(e){
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $("#deleteModal").modal('hide');
+                showLoader();
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    success: function(){
+                        setTimeout(function(){
+                            var oTable = $('#dataTable').dataTable();
+                            oTable.fnDraw(false);
+                            hideLoader();
+                        },500);
+                    }
+                })
             });
 
             function submitForm(url,formData)

@@ -110,6 +110,10 @@ Route::group(['middleware' => 'auth'], function() {
 
     //mange VAS
     Route::get('/list/vas',[VasController::class,'index'])->name('vas.list');
+    Route::get('/list/vas/edit/{id}',[VasController::class,'edit']);
+    Route::get('/list/vas/delete/{id}',[VasController::class,'delete']);
+    Route::post('/list/vas/date',[VasController::class,'changeDate']);
+    Route::post('/list/vas/update/{id}',[VasController::class,'update']);
     Route::get('/register/vas',[VasController::class,'register'])->name('vas.register');
     Route::post('/register/vas',[VasController::class,'saveRegistration'])->name('vas.save.register');
 

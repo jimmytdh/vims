@@ -26,7 +26,7 @@
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item {{ request()->is('list') ? 'active' : '' }}" href="{{ url('/list') }}"><i class="fa fa-users mr-1"></i> Immunization Registry</a>
-                        <a class="dropdown-item {{ request()->is('list/vas') ? 'active' : '' }}" href="{{ url('/list/vas') }}"><i class="fa fa-users mr-1"></i> VAS</a>
+                        <a class="dropdown-item {{ request()->is('list/vas') ? 'active' : '' }}" href="{{ url('/list/vas') }}"><i class="fa fa-users mr-1"></i> Vaccine Administration System</a>
                     </div>
                 </li>
 
@@ -36,7 +36,7 @@
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item {{ request()->is('register') ? 'active' : '' }}" href="{{ url('/register') }}"><i class="fa fa-user-plus mr-1"></i> Immunization Registry</a>
-                        <a class="dropdown-item {{ request()->is('register/vas') ? 'active' : '' }}" href="{{ url('/register/vas') }}"><i class="fa fa-user-plus mr-1"></i> VAS</a>
+                        <a class="dropdown-item {{ request()->is('register/vas') ? 'active' : '' }}" href="{{ url('/register/vas') }}"><i class="fa fa-user-plus mr-1"></i> Vaccine Administration System</a>
                         <a class="dropdown-item {{ request()->is('register/vaccinator') ? 'active' : '' }}" href="{{ url('/register/vaccinator') }}"><i class="fa fa-user-md mr-1"></i> Vaccinator</a>
                     </div>
                 </li>
