@@ -131,15 +131,16 @@
                 </button>
             </div>
             <form action="{{ url('/vas/upload') }}" method="post" enctype="multipart/form-data">
+                {{ csrf_field() }}
                 <input type="hidden" name="id" id="status_id">
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Vaccination Date:</label>
-                        <input type="date" class="form-control" value="{{ date('Y-m-d') }}">
+                        <input type="date" name="vaccination_date" class="form-control" value="{{ date('Y-m-d') }}">
                     </div>
                     <div class="form-group">
                         <label>CSV File</label>
-                        <input type="file" name="file" required class="form-control btn">
+                        <input type="file" name="file" required class="form-control btn" accept=".csv">
                     </div>
                 </div>
                 <div class="modal-footer">

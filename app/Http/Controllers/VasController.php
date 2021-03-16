@@ -480,4 +480,58 @@ class VasController extends Controller
 
         return 1;
     }
+
+    public function uploadList(Request $request)
+    {
+        $date = date('Y-m-d',strtotime($request->vaccination_date));
+        if($request->hasFile('file'))
+        {
+            $file_name = $request->file('file')->getClientOriginalName();
+            $request->file('file')->storeAs('upload',$file_name);
+        }
+        $path = storage_path()."/app/upload/".$file_name;
+        $data = $this->csvToArray($path);
+        foreach($data as $row)
+        {
+            $row['firstname'] = utf8_encode($row['firstname']);
+            $row['lastname'] = utf8_encode($row['lastname']);
+            $row['middlename'] =utf8_encode($row['middlename']);
+
+            $match = array(
+                'lastname' => $row['lastname'],
+                'firstname' => $row['firstname'],
+                'middlename' => $row['middlename'],
+            );
+            $row['birthdate'] = date('Y-m-d',strtotime($row['birthdate']));
+            $vas = Vas::updateOrCreate($match,$row);
+            $id = $vas->id;
+            $this->generateVaccinationDate($id,$date);
+        }
+        unlink($path);
+        return redirect()->back();
+    }
+
+    function csvToArray($filename = '', $delimiter = ',')
+    {
+        if (!file_exists($filename) || !is_readable($filename))
+            return false;
+
+        $header = null;
+        $data = array();
+        if (($handle = fopen($filename, 'r')) !== false)
+        {
+            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
+            {
+                if(!$row[0])
+                    break;
+                if (!$header)
+                    $header = $row;
+                else
+                    $data[] = array_combine($header, $row);
+            }
+            fclose($handle);
+        }
+
+        return $data;
+    }
 }
