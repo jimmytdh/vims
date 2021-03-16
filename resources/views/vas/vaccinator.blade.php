@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title','Manage Doctors')
+@section('title','Manage Vaccinators')
 @section('css')
     <link href="{{ url('/plugins/DataTables/datatables.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/plugins/bootstrap-editable/css/bootstrap-editable.css') }}">
