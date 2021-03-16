@@ -39,6 +39,10 @@ Route::get('/provinces/{regCode}',[AreaController::class,'getProvinces']);
 Route::get('/muncity/{provCode}',[AreaController::class,'getMuncity']);
 Route::get('/barangay/{citymunCode}',[AreaController::class,'getBrgy']);
 
+//Registration
+Route::get('/register',[RegistrationController::class,'index'])->name('register');
+Route::post('/register',[RegistrationController::class,'register'])->name('post.register');
+
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/chart', [HomeController::class, 'chart'])->name('chart');
@@ -103,9 +107,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/vaccine/update/list',[VaccineController::class,'fixUpdate'])->name('vaccine.update.list');
 
 
-    //Registration
-    Route::get('/register',[RegistrationController::class,'index'])->name('register');
-    Route::post('/register',[RegistrationController::class,'register'])->name('post.register');
+
 
 //    Route::get('/fix/users',[RegistrationController::class,'updateUsers']);
 
