@@ -28,9 +28,9 @@
                         <i class="fa fa-database"></i> Master List
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item {{ request()->is('list') ? 'active' : '' }}" href="{{ url('/list') }}"><i class="fa fa-users mr-1"></i> Immunization Registry</a>
-                        <a class="dropdown-item {{ request()->is('list/vas') ? 'active' : '' }}" href="{{ url('/list/vas') }}"><i class="fa fa-users mr-1"></i> Vaccine Administration System</a>
-                        <a class="dropdown-item {{ request()->is('list/vas/all') ? 'active' : '' }}" href="{{ url('/list/vas/all') }}"><i class="fa fa-users mr-1"></i> VAS Data</a>
+                        <a class="dropdown-item {{ request()->is('list') ? 'active' : '' }}" href="{{ url('/list') }}"><i class="fa fa-users mr-1"></i> Personnel</a>
+                        <a class="dropdown-item {{ request()->is('list/vas') ? 'active' : '' }}" href="{{ url('/list/vas') }}"><i class="fa fa-users mr-1"></i> Vaccinees</a>
+                        <a class="dropdown-item {{ request()->is('list/vas/all') ? 'active' : '' }}" href="{{ url('/list/vas/all') }}"><i class="fa fa-users mr-1"></i> All Data</a>
                     </div>
                 </li>
 
@@ -39,8 +39,8 @@
                         <i class="fa fa-list"></i> Registration
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item {{ request()->is('register') ? 'active' : '' }}" href="{{ url('/register') }}"><i class="fa fa-user-plus mr-1"></i> Immunization Registry</a>
-                        <a class="dropdown-item {{ request()->is('register/vas') ? 'active' : '' }}" href="{{ url('/register/vas') }}"><i class="fa fa-user-plus mr-1"></i> Vaccine Administration System</a>
+                        <a class="dropdown-item {{ request()->is('register') ? 'active' : '' }}" href="{{ url('/register') }}"><i class="fa fa-user-plus mr-1"></i> Personnel</a>
+                        <a class="dropdown-item {{ request()->is('register/vas') ? 'active' : '' }}" href="{{ url('/register/vas') }}"><i class="fa fa-user-plus mr-1"></i> Vaccinees</a>
                         <a class="dropdown-item {{ request()->is('vas/vaccinator') ? 'active' : '' }}" href="{{ url('/vas/vaccinator') }}"><i class="fa fa-user-md mr-1"></i> Vaccinator</a>
                     </div>
                 </li>

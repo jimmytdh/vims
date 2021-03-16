@@ -130,6 +130,7 @@ class LimitController extends Controller
                         $btn = "<a href='$urlCard' target='_blank' class='btn btn-sm btn-info'><i class='fa fa-id-card'></i></a>";
                         $btn2 = "<a href='#vaccineModal' data-id='$data->id' data-toggle='modal' class='btn btn-sm btn-warning'><i class='fa fa-eyedropper'></i></a>";
                         $btn3 = "<a href='#scheduleModal' data-id='$data->id' data-toggle='modal' class='btn btn-sm btn-primary'><i class='fa fa-calendar'></i></a>";
+                        $btn4 = "<a href='#scheduleModal' data-id='$data->id' data-toggle='modal' class='btn btn-sm btn-primary'><i class='fa fa-calendar'></i></a>";
                     }
                     return "$btn $btn2 $btn3";
                 })

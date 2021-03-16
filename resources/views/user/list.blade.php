@@ -17,6 +17,7 @@
         }
         .editable { cursor: pointer; }
         .search { width: 100%; display: inline-block}
+        .btn-success { border-color: #009246 !important;}
     </style>
 @endsection
 
@@ -76,6 +77,9 @@
 
 @endsection
 
+@section('modal')
+    @include('user.modal')
+@endsection
 @section('js')
     <script src="{{ url('/plugins/DataTables/datatables.min.js') }}"></script>
     <script src="{{ url('/plugins/DataTables/buttons.colVis.min.js') }}"></script>
@@ -124,23 +128,23 @@
                 buttons: [
                     {
                         extend: 'colvis',
-                        className: 'btn btn-default',
+                        className: 'btn btn-success',
                         text: '<i class="fa fa-copy"></i> Show'
                     },
                     {
                         extend: 'copy',
-                        className: 'btn btn-default',
+                        className: 'btn btn-success',
                         text: '<i class="fa fa-copy"></i> Copy'
                     },{
                         text: '<i class="fa fa-list"></i> Group List',
-                        className: 'btn btn-default',
+                        className: 'btn btn-success',
                         action: function () {
                             $("#listModal").modal();
                             $(".count_ids").html(table.rows('.selected').data().length +' row(s) selected');
                         }
                     },{
                         text: '<i class="fa fa-eyedropper"></i> Vaccine',
-                        className: 'btn btn-default',
+                        className: 'btn btn-success',
                         action: function () {
                             $("#vaccineModal").modal();
                             $(".count_ids").html(table.rows('.selected').data().length +' row(s) selected');
@@ -154,9 +158,16 @@
                         }
                     },{
                         text: '<i class="fa fa-calendar"></i> Schedule',
-                        className: 'btn btn-default',
+                        className: 'btn btn-success',
                         action: function () {
                             $("#scheduleModal").modal();
+                            $(".count_ids").html(table.rows('.selected').data().length +' row(s) selected');
+                        }
+                    },{
+                        text: '<i class="fa fa-exchange"></i> Transfer',
+                        className: 'btn btn-success',
+                        action: function () {
+                            $("#transferModal").modal();
                             $(".count_ids").html(table.rows('.selected').data().length +' row(s) selected');
                         }
                     }
@@ -260,7 +271,6 @@
                 $('a[href="#scheduleModal"]').on('click',function (){
                     var id = $(this).data('id');
                     $("#schedule_id").val(id);
-                    console.log(id);
                 });
             }
             $("body").on('submit',"#groupListForm",function(e){
@@ -285,6 +295,15 @@
                 e.preventDefault();
                 showLoader();
                 $("#scheduleModal").modal('hide');
+                var url = $(this).attr('action');
+                var formData = new FormData(this);
+                submitForm(url, formData);
+            });
+
+            $("body").on('submit','#transferForm',function (e){
+                e.preventDefault();
+                showLoader();
+                $("#transferModal").modal('hide');
                 var url = $(this).attr('action');
                 var formData = new FormData(this);
                 submitForm(url, formData);

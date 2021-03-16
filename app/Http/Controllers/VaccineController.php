@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FinalList;
 use App\Models\Vaccine;
+use App\Models\Vas;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -72,6 +73,42 @@ class VaccineController extends Controller
             $match['emp_id'] = $request->emp_id;
             $update['schedule'] = $request->date;
             Vaccine::updateOrCreate($match,$update);
+        }
+    }
+
+    public function transfer(Request $request)
+    {
+        $id_list = explode(',',$request->id_list);
+        $date = $request->date;
+        foreach($id_list as $id)
+        {
+            if($id == null)
+                return 'Empty';
+
+            $list = FinalList::find($id);
+            $match = array(
+                'firstname' => $list->firstname,
+                'middlename' => $list->middlename,
+                'lastname' => $list->lastname,
+                'suffix' => $list->suffix,
+            );
+            $data = array(
+                'category' => $list->category,
+                'category_id' => $list->categoryid,
+                'category_id_number' => $list->categoryidnumber,
+                'philhealth_id' => $list->philhealthid,
+                'pwd_id' => $list->pwd_id,
+                'contact_no' => $list->contact_no,
+                'street_name' => $list->full_address,
+                'region' => $list->region,
+                'province' => $list->province,
+                'muncity' => $list->muncity,
+                'brgy' => $list->barangay,
+                'sex' => $list->sex,
+                'birthdate' => $list->birthdate,
+            );
+            $vac = Vas::updateOrCreate($match,$data);
+            VasController::generateVaccinationDate($vac->id,$date);
         }
     }
 

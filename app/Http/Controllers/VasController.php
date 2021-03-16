@@ -331,7 +331,7 @@ class VasController extends Controller
         return redirect()->back()->with($status,true);
     }
 
-    public function generateVaccinationDate($id,$date)
+    public static function generateVaccinationDate($id,$date)
     {
         $data = Vas::find($id);
         $row['consent'] = '01_Yes';
