@@ -128,7 +128,9 @@ class VasController extends Controller
                     return $dose;
                 })
                 ->addColumn('vaccination_date', function($data){
-                    return Carbon::parse($data->vaccination_date)->format('M d, Y');
+                    $date = Carbon::parse($data->vaccination_date)->format('M d, Y');
+
+                    return "<span class='vaccination_date' data-name='vaccination_date' data-pk='$data->id' data-value='$date' data-type='date' data-title='Change Vaccination Date'>$date</span>";
                 })
                 ->addColumn('consent', function($data){
                     return ($data->consent=='01_Yes') ? 'Yes' : 'No';
@@ -162,7 +164,7 @@ class VasController extends Controller
                     $btn6 = "<a href='#statusModal' data-toggle='modal' data-backdrop='static' data-id='$data->id' class='btn btn-sm btn-primary'><i class='fa fa-exclamation-circle'></i></a>";
                     return "$btn1 $btn2 $btn3 $btn4 $btn5 $btn6";
                 })
-                ->rawColumns(['fullname','deferral','action'])
+                ->rawColumns(['fullname','deferral','action','vaccination_date'])
                 ->make(true);
         }
         return view('vas.index',compact('date'));
@@ -276,6 +278,15 @@ class VasController extends Controller
     {
         Vaccination::find($id)->delete();
         return redirect()->back()->with('deleted',true);
+    }
+
+    public function editable(Request $request)
+    {
+        Vaccination::find($request->pk)
+            ->update([
+                $request->name => $request->value
+            ]);
+        return 1;
     }
 
     public function register()

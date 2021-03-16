@@ -196,6 +196,19 @@
                     var id = $(this).data('id');
                     $("#status_id").val(id);
                 });
+
+                $('.vaccination_date').editable({
+                    url: "{{ url('/vas/editable') }}",
+                    format: 'yyyy-mm-dd',
+                    viewformat: 'M dd, yyyy',
+                    datepicker: {
+                        weekStart: 0
+                    },
+                    success: function(data){
+                        var oTable = $('#dataTable').dataTable();
+                        oTable.fnDraw(false);
+                    }
+                });
             }
 
             $('body').on('submit','#vaccinationForm',function(e){
