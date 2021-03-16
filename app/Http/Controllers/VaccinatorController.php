@@ -18,7 +18,7 @@ class VaccinatorController extends Controller
                     return $r;
                 })
                 ->addColumn('profession', function($row){
-                    $r = "<span id='profession' data-type='select' data-pk='$row->id' data-title='Profession' data-value='$row->profession'>$row->profession</span>";
+                    $r = "<span class='profession' data-name='profession' data-type='select' data-pk='$row->id' data-title='Profession' data-value='$row->profession'>$row->profession</span>";
                     return $r;
                 })
                 ->addColumn('updated_at', function($row){

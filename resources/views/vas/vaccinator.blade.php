@@ -132,7 +132,7 @@
                     }
                 });
 
-                $('#profession').editable({
+                $('.profession').editable({
                     url: "{{ route('update.vaccinator') }}",
                     source: [
                         {value: 'Doctor', text: 'Doctor'},
