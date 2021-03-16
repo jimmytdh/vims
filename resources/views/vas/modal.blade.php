@@ -119,3 +119,35 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="uploadModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Upload QSL</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ url('/vas/upload') }}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" id="status_id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Vaccination Date:</label>
+                        <input type="date" class="form-control" value="{{ date('Y-m-d') }}">
+                    </div>
+                    <div class="form-group">
+                        <label>CSV File</label>
+                        <input type="file" name="file" required class="form-control btn">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success btn-lg btn-block">
+                        <i class="fa fa-check-circle"></i> Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

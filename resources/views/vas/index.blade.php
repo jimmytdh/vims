@@ -117,6 +117,15 @@
                             $("#calendarModal").modal();
                         }
                     }
+                    @if(auth()->user()->isAdmin())
+                    ,{
+                        text: '<i class="fa fa-cloud-upload"></i> Upload List',
+                        className: 'btn btn-warning',
+                        action: function () {
+                            $("#uploadModal").modal();
+                        }
+                    }
+                    @endif
                 ]
             });
 

@@ -135,6 +135,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/export/vas',[VasController::class,'exportData']);
     Route::post('/vas/schedule',[VasController::class,'schedule']);
     Route::get('/vas/schedule/delete/{id}',[VasController::class,'deleteVaccination']);
+    Route::post('/vas/upload',[VasController::class,'uploadList']);
 
     //CBCR Reporting
     Route::get('/cbcr',[QuickCountController::class,'index']);
