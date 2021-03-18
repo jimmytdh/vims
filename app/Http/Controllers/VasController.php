@@ -507,6 +507,7 @@ class VasController extends Controller
             $row['firstname'] = utf8_encode($row['firstname']);
             $row['lastname'] = utf8_encode($row['lastname']);
             $row['middlename'] =utf8_encode($row['middlename']);
+            $row['philhealth_id'] =utf8_encode($row['philhealth_id']);
 
             $match = array(
                 'lastname' => $row['lastname'],
@@ -539,6 +540,7 @@ class VasController extends Controller
                     $header = $row;
                 else
                     $data[] = array_combine($header, $row);
+
             }
             fclose($handle);
         }

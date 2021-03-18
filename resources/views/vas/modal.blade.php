@@ -136,7 +136,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Vaccination Date:</label>
-                        <input type="date" name="vaccination_date" class="form-control" value="{{ date('Y-m-d') }}">
+                        <input type="date" name="vaccination_date" class="form-control" value="{{ $date }}">
                     </div>
                     <div class="form-group">
                         <label>CSV File</label>
