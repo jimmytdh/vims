@@ -152,6 +152,9 @@ class VasController extends Controller
                                 ->where('id','>',$data->id)
                                 ->first();
                     $date = Carbon::parse($data->vaccination_date)->addWeek(4)->format('Y-m-d');
+                    if($data->vaccine_manufacturer=='Astrazeneca'){
+                        $date = Carbon::parse($data->vaccination_date)->addWeek(8)->format('Y-m-d');
+                    }
                     $btn5 = "<a href='#nextVisitModal' data-toggle='modal' data-backdrop='static' data-date='$date' data-id='$data->vac_id' class='btn btn-sm btn-warning'><i class='fa fa-calendar'></i></a>";
                     if($nextDose)
                         $btn5 = null;
@@ -171,6 +174,92 @@ class VasController extends Controller
     }
 
     public function allData()
+    {
+        $date = date("Y-m-d");
+        if(request()->ajax()) {
+            $data = Vas::leftJoin('vaccinations','vaccinations.vac_id','=','vas.id')
+                ->orderBy('lastname','asc')
+                ->get();
+
+            return DataTables::of($data)
+                ->addColumn('fullname',function ($data){
+                    $suffix = ($data->suffix!='NA') ? $data->suffix: '';
+                    $name = "$data->lastname, $data->firstname $data->middlename $suffix";
+                    $class = 'success';
+                    if($data->defferal) {
+                        $class = 'danger';
+                    }
+                    return "<span class='text-$class'>$name</span>";
+                })
+                ->addColumn('gender',function ($data){
+                    return ($data->sex=='02_Male') ? 'Male' : 'Female';
+                })
+
+                ->addColumn('deferral',function ($data){
+                    $deferral = ($data->deferral) ? $data->deferral : null;
+
+                    return "<span class='text-danger'>$deferral</span>";
+                })
+                ->addColumn('age', function($data){
+                    return Carbon::parse($data->birthdate)->diff(Carbon::now())->format('%y');
+                })
+                ->addColumn('dose', function($data){
+                    $dose = '-';
+                    if($data->dose1=='01_Yes')
+                        $dose = '1st';
+                    elseif($data->dose2=='01_Yes')
+                        $dose = '2nd';
+
+                    return $dose;
+                })
+                ->addColumn('vaccination_date', function($data){
+                    $date = Carbon::parse($data->vaccination_date)->format('M d, Y');
+
+                    return "<span class='vaccination_date' data-name='vaccination_date' data-pk='$data->id' data-value='$date' data-type='date' data-title='Change Vaccination Date'>$date</span>";
+                })
+                ->addColumn('consent', function($data){
+                    return ($data->consent=='01_Yes') ? 'Yes' : 'No';
+                })
+                ->addColumn('action', function($data){
+                    $editUrl = url('list/vas/edit',$data->vac_id);
+                    $deleteUrl = url('/vas/schedule/delete/'.$data->id);
+                    $btn1 = "<a href='$editUrl' class='btn btn-sm btn-success'><i class='fa fa-edit'></i></a>";
+                    $btn2 = null;
+                    if(Auth::user()->isAdmin()):
+                        $btn2 = "<a href='#deleteModal' data-toggle='modal' data-backdrop='static' data-url='$deleteUrl' data-title='Delete Record?' data-id='$data->vac_id' class='btnDelete btn btn-sm btn-danger'><i class='fa fa-trash'></i></a>";
+                    endif;
+
+                    $btn4 = null;
+                    $btn3 = "<a href='#healthModal' data-toggle='modal' data-backdrop='static' data-id='$data->vac_id' class='btn btn-sm btn-info'><i class='fa fa-stethoscope'></i></a>";
+                    if(!$data->deferral){
+                        $btn4 = "<a href='#vaccinationModal' data-toggle='modal' data-backdrop='static' data-id='$data->vac_id' class='btn btn-sm btn-warning'><i class='fa fa-eyedropper'></i></a>";
+                    }
+                    $nextDose = Vaccination::where('vac_id',$data->vac_id)
+                        ->where('id','>',$data->id)
+                        ->first();
+                    $date = Carbon::parse($data->vaccination_date)->addWeek(4)->format('Y-m-d');
+                    if($data->vaccine_manufacturer=='Astrazeneca'){
+                        $date = Carbon::parse($data->vaccination_date)->addWeek(8)->format('Y-m-d');
+                    }
+                    $btn5 = "<a href='#nextVisitModal' data-toggle='modal' data-backdrop='static' data-date='$date' data-id='$data->vac_id' class='btn btn-sm btn-warning'><i class='fa fa-calendar'></i></a>";
+                    if($nextDose)
+                        $btn5 = null;
+                    if($data->dose1!='01_Yes')
+                        $btn5 = null;
+                    if($data->deferral && !$nextDose){
+                        $date = Carbon::now()->format('Y-m-d');
+                        $btn5 = "<a href='#nextVisitModal' data-toggle='modal' data-backdrop='static' data-date='$date' data-id='$data->vac_id' class='btn btn-sm btn-warning'><i class='fa fa-calendar'></i></a>";
+                    }
+                    $btn6 = "<a href='#statusModal' data-toggle='modal' data-backdrop='static' data-id='$data->id' class='btn btn-sm btn-primary'><i class='fa fa-exclamation-circle'></i></a>";
+                    return "$btn2 $btn3 $btn4 $btn5 $btn6";
+                })
+                ->rawColumns(['fullname','deferral','action','vaccination_date'])
+                ->make(true);
+        }
+        return view('vas.all',compact('date'));
+    }
+
+    public function allData2()
     {
 
         if(request()->ajax()) {

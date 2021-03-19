@@ -23,7 +23,7 @@
 
 @section('content')
     <h2 class="text-success title-header">
-        All Scheduled Vaccinees
+        All Vaccinees
     </h2>
 
     <hr style="size: 2px;border:none;color:#ccc;">
@@ -33,8 +33,6 @@
             <tr>
                 <th>Action</th>
                 <th>Full Name</th>
-                <th>Facility</th>
-                <th>Category</th>
                 <th>Gender</th>
                 <th>Age</th>
                 <th>Vaccination Date</th>
@@ -53,7 +51,7 @@
 @endsection
 
 @section('modal')
-    @include('vas.modal')
+
 @endsection
 @section('js')
     <script src="{{ url('/plugins/DataTables/datatables.min.js') }}"></script>
@@ -64,12 +62,10 @@
             var table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ url('/list/vas/all') }}",
+                ajax: "{{ route('vas.all') }}",
                 columns: [
                     { data: 'action', name: 'action'},
                     { data: 'fullname', name: 'fullname'},
-                    { data: 'facility', name: 'facility'},
-                    { data: 'category', name: 'category'},
                     { data: 'gender', name: 'gender'},
                     { data: 'age', name: 'age'},
                     { data: 'vaccination_date', name: 'vaccination_date'},
@@ -91,7 +87,7 @@
                     { className: 'text-right' , targets: []},
                     { className: 'align-middle' , targets: []},
                     {
-                        targets: [2,3,4,10,11,12], visible: false, searchable: true
+                        targets: [2,8,9,10], visible: false, searchable: true
                     }
                 ],
                 "pageLength": 10,
@@ -108,28 +104,7 @@
                         extend: 'copy',
                         className: 'btn btn-success',
                         text: '<i class="fa fa-copy"></i> Copy'
-                    },{
-                        text: '<i class="fa fa-file-excel-o"></i> Export',
-                        className: 'btn btn-success',
-                        action: function () {
-                            location.href = "{{ url('/export/vas') }}";
-                        }
-                    },{
-                        text: '<i class="fa fa-calendar"></i> Change Date',
-                        className: 'btn btn-success',
-                        action: function () {
-                            $("#calendarModal").modal();
-                        }
                     }
-                    @if(auth()->user()->isAdmin())
-                    ,{
-                        text: '<i class="fa fa-cloud-upload"></i> Upload List',
-                        className: 'btn btn-warning',
-                        action: function () {
-                            $("#uploadModal").modal();
-                        }
-                    }
-                    @endif
                 ]
             });
 
@@ -195,24 +170,6 @@
                     $("#nextDate").val(date);
                     $("#vac_id").val(id);
                 });
-
-                $('a[href="#statusModal"]').on('click',function(){
-                    var id = $(this).data('id');
-                    $("#status_id").val(id);
-                });
-
-                $('.vaccination_date').editable({
-                    url: "{{ url('/vas/editable') }}",
-                    format: 'yyyy-mm-dd',
-                    viewformat: 'M dd, yyyy',
-                    datepicker: {
-                        weekStart: 0
-                    },
-                    success: function(data){
-                        var oTable = $('#dataTable').dataTable();
-                        oTable.fnDraw(false);
-                    }
-                });
             }
 
             $('body').on('submit','#vaccinationForm',function(e){
@@ -237,15 +194,6 @@
                 e.preventDefault();
                 showLoader();
                 $("#nextVisitModal").modal('hide');
-                var url = $(this).attr('action');
-                var formData = new FormData(this);
-                submitForm(url, formData);
-            });
-
-            $('body').on('submit','#statusForm',function(e){
-                e.preventDefault();
-                showLoader();
-                $("#statusModal").modal('hide');
                 var url = $(this).attr('action');
                 var formData = new FormData(this);
                 submitForm(url, formData);

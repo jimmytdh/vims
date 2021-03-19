@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
             <label>Vaccine Manufacturer Name</label>
-            <select name="vaccine_manufacturer" class="custom-select consent" required>
+            <select name="vaccine_manufacturer" class="custom-select consent">
                 <option value="">Select...</option>
                 <option {{ ($data->vaccine_manufacturer=='Astrazeneca') ? 'selected':'' }}>Astrazeneca</option>
                 <option {{ ($data->vaccine_manufacturer=='Sinovac') ? 'selected':'' }}>Sinovac</option>
@@ -49,6 +49,7 @@
         <div class="form-group">
             <label>Dose</label>
             <select name="dose" class="custom-select">
+                <option value="">Select...</option>
                 <option {{ ($dose==0) ? 'selected':'' }} value="dose1">1st Dose</option>
                 <option {{ ($dose>0) ? 'selected':'' }} value="dose2">2nd Dose</option>
             </select>
