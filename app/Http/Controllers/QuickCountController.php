@@ -18,7 +18,7 @@ class QuickCountController extends Controller
         else if($col=='02b')
             return Vaccination::where('vaccine_manufacturer','Sinovac')->where('vaccination_date',$date)->count();
         else if($col=='05')
-            return Vaccination::where('deferral','!=',null)->where('vaccination_date',$date)->count();
+            return Vaccination::whereNotNull('deferral')->where('vaccination_date',$date)->count();
         else if($col=='06')
             return Vaccination::where('status','Previous deferral')->where('vaccination_date',$date)->count();
         else if($col=='07')
