@@ -2,7 +2,7 @@
 @section('title','Registration (Sinovac Vaccination)')
 @section('css')
     <style>
-        .required { color:red; }
+        . { color:red; }
         label {
             font-weight: normal;
             color: grey;
@@ -37,8 +37,8 @@
         <h4 class="title-header text-danger">Category</h4>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label>Category <span class="required">*</span></label>
-                <select name="category" id="category" class="custom-select" required>
+                <label>Category</label>
+                <select name="category" id="category" class="custom-select" >
                     <option value="">Select Here...</option>
                     @foreach($category as $row)
                         <?php
@@ -51,8 +51,8 @@
                 </select>
             </div>
             <div class="form-group col-md-4">
-                <label>Type of ID <span class="required">*</span></label>
-                <select name="category_id" id="category_id" class="custom-select" required>
+                <label>Type of ID</label>
+                <select name="category_id" id="category_id" class="custom-select" >
                     <option value="">Select Here...</option>
                     @foreach($categoryID as $row)
                         <?php
@@ -65,14 +65,14 @@
                 </select>
             </div>
             <div class="form-group col-md-4">
-                <label>ID Number <span class="required">*</span></label>
-                <input type="text" name="category_id_number" value="{{ $data->category_id_number }}" class="form-control" required>
+                <label>ID Number</label>
+                <input type="text" name="category_id_number" value="{{ $data->category_id_number }}" class="form-control" >
             </div>
         </div>
         <div class="form-row mt-3">
             <div class="form-group col-md-4">
-                <label>Facility <span class="required">*</span></label>
-                <select name="facility" class="custom-select" required>
+                <label>Facility</label>
+                <select name="facility" class="custom-select" >
                     <option value="">Select...</option>
                     <option @if($data->facility=='Cebu South Medical Center') selected @endif>Cebu South Medical Center</option>
                     <option @if($data->facility=='Vicente Sotto Memorial Medical Center') selected @endif>Vicente Sotto Memorial Medical Center</option>
@@ -80,8 +80,8 @@
                 </select>
             </div>
             <div class="form-group col-md-4">
-                <label>PhilHealth ID <span class="required">*</span></label>
-                <input type="text" name="philhealth_id" value="{{ $data->philhealth_id }}" class="form-control" required>
+                <label>PhilHealth ID</label>
+                <input type="text" name="philhealth_id" value="{{ $data->philhealth_id }}" class="form-control" >
             </div>
             <div class="form-group col-md-4">
                 <label>PWD ID</label>
@@ -93,20 +93,20 @@
         <h4 class="title-header text-danger mt-5">Basic Information</h4>
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label>First Name <span class="required">*</span></label>
-                <input type="text" name="firstname" value="{{ $data->firstname }}" class="form-control" required>
+                <label>First Name</label>
+                <input type="text" name="firstname" value="{{ $data->firstname }}" class="form-control" >
             </div>
             <div class="form-group col-md-3">
-                <label>Middle Name <span class="required">*</span></label>
-                <input type="text" name="middlename" value="{{ $data->middlename }}" class="form-control" required>
+                <label>Middle Name</label>
+                <input type="text" name="middlename" value="{{ $data->middlename }}" class="form-control" >
             </div>
             <div class="form-group col-md-3">
-                <label>Last Name <span class="required">*</span></label>
-                <input type="text" name="lastname" value="{{ $data->lastname }}" class="form-control" required>
+                <label>Last Name</label>
+                <input type="text" name="lastname" value="{{ $data->lastname }}" class="form-control" >
             </div>
             <div class="form-group col-md-3">
                 <label>Extension Name</label>
-                <select name="suffix" class="custom-select" required>
+                <select name="suffix" class="custom-select" >
                     <option value="">Select Here...</option>
                     <option selected>NA</option>
                     <option @if($data->suffix=='SR') selected @endif>SR</option>
@@ -121,28 +121,28 @@
         </div>
         <div class="form-row mt-3">
             <div class="form-group col-md-4">
-                <label>Gender <span class="required">*</span></label>
-                <select name="sex" class="custom-select" required>
+                <label>Gender</label>
+                <select name="sex" class="custom-select" >
                     <option value="">Select Here...</option>
                     <option @if($data->sex=='01_Female') selected @endif value="01_Female">Female</option>
                     <option @if($data->sex=='02_Male') selected @endif value="02_Male">Male</option>
                 </select>
             </div>
             <div class="form-group col-md-4">
-                <label>Date of Birth <span class="required">*</span></label>
-                <input type="date" name="birthdate" value="{{ $data->birthdate }}" class="form-control" required>
+                <label>Date of Birth</label>
+                <input type="date" name="birthdate" value="{{ $data->birthdate }}" class="form-control" >
             </div>
             <div class="form-group col-md-4">
-                <label>Contact Number <span class="required">*</span></label>
-                <input type="text" name="contact_no" value="{{ $data->contact_no }}" class="form-control" required>
+                <label>Contact Number</label>
+                <input type="text" name="contact_no" value="{{ $data->contact_no }}" class="form-control" >
             </div>
         </div>
 
         <h4 class="title-header text-danger mt-5">Address</h4>
         <div class="form-row">
             <div class="form-group col-md-4">
-                <label>Region <span class="required">*</span></label>
-                <select name="region" id="address_region" class="custom-select" required>
+                <label>Region</label>
+                <select name="region" id="address_region" class="custom-select" >
                     <option value="">Select Here...</option>
                     @foreach($region as $row)
                         <option {{ ($row->vimsCode==$data->region) ? 'selected':'' }} value="{{ $row->vimsCode }}">{{ $row->regDesc }}</option>
@@ -150,8 +150,8 @@
                 </select>
             </div>
             <div class="form-group col-md-4">
-                <label>Province <span class="required">*</span></label>
-                <select name="province" id="address_province" class="custom-select" required>
+                <label>Province</label>
+                <select name="province" id="address_province" class="custom-select" >
                     <option value="">Select Here...</option>
                     @foreach($provinces as $row)
                         <option {{ ($row->vimsCode==$data->province) ? 'selected':'' }} value="{{ $row->vimsCode }}">{{ $row->provDesc }}</option>
@@ -159,8 +159,8 @@
                 </select>
             </div>
             <div class="form-group col-md-4">
-                <label>Municipality/City <span class="required">*</span></label>
-                <select name="muncity" id="address_muncity" class="custom-select" required>
+                <label>Municipality/City</label>
+                <select name="muncity" id="address_muncity" class="custom-select" >
                     <option value="">Select Here...</option>
                     @foreach($muncity as $row)
                         <option @if($data->muncity == $row->vimsCode) selected @endif value="{{ $row->vimsCode }}">{{ $row->citymunDesc }}</option>
@@ -170,8 +170,8 @@
         </div>
         <div class="form-row mt-3">
             <div class="form-group col-md-6">
-                <label>Barangay <span class="required">*</span></label>
-                <select name="brgy" id="address_brgy" class="custom-select" required>
+                <label>Barangay</label>
+                <select name="brgy" id="address_brgy" class="custom-select" >
                     <option value="">Select Here...</option>
                     @foreach($brgy as $row)
                         <option @if($data->brgy == $row->vimsCode) selected @endif value="{{ $row->vimsCode }}">{{ $row->brgyDesc }}</option>
@@ -179,8 +179,8 @@
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label>Unit/Building/House#/Street Name <span class="required">*</span></label>
-                <input type="text" name="street_name" value="{{ $data->street_name }}" class="form-control" required>
+                <label>Unit/Building/House#/Street Name</label>
+                <input type="text" name="street_name" value="{{ $data->street_name }}" class="form-control" >
             </div>
         </div>
         <hr>

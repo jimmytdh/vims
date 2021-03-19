@@ -106,6 +106,7 @@ class VaccineController extends Controller
                 'brgy' => $list->barangay,
                 'sex' => $list->sex,
                 'birthdate' => $list->birthdate,
+                'facility' => 'Cebu South Medical Center',
             );
             $vac = Vas::updateOrCreate($match,$data);
             VasController::generateVaccinationDate($vac->id,$date);
