@@ -27,5 +27,6 @@ class Vas extends Model
         'brgy',
         'sex',
         'birthdate',
+        'facility',
     ];
 }

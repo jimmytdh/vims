@@ -33,6 +33,7 @@
             <tr>
                 <th>Action</th>
                 <th>Full Name</th>
+                <th>Facility</th>
                 <th>Gender</th>
                 <th>Age</th>
                 <th>Vaccination Date</th>
@@ -61,11 +62,12 @@
         $(document).ready(function() {
             var table = $('#dataTable').DataTable({
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 ajax: "{{ url('/list/vas') }}",
                 columns: [
                     { data: 'action', name: 'action'},
                     { data: 'fullname', name: 'fullname'},
+                    { data: 'facility', name: 'facility'},
                     { data: 'gender', name: 'gender'},
                     { data: 'age', name: 'age'},
                     { data: 'vaccination_date', name: 'vaccination_date'},
@@ -87,7 +89,7 @@
                     { className: 'text-right' , targets: []},
                     { className: 'align-middle' , targets: []},
                     {
-                        targets: [2,8,9,10], visible: false, searchable: true
+                        targets: [2,3,9,10,11], visible: false, searchable: true
                     }
                 ],
                 "pageLength": 10,

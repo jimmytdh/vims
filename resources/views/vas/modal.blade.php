@@ -139,6 +139,15 @@
                         <input type="date" name="vaccination_date" class="form-control" value="{{ $date }}">
                     </div>
                     <div class="form-group">
+                        <label>Facility:</label>
+                        <select name="facility" class="custom-select" required>
+                            <option value="">Select...</option>
+                            <option>Cebu South Medical Center</option>
+                            <option>Vicente Sotto Memorial Medical Center</option>
+                            <option>LGU - Talisay City</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>CSV File</label>
                         <input type="file" name="file" required class="form-control btn" accept=".csv">
                     </div>

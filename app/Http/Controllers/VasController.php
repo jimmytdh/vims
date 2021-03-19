@@ -508,7 +508,9 @@ class VasController extends Controller
             $row['lastname'] = utf8_encode($row['lastname']);
             $row['middlename'] =utf8_encode($row['middlename']);
             $row['philhealth_id'] =utf8_encode($row['philhealth_id']);
+            $row['street_name'] =utf8_encode($row['street_name']);
 
+            $row['facility'] = $request->facility;;
             $match = array(
                 'lastname' => $row['lastname'],
                 'firstname' => $row['firstname'],
