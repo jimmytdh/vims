@@ -62,7 +62,7 @@
         $(document).ready(function() {
             var table = $('#dataTable').DataTable({
                 processing: true,
-                serverSide: false,
+                serverSide: true,
                 ajax: "{{ url('/list/vas') }}",
                 columns: [
                     { data: 'action', name: 'action'},
