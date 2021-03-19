@@ -469,24 +469,24 @@ class VasController extends Controller
 
     static function questions()
     {
-        $data[] = "Age more than 16 years old?";
-        $data[] = "Has no allergies to PEG or polysorbate?";
-        $data[] = "Has no severe allergic reaction after the 1st dose of the vaccine?";
-        $data[] = "Has no allergy to food, egg, medicines, and no asthma?";
-        $data[] = "If with allergy or asthma, will the vaccinator able to monitor the patient for 30 minutes?";
-        $data[] = "Has no history of bleeding disorders or currently taking anti-coagulants?";
-        $data[] = "If with bleeding history, is a gauge 23 - 25 syringe available for injection?";
-        $data[] = "Does not manifest any of the following symptoms: Fever/chills, Headache, Cough, Colds, Sore throat,  Myalgia, Fatigue, Weakness, Loss of smell/taste, Diarrhea, Shortness of breath/ difficulty in breathing";
-        $data[] = "If manifesting any of the mentioned symptom/s, specify all that apply";
-        $data[] = "Has no history of exposure to a confirmed or suspected COVID-19 case in the past 2 weeks?";
-        $data[] = "Has not been previously treated for COVID-19 in the past 90 days?";
-        $data[] = "Has not received any vaccine in the past 2 weeks?";
-        $data[] = "Has not received convalescent plasma or monoclonal antibodies for COVID-19 in the past 90 days?";
-        $data[] = "Not Pregnant?";
-        $data[] = "If pregnant, 2nd or 3rd Trimester?";
-        $data[] = "Does not have any of the following: HIV, Cancer/ Malignancy, Underwent Transplant, Under Steroid Medication/ Treatment, Bed Ridden, terminal illness, less than 6 months prognosis";
-        $data[] = "If with mentioned condition/s, specify.";
-        $data[] = "If with mentioned condition, has presented medical clearance prior to vaccination day?";
+        $data[0] = "Age more than 16 years old?";
+        $data[1] = "Allergic to PEG or polysorbate?";
+        $data[2] = "Severe allergic reaction after the 1st dose of the vaccine?";
+        $data[3] = "Allergic to food, egg, medicines, and no asthma?";
+        $data[4] = "If with allergy or asthma, will the vaccinator able to monitor the patient for 30 minutes?";
+        $data[5] = "History of bleeding disorders or currently taking anti-coagulants?";
+        $data[6] = "If with bleeding history, is a gauge 23 - 25 syringe available for injection?";
+        $data[7] = "Manifest any of the following symptoms: Fever/chills, Headache, Cough, Colds, Sore throat,  Myalgia, Fatigue, Weakness, Loss of smell/taste, Diarrhea, Shortness of breath/ difficulty in breathing";
+        $data[8] = "If manifesting any of the mentioned symptom/s, specify all that apply";
+        $data[9] = "History of exposure to a confirmed or suspected COVID-19 case in the past 2 weeks?";
+        $data[10] = "Previously treated for COVID-19 in the past 90 days?";
+        $data[11] = "Received any vaccine in the past 2 weeks?";
+        $data[12] = "Received convalescent plasma or monoclonal antibodies for COVID-19 in the past 90 days?";
+        $data[13] = "Pregnant?";
+        $data[14] = "If pregnant, 2nd or 3rd Trimester?";
+        $data[15] = "Have any of the following: HIV, Cancer/ Malignancy, Underwent Transplant, Under Steroid Medication/ Treatment, Bed Ridden, terminal illness, less than 6 months prognosis";
+        $data[16] = "If with mentioned condition/s, specify.";
+        $data[17] = "If with mentioned condition, has presented medical clearance prior to vaccination day?";
 
         return $data;
     }
