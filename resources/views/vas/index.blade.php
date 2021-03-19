@@ -34,6 +34,7 @@
                 <th>Action</th>
                 <th>Full Name</th>
                 <th>Facility</th>
+                <th>Category</th>
                 <th>Gender</th>
                 <th>Age</th>
                 <th>Vaccination Date</th>
@@ -68,6 +69,7 @@
                     { data: 'action', name: 'action'},
                     { data: 'fullname', name: 'fullname'},
                     { data: 'facility', name: 'facility'},
+                    { data: 'category', name: 'category'},
                     { data: 'gender', name: 'gender'},
                     { data: 'age', name: 'age'},
                     { data: 'vaccination_date', name: 'vaccination_date'},
@@ -89,7 +91,7 @@
                     { className: 'text-right' , targets: []},
                     { className: 'align-middle' , targets: []},
                     {
-                        targets: [2,3,9,10,11], visible: false, searchable: true
+                        targets: [2,3,4,10,11,12], visible: false, searchable: true
                     }
                 ],
                 "pageLength": 10,
