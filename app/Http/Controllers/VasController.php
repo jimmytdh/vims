@@ -340,10 +340,10 @@ class VasController extends Controller
         for($i=2; $i<=18;$i++)
         {
             $question = "question_".str_pad($i,2,0,STR_PAD_LEFT);
-            if( $i==9 || $i==17){
+            if( $i==9 || $i==17 || $i==5 || $i==7 || $i==15 || $i==18){
                 continue;
             }
-            $row[$question] = '02_No';
+            $row[$question] = '02_Yes';
         }
         $row['vac_id'] = $data->id;
         $row['vaccination_date'] = $date;
