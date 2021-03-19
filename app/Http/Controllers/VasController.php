@@ -416,12 +416,21 @@ class VasController extends Controller
             $status = 'duplicate';
         }
         $vac = Vas::updateOrCreate($match,$row);
-        $this->generateVaccinationDate($vac->id,$request->vaccination_date);
+        if($vac->wasRecentlyCreated){
+            $this->generateVaccinationDate($vac->id,$request->vaccination_date);
+        }
+
         return redirect()->back()->with($status,true);
     }
 
     public static function generateVaccinationDate($id,$date)
     {
+        $check = Vaccination::where('vac_id',$id)
+                    ->where('vaccination_date',$date)
+                    ->first();
+        if($check)
+            return 0;
+
         $data = Vas::find($id);
         $row['consent'] = '01_Yes';
         $age = Carbon::parse($data->birthdate)->diff(Carbon::now())->format('%y');
@@ -607,8 +616,9 @@ class VasController extends Controller
             );
             $row['birthdate'] = date('Y-m-d',strtotime($row['birthdate']));
             $vas = Vas::updateOrCreate($match,$row);
-            $id = $vas->id;
-            $this->generateVaccinationDate($id,$date);
+            if($vas->wasRecentlyCreated){
+                $this->generateVaccinationDate($vas->id,$request->vaccination_date);
+            }
         }
         unlink($path);
         return redirect()->back();

@@ -70,11 +70,20 @@
             </div>
         </div>
         <div class="form-row mt-3">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
+                <label>Facility <span class="required">*</span></label>
+                <select name="facility" class="custom-select" required>
+                    <option value="">Select...</option>
+                    <option @if($data->facility=='Cebu South Medical Center') selected @endif>Cebu South Medical Center</option>
+                    <option @if($data->facility=='Vicente Sotto Memorial Medical Center') selected @endif>Vicente Sotto Memorial Medical Center</option>
+                    <option @if($data->facility=='LGU - Talisay City') selected @endif>LGU - Talisay City</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
                 <label>PhilHealth ID <span class="required">*</span></label>
                 <input type="text" name="philhealth_id" value="{{ $data->philhealth_id }}" class="form-control" required>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label>PWD ID</label>
                 <input type="text" name="pwd_id" value="{{ $data->pwd_id }}" class="form-control">
             </div>
