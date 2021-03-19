@@ -17,6 +17,9 @@
             $age = \Carbon\Carbon::parse($data->birthdate)->diff(\Carbon\Carbon::now())->format('%y');
                 if($age>16 && $key==0)
                     $ans = '01_Yes';
+
+                if($key==14)
+                    $ans = '01_Yes';
         ?>
         @if($data->sex=='02_Male' && ($key==13 || $key==14))
             @continue
