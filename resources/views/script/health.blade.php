@@ -26,6 +26,15 @@
         }
     });
 
+    $('body').on('change','.question_14',function(){
+        var ans = $(this).val();
+        if(ans=='02_No'){
+            $('.div_question_15').removeClass('hidden');
+        }else{
+            $('.div_question_15').addClass('hidden');
+        }
+    });
+
     $('body').on('change','.question_16',function(){
         var ans = $(this).val();
         if(ans=='02_No'){
