@@ -567,12 +567,19 @@ class VasController extends Controller
         );
         $columns = $this->header();
         $columns['facility'] = 'facility';
+        $columns['age'] = 'age';
         $callback = function() use ($data, $columns){
             $file = fopen('php://output','w');
             $row = array();
             fputcsv($file,$columns);
             foreach($data as $list){
                 foreach($columns as $col){
+                    if($col=='age')
+                    {
+                        $age = Carbon::parse($list->birthdate)->diff(Carbon::now())->format('%y');
+                        $row[$col] = $age;
+                        continue;
+                    }
                     $row[$col] = utf8_decode($list->$col);
                 }
                 fputcsv($file,$row);
