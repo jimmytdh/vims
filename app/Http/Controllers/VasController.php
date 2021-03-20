@@ -566,6 +566,7 @@ class VasController extends Controller
             "Expires"             => "0"
         );
         $columns = $this->header();
+        $columns['facility'] = 'facility';
         $callback = function() use ($data, $columns){
             $file = fopen('php://output','w');
             $row = array();
