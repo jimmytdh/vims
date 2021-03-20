@@ -43,6 +43,10 @@ Route::get('/barangay/{citymunCode}',[AreaController::class,'getBrgy']);
 Route::get('/register',[RegistrationController::class,'index'])->name('register');
 Route::post('/register',[RegistrationController::class,'register'])->name('post.register');
 
+//vas registration
+Route::get('/register/vas',[VasController::class,'register'])->name('vas.register');
+Route::post('/register/vas',[VasController::class,'saveRegistration'])->name('vas.save.register');
+
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/chart', [HomeController::class, 'chart'])->name('chart');
@@ -121,8 +125,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/list/vas/date',[VasController::class,'changeDate']);
     Route::post('/list/vas/status',[VasController::class,'changeStatus']);
     Route::post('/list/vas/update/{id}',[VasController::class,'update']);
-    Route::get('/register/vas',[VasController::class,'register'])->name('vas.register');
-    Route::post('/register/vas',[VasController::class,'saveRegistration'])->name('vas.save.register');
 
     Route::get('/vas/vaccination/{id}',[VasController::class,'vaccination']);
     Route::post('/vas/vaccination/{id}',[VasController::class,'saveVaccination']);

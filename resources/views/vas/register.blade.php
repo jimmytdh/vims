@@ -74,9 +74,10 @@
                 <label>Facility <span class="required">*</span></label>
                 <select name="facility" class="custom-select" required>
                     <option value="">Select...</option>
-                    <option>Cebu South Medical Center</option>
-                    <option>Vicente Sotto Memorial Medical Center</option>
-                    <option>LGU - Talisay City</option>
+                    <?php $facilities = \App\Http\Controllers\VasController::facilities(); ?>
+                    @foreach($facilities as $facility)
+                        <option>{{ $facility }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-group col-md-4">

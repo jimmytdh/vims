@@ -68,7 +68,7 @@
                 </li>
                 @else
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('verify') ? 'active' : '' }}" href="{{ url('/verify') }}"><i class="fa fa-search"></i> Verify</a>
+                    <a class="nav-link {{ request()->is('register/vas') ? 'active' : '' }}" href="{{ url('/register/vas') }}"><i class="fa fa-user-plus mr-1"></i> Vaccinees</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/login') }}"><i class="fa fa-sign-in"></i> Login</a>

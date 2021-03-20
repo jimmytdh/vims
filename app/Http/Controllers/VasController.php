@@ -499,6 +499,7 @@ class VasController extends Controller
             'Cebu South Medical Center',
             'Vicente Sotto Memorial Medical Center',
             'LGU - Talisay City',
+            'DPWH',
         );
     }
 
