@@ -566,7 +566,13 @@ class VasController extends Controller
         $fileName = date('(m-d-Y)').'_CBC05596_CebuSouthMedicalCenter'.'.csv';
         $date = Session::get('vaccination_date');
         $date = ($date) ? $date: date('Y-m-d');
-        $data = Vas::leftJoin('vaccinations','vaccinations.vac_id','=','vas.id')->where('vaccination_date',$date)->orderBy('lastname','asc')->get();
+        $data = Vas::leftJoin('vaccinations','vaccinations.vac_id','=','vas.id')
+            ->where(function($q) {
+                $q->where('dose1','01_Yes')
+                    ->orwhere('dose2','01_Yes');
+            })
+            ->where('vaccination_date',$date)
+            ->orderBy('lastname','asc')->get();
 
         //whereRaw('LENGTH(philhealthid) > 3')
         $headers = array(
