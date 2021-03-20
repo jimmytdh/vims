@@ -13,6 +13,7 @@
         $x[4] = null;
         $x[6] = null;
         $x[8] = null;
+        $x[14] = null;
         $x[16] = null;
     ?>
     @foreach($questions as $key => $value)
@@ -30,6 +31,8 @@
            else if($question=='question_07' && $x[6] == '01_Yes')
                 $class='hidden';
            else if($question=='question_09' && $x[8] == '01_Yes')
+               $class='hidden';
+           else if($question=='question_15' && $x[14] == '01_Yes')
                $class='hidden';
            else if($question=='question_17' && $x[16] == '01_Yes')
                $class='hidden';
