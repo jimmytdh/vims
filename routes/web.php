@@ -13,6 +13,7 @@ use App\Http\Controllers\VaccineController;
 use App\Http\Controllers\VasController;
 use App\Http\Controllers\VaccinatorController;
 use App\Http\Controllers\QuickCountController;
+use App\Http\Controllers\FacilityController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -143,8 +144,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/vas/upload',[VasController::class,'uploadList']);
 
     //CBCR Reporting
-    Route::get('/cbcr',[QuickCountController::class,'index']);
+    Route::get('/report/cbcr',[QuickCountController::class,'index']);
     Route::post('/cbcr/date',[QuickCountController::class,'changeDate']);
     Route::post('/cbcr/update',[QuickCountController::class,'update']);
 
+    //Facility Reporting
+    Route::get('/report/facility',[FacilityController::class,'index']);
+    Route::post('/report/facility',[FacilityController::class,'searchFacility']);
 });

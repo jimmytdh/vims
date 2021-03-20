@@ -10,8 +10,15 @@
                 <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a>
                 </li>
-                <li class="nav-item {{ request()->is('cbcr*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/cbcr') }}"><i class="fa fa-line-chart"></i> CBCR Report</a>
+
+                <li class="nav-item dropdown {{ request()->is('report*') ? 'active' : '' }}">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                        <i class="fa fa-line-chart"></i> Report
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item {{ request()->is('report/cbcr') ? 'active' : '' }}" href="{{ url('/report/cbcr') }}"><i class="fa fa-area-chart mr-1"></i> CBCR Report</a>
+                        <a class="dropdown-item {{ request()->is('report/facility') ? 'active' : '' }}" href="{{ url('/report/facility') }}"><i class="fa fa-building mr-1"></i> Facility Report</a>
+                    </div>
                 </li>
                 @if(auth()->user()->isAdmin())
                 <li class="nav-item {{ request()->is('list/master') ? 'active' : '' }}">
