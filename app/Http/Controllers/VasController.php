@@ -441,7 +441,7 @@ class VasController extends Controller
             if( $i==9 || $i==17 || $i==5 || $i==7 || $i==15 || $i==18){
                 continue;
             }
-            $row[$question] = '02_Yes';
+            $row[$question] = '01_Yes';
         }
         $row['vac_id'] = $data->id;
         $row['vaccination_date'] = $date;
