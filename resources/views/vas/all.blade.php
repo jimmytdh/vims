@@ -91,7 +91,7 @@
                     { className: 'text-right' , targets: []},
                     { className: 'align-middle' , targets: []},
                     {
-                        targets: [2,3,4,10,11,12], visible: false, searchable: true
+                        targets: [0,2,3,4,10,11,12], visible: false, searchable: true
                     }
                 ],
                 "pageLength": 10,
