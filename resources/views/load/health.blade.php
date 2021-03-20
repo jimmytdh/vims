@@ -14,11 +14,13 @@
             $question = 'question_'.str_pad($key+1,2,0,STR_PAD_LEFT);
             $ans = $data->$question;
 
-            $age = \Carbon\Carbon::parse($data->birthdate)->diff(\Carbon\Carbon::now())->format('%y');
+            $age = \Carbon\Carbon::parse($info->birthdate)->diff(\Carbon\Carbon::now())->format('%y');
                 if($age<16 && $key==0)
                     $ans = '01_Yes';
         ?>
-        @if($data->sex=='02_Male' && ($key==13 || $key==14))
+        @if($info->sex=='02_Male' && $key==13)
+            @continue
+        @elseif($info->sex=='02_Male' && $key==14)
             @continue
         @endif
     <div class="form-group mt-2">

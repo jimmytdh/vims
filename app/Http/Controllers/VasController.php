@@ -456,6 +456,7 @@ class VasController extends Controller
         $date = ($date) ? $date: date('Y-m-d');
 
         $data = Vaccination::where('vac_id',$id)->where('vaccination_date',$date)->first();
+        $info = Vas::find($id);
         $deferral = Deferral::get();
         $questions = $this->questions();
         $id = $data->id;
@@ -463,7 +464,8 @@ class VasController extends Controller
             'data',
             'deferral',
             'questions',
-            'id'
+            'id',
+            'info'
         ));
     }
 
