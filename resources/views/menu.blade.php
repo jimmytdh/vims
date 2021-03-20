@@ -10,15 +10,15 @@
                 <li class="nav-item {{ request()->is('/') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a>
                 </li>
-
+                <li class="nav-item {{ request()->is('cbcr*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('/cbcr') }}"><i class="fa fa-line-chart"></i> CBCR Report</a>
+                </li>
                 @if(auth()->user()->isAdmin())
                 <li class="nav-item {{ request()->is('list/master') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/list/master') }}"><i class="fa fa-database"></i> Advance List</a>
                 </li>
                 @endif
-                <li class="nav-item {{ request()->is('cbcr*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ url('/cbcr') }}"><i class="fa fa-line-chart"></i> CBCR Report</a>
-                </li>
+
                 <li class="nav-item {{ request()->is('list') ? 'active' : '' }}" hidden>
                     <a class="nav-link" href="{{ url('/list') }}"><i class="fa fa-database"></i> Master List</a>
                 </li>

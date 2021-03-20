@@ -78,7 +78,8 @@ class QuickCountController extends Controller
         $date = Session::get('report_date');
         $date = ($date) ? $date: date('Y-m-d');
         $data = optional(QuickCount::where('report_date',$date)->first());
-        return view('cbcr.index',compact('header','date','data'));
+        $facilities = VasController::facilities();
+        return view('cbcr.index',compact('header','date','data','facilities'));
     }
 
     public function changeDate(Request $req)
@@ -97,5 +98,20 @@ class QuickCountController extends Controller
         );
         QuickCount::updateOrCreate($match,$row);
         return redirect()->back();
+    }
+
+    public static function countPerFacility($facility)
+    {
+        $date = Session::get('report_date');
+        $date = ($date) ? $date: date('Y-m-d');
+        $count = Vaccination::leftJoin('vas','vas.id','=','vaccinations.vac_id')
+                    ->where('vaccination_date',$date)
+                    ->where(function($q) {
+                        $q->where('dose1','01_Yes')
+                            ->orwhere('dose2','01_Yes');
+                    })
+                    ->where('facility',$facility)
+                    ->count();
+        return $count;
     }
 }

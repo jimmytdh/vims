@@ -1,8 +1,13 @@
 @extends('app')
 
-@section('title','Manage Doctors')
+@section('title','CBCR Report')
 @section('css')
+    <style>
+        .facility {
 
+            line-height: 90%;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -32,6 +37,26 @@
                     <i class="fa fa-calendar-check-o"></i> Change Date
                 </button>
             </form>
+            <hr style="height:2px;border:none;color:#ccc;background-color: #ccc;">
+            <div class="row mt-2">
+                @foreach($facilities as $facility)
+                <?php
+                    $len = strlen($facility);
+                ?>
+                <div class="col-sm-4">
+                    <div class="alert alert-info text-center">
+                        @if($len > 20)
+                            <span class="facility">{{ substr($facility, 0, 20) }}...</span>
+                        @else
+                            <span class="facility">{{ $facility }}</span>
+                        @endif
+
+                        <hr>
+                        <h1>{{ \App\Http\Controllers\QuickCountController::countPerFacility($facility) }}</h1>
+                    </div>
+                </div>
+                @endforeach
+            </div>
             <hr style="height:2px;border:none;color:#ccc;background-color: #ccc;">
             <form action="{{ url('/cbcr/update') }}" method="post">
                 {{ csrf_field() }}

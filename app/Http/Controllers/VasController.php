@@ -493,6 +493,15 @@ class VasController extends Controller
         return $data;
     }
 
+    static function facilities()
+    {
+        return array(
+            'Cebu South Medical Center',
+            'Vicente Sotto Memorial Medical Center',
+            'LGU - Talisay City',
+        );
+    }
+
     public function saveHealthCondition(Request $request,$id)
     {
         $row = $_POST;
