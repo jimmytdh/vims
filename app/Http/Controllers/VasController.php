@@ -251,7 +251,7 @@ class VasController extends Controller
                         $btn5 = "<a href='#nextVisitModal' data-toggle='modal' data-backdrop='static' data-date='$date' data-id='$data->vac_id' class='btn btn-sm btn-warning'><i class='fa fa-calendar'></i></a>";
                     }
                     $btn6 = "<a href='#statusModal' data-toggle='modal' data-backdrop='static' data-id='$data->id' class='btn btn-sm btn-primary'><i class='fa fa-exclamation-circle'></i></a>";
-                    return "$btn2 $btn3 $btn4 $btn5 $btn6";
+                    return "$btn2";
                 })
                 ->rawColumns(['fullname','deferral','action','vaccination_date'])
                 ->make(true);
