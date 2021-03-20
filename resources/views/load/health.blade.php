@@ -25,7 +25,7 @@
         <label>{{ $value }}</label>
         @if($key==8 || $key==16)
             <input type="text" value="{{ $data->$question }}" name="{{ $question }}" class="form-control">
-        @elseif($key==4 || $key==6 || $key==14)
+        @elseif($key==0 ||$key==4 || $key==6 || $key==14)
             <select name="{{ $question }}" class="custom-select">
                 <option value="">Select...</option>
                 <option value="01_Yes" {{ ($ans=='01_Yes') ? 'selected':'' }}>Yes</option>
