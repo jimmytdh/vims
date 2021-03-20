@@ -114,12 +114,6 @@
                         action: function () {
                             location.href = "{{ url('/export/vas') }}";
                         }
-                    },{
-                        text: '<i class="fa fa-calendar"></i> Change Date',
-                        className: 'btn btn-success',
-                        action: function () {
-                            $("#calendarModal").modal();
-                        }
                     }
                     @if(auth()->user()->isAdmin())
                     ,{
