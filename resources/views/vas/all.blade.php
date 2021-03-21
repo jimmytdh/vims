@@ -18,6 +18,7 @@
         .editable { cursor: pointer; }
         .search { width: 100%; display: inline-block}
         .btn-success { border-color: #009246 !important;}
+        .btn-warning { border-color: #b38809 !important;}
     </style>
 @endsection
 
@@ -121,6 +122,12 @@
                         className: 'btn btn-warning',
                         action: function () {
                             $("#uploadModal").modal();
+                        }
+                    },{
+                        text: '<i class="fa fa-users"></i> Update List',
+                        className: 'btn btn-warning',
+                        action: function () {
+                            $("#uploadUpdateModal").modal();
                         }
                     }
                     @endif

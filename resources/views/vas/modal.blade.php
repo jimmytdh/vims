@@ -162,3 +162,42 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="uploadUpdateModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Update Master List</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ url('/vas/upload/update') }}" method="post" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                <input type="hidden" name="id" id="status_id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Facility:</label>
+                        <select name="facility" class="custom-select" required>
+                            <option value="">Select...</option>
+                            <?php $facilities = \App\Http\Controllers\VasController::facilities(); ?>
+                            @foreach($facilities as $facility)
+                                <option>{{ $facility }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>CSV File</label>
+                        <input type="file" name="file" required class="form-control btn" accept=".csv">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success btn-lg btn-block">
+                        <i class="fa fa-check-circle"></i> Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

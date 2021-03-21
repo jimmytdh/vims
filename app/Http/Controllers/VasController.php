@@ -634,7 +634,7 @@ class VasController extends Controller
             $row['philhealth_id'] =utf8_encode($row['philhealth_id']);
             $row['street_name'] =utf8_encode($row['street_name']);
 
-            $row['facility'] = $request->facility;;
+            $row['facility'] = $request->facility;
             $match = array(
                 'lastname' => $row['lastname'],
                 'firstname' => $row['firstname'],
@@ -644,6 +644,33 @@ class VasController extends Controller
             $vas = Vas::updateOrCreate($match,$row);
             if($vas->wasRecentlyCreated){
                 $this->generateVaccinationDate($vas->id,$request->vaccination_date);
+            }
+        }
+        unlink($path);
+        return redirect()->back();
+    }
+
+    public function updateList(Request $request)
+    {
+        if($request->hasFile('file'))
+        {
+            $file_name = $request->file('file')->getClientOriginalName();
+            $request->file('file')->storeAs('upload',$file_name);
+        }
+        $path = storage_path()."/app/upload/".$file_name;
+        $data = $this->csvToArray($path);
+        foreach($data as $val){
+            $match = array(
+                'firstname' => $val['firstname'],
+                'lastname' => $val['lastname']
+            );
+            $val['facility'] = $request->facility;
+            $val['birthdate'] = date('Y-m-d',strtotime($val['birthdate']));
+            $vas = Vas::updateOrCreate($match,$val);
+            if($vas->wasRecentlyCreated){
+                $check = Vaccination::where('vac_id',$vas->id)->first();
+                if(!$check)
+                    $this->generateVaccinationDate($vas->id,date('Y-m-d'));
             }
         }
         unlink($path);
