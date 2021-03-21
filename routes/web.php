@@ -138,6 +138,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/vas/vaccinator/destroy',[VaccinatorController::class,'destroy'])->name('destroy.vaccinator');
 
     Route::get('/export/vas',[VasController::class,'exportData']);
+    Route::get('/export/vas/{all}',[VasController::class,'exportData']);
     Route::post('/vas/schedule',[VasController::class,'schedule']);
     Route::get('/vas/schedule/delete/{id}',[VasController::class,'deleteVaccination']);
     Route::post('/vas/editable',[VasController::class,'editable']);
@@ -150,6 +151,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/cbcr/update',[QuickCountController::class,'update']);
 
     //Facility Reporting
+    Route::get('/report/export',[FacilityController::class,'exportData']);
     Route::get('/report/facility',[FacilityController::class,'index']);
     Route::post('/report/facility',[FacilityController::class,'searchFacility']);
 });

@@ -98,6 +98,12 @@
                         extend: 'copy',
                         className: 'btn btn-success',
                         text: '<i class="fa fa-copy"></i> Copy'
+                    },{
+                        text: '<i class="fa fa-file-excel-o"></i> Export',
+                        className: 'btn btn-success',
+                        action: function () {
+                            location.href = "{{ url('/report/export') }}";
+                        }
                     }
                 ]
             });

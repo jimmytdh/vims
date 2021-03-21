@@ -113,7 +113,7 @@
                         text: '<i class="fa fa-file-excel-o"></i> Export',
                         className: 'btn btn-success',
                         action: function () {
-                            location.href = "{{ url('/export/vas') }}";
+                            location.href = "{{ url('/export/vas/true') }}";
                         }
                     }
                     @if(auth()->user()->isAdmin())
