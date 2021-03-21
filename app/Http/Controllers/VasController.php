@@ -665,7 +665,9 @@ class VasController extends Controller
                 'lastname' => $val['lastname']
             );
             $val['facility'] = $request->facility;
-            $val['birthdate'] = date('Y-m-d',strtotime($val['birthdate']));
+            if($val['birthdate']){
+                $val['birthdate'] = date('Y-m-d',strtotime($val['birthdate']));
+            }
             $vas = Vas::updateOrCreate($match,$val);
             if($vas->wasRecentlyCreated){
                 $check = Vaccination::where('vac_id',$vas->id)->first();
