@@ -510,6 +510,7 @@ class ListController extends Controller
         $columns = $this->headerKey();
         $columns['dose1'] = "dose1";
         $columns['dose2'] = "dose2";
+        $columns['vaccine'] = "vaccine";
         $callback = function() use ($finalList, $columns){
             $file = fopen('php://output','w');
             $row = array();
@@ -525,6 +526,7 @@ class ListController extends Controller
                 $row['suffix'] = ($row['suffix']) ? $row['suffix']: 'NA';
                 $row['dose1'] = $dose->date_1;
                 $row['dose2'] = $dose->date_2;
+                $row['vaccine'] = $dose->type;
                 fputcsv($file,$row);
             }
             fclose($file);
