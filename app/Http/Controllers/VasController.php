@@ -502,6 +502,8 @@ class VasController extends Controller
             'Vicente Sotto Memorial Medical Center',
             'LGU - Talisay City',
             'DPWH',
+            'Private Health Facility',
+            'BFP',
         );
     }
 
