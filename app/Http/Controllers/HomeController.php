@@ -26,6 +26,16 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $facilities = VasController::facilities();
+        $vaccinated = Vaccine::where('date_1','<>',null)
+                            ->orwhere('date_2','<>',null)
+                            ->count();
+        $target = 911;
+        $per = number_format(($vaccinated / $target) * 100,1);
+        return view('page.index',compact('facilities','vaccinated','target','per'));
+    }
+    public function index2()
+    {
 
         $consent = FinalList::where('consent','01_Yes')->count();
         $total = FinalList::count();

@@ -9,14 +9,20 @@ use Illuminate\Support\Facades\Session;
 
 class QuickCountController extends Controller
 {
-    static function countReport($col)
+    static function countReport($col,$date = false)
     {
-        $date = Session::get('report_date');
+        if(!$date){
+            $date = Session::get('report_date');
+        }
         $date = ($date) ? $date: date('Y-m-d');
         if($col=='02a')
             return Vaccination::where('vaccine_manufacturer','Astrazeneca')->where('vaccination_date',$date)->count();
+        else if($col=='02a_all')
+            return Vaccination::where('vaccine_manufacturer','Astrazeneca')->count();
         else if($col=='02b')
             return Vaccination::where('vaccine_manufacturer','Sinovac')->where('vaccination_date',$date)->count();
+        else if($col=='02b_all')
+            return Vaccination::where('vaccine_manufacturer','Sinovac')->count();
         else if($col=='05')
             return Vaccination::where('deferral','!=',"")->where('vaccination_date',$date)->count();
         else if($col=='06')
@@ -43,7 +49,10 @@ class QuickCountController extends Controller
             return Vaccination::where('status','Serious AEFI')->where('vaccination_date',$date)->count();
         else if($col=='19')
             return Vaccination::where('status','Death related to AEFI')->where('vaccination_date',$date)->count();
-
+        else if($col=='today')
+            return Vaccination::whereNotNull('vaccine_manufacturer')->where('vaccination_date',$date)->count();
+        else if($col=='total')
+            return Vaccination::whereNotNull('vaccine_manufacturer')->count();
         return 0;
     }
     public function header()
@@ -113,5 +122,27 @@ class QuickCountController extends Controller
                     ->where('facility',$facility)
                     ->count();
         return $count;
+    }
+
+    public static function countVaccinated($facility = null ,$vaccine = null,$date = null)
+    {
+        $data = Vaccination::leftJoin('vas','vas.id','=','vaccinations.vac_id');
+        if($facility){
+            $data = $data->where('facility',$facility);
+        }
+        if($vaccine){
+            $data = $data->where('vaccine_manufacturer',$vaccine);
+        }
+
+        if($date){
+            $data = $data->where('vaccination_date',$date);
+        }
+
+        $data = $data->where(function($q) {
+                            $q->where('dose1','01_Yes')
+                                ->orwhere('dose2','01_Yes');
+                        })
+                    ->count();
+        return $data;
     }
 }
