@@ -9,6 +9,7 @@ use App\Models\Classification;
 use App\Models\EmploymentStatus;
 use App\Models\FinalList;
 use App\Models\Profession;
+use App\Models\Vaccine;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -507,6 +508,8 @@ class ListController extends Controller
             "Expires"             => "0"
         );
         $columns = $this->headerKey();
+        $columns['dose1'] = "dose1";
+        $columns['dose2'] = "dose2";
         $callback = function() use ($finalList, $columns){
             $file = fopen('php://output','w');
             $row = array();
@@ -515,11 +518,13 @@ class ListController extends Controller
                 foreach($columns as $col){
                     $row[$col] = utf8_decode($list->$col);
                 }
+                $dose = optional(Vaccine::where('emp_id',$list->id)->first());
                 $row['employer_name'] = "Cebu South Medical Center";
                 $row['employer_address'] = "San Isidro, Talisay City, Cebu";
                 $row['employer_contact_no'] = "(032) 273-3226";
                 $row['suffix'] = ($row['suffix']) ? $row['suffix']: 'NA';
-
+                $row['dose1'] = $dose->date_1;
+                $row['dose2'] = $dose->date_2;
                 fputcsv($file,$row);
             }
             fclose($file);

@@ -131,6 +131,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/vas/vaccination/{id}',[VasController::class,'saveVaccination']);
     Route::get('/vas/health/{id}',[VasController::class,'healthCondition']);
     Route::post('/vas/health/{id}',[VasController::class,'saveHealthCondition']);
+    Route::get('/vas/transfer',[VasController::class,'transferVas']);
 
     Route::get('/vas/vaccinator',[VaccinatorController::class,'index']);
     Route::post('/vas/vaccinator/save',[VaccinatorController::class,'store'])->name('add.vaccinator');

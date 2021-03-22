@@ -6,10 +6,12 @@ use App\Models\Categories;
 use App\Models\CategoryID;
 use App\Models\CivilStatus;
 use App\Models\Deferral;
+use App\Models\FinalList;
 use App\Models\Refusal;
 use App\Models\Region;
 use App\Models\Vaccination;
 use App\Models\Vaccinator;
+use App\Models\Vaccine;
 use App\Models\Vas;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -705,5 +707,44 @@ class VasController extends Controller
         }
 
         return $data;
+    }
+
+    public function transferVas()
+    {
+        $date = Session::get('vaccination_date');
+        $date = ($date) ? $date: date('Y-m-d');
+
+        $data = Vas::leftJoin('vaccinations','vaccinations.vac_id','=','vas.id')
+            ->where('vaccination_date',$date)
+            ->where('facility','Cebu South Medical Center')
+            ->get();
+        foreach($data as $row)
+        {
+            $where = array(
+                'firstname' => $row->firstname,
+                'lastname' => $row->lastname,
+                'middlename' => $row->middlename,
+            );
+            $dose = 'date_1';
+            $vaccinator = 'vaccinator_1';
+            if($row->dose2 == '01_Yes'){
+                $dose = 'date_2';
+                $vaccinator = 'vaccinator_2';
+            }
+
+            $vims = FinalList::where($where)->first();
+            if($vims){
+                $match = array(
+                    'emp_id' => $vims->id
+                );
+                $update = array(
+                    $dose => $row->vaccination_date,
+                    'type' => $row->vaccine_manufacturer,
+                    $vaccinator => $row->vaccinator
+                );
+                Vaccine::updateOrCreate($match,$update);
+            }
+        }
+        return redirect()->back();
     }
 }

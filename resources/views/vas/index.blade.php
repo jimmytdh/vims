@@ -135,6 +135,12 @@
                         action: function () {
                             $("#uploadUpdateModal").modal();
                         }
+                    },{
+                        text: '<i class="fa fa-angle-double-right"></i> Transfer',
+                        className: 'btn btn-info',
+                        action: function () {
+                            location.href = "{{ url('/vas/transfer') }}";
+                        }
                     }
                     @endif
                 ]
