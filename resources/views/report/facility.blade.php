@@ -25,7 +25,7 @@
             <h2 class="title-header">Facility Report</h2>
             <form action="{{ url('/report/facility') }}" method="post" class="form-inline mt-2">
                 {{ csrf_field() }}
-                <select name="facility" class="custom-select" required>
+                <select name="facility" class="custom-select">
                     <option value="">Select...</option>
                     <?php $facilities = \App\Http\Controllers\VasController::facilities(); ?>
                     @foreach($facilities as $fac)

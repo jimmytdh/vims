@@ -74,9 +74,10 @@
                 <label>Facility</label>
                 <select name="facility" class="custom-select" >
                     <option value="">Select...</option>
-                    <option @if($data->facility=='Cebu South Medical Center') selected @endif>Cebu South Medical Center</option>
-                    <option @if($data->facility=='Vicente Sotto Memorial Medical Center') selected @endif>Vicente Sotto Memorial Medical Center</option>
-                    <option @if($data->facility=='LGU - Talisay City') selected @endif>LGU - Talisay City</option>
+                    <?php $facilities = \App\Http\Controllers\VasController::facilities(); ?>
+                    @foreach($facilities as $facility)
+                        <option @if($data->facility==$facility) selected @endif>{{ $facility }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-group col-md-4">
