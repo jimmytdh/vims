@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facility;
 use App\Models\QuickCount;
 use App\Models\Vaccination;
 use Illuminate\Http\Request;
@@ -87,7 +88,7 @@ class QuickCountController extends Controller
         $date = Session::get('report_date');
         $date = ($date) ? $date: date('Y-m-d');
         $data = optional(QuickCount::where('report_date',$date)->first());
-        $facilities = VasController::facilities();
+        $facilities = Facility::orderBy('name','asc')->get();
         return view('cbcr.index',compact('header','date','data','facilities'));
     }
 

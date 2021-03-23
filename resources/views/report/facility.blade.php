@@ -27,9 +27,9 @@
                 {{ csrf_field() }}
                 <select name="facility" class="custom-select">
                     <option value="">Select...</option>
-                    <?php $facilities = \App\Http\Controllers\VasController::facilities(); ?>
+                    <?php $facilities = \App\Models\Facility::orderBy('name','asc')->get(); ?>
                     @foreach($facilities as $fac)
-                        <option @if($facility == $fac) selected @endif>{{ $fac }}</option>
+                        <option @if($facility == $fac->name) selected @endif>{{ $fac->name }}</option>
                     @endforeach
                 </select>
                 <button type="submit" class="btn btn-success btn-flat ml-2">

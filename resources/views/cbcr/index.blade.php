@@ -41,18 +41,18 @@
             <div class="row mt-2">
                 @foreach($facilities as $facility)
                 <?php
-                    $len = strlen($facility);
+                    $len = strlen($facility->name);
                 ?>
                 <div class="col-sm-4">
                     <div class="alert alert-info text-center">
                         @if($len > 20)
-                            <span class="facility">{{ substr($facility, 0, 20) }}...</span>
+                            <span class="facility">{{ substr($facility->name, 0, 20) }}...</span>
                         @else
-                            <span class="facility">{{ $facility }}</span>
+                            <span class="facility">{{ $facility->name }}</span>
                         @endif
 
                         <hr>
-                        <h1>{{ \App\Http\Controllers\QuickCountController::countPerFacility($facility) }}</h1>
+                        <h1>{{ \App\Http\Controllers\QuickCountController::countPerFacility($facility->name) }}</h1>
                     </div>
                 </div>
                 @endforeach

@@ -10,6 +10,7 @@ use App\Models\Classification;
 use App\Models\Comorbidity;
 use App\Models\Confirmation;
 use App\Models\EmploymentStatus;
+use App\Models\Facility;
 use App\Models\FinalList;
 use App\Models\PersonalInfo;
 use App\Models\Profession;
@@ -26,7 +27,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $facilities = VasController::facilities();
+        $facilities = Facility::orderBy('name','asc')->get();
         $vaccinated = Vaccine::where('date_1','<>',null)
                             ->orwhere('date_2','<>',null)
                             ->count();

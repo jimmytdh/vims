@@ -72,11 +72,11 @@
             <tbody>
                 @foreach($facilities as $fac)
                 <tr>
-                    <td>{{ $fac }}</td>
-                    <td class="text-center">{{ number_format(QuickCountController::countVaccinated($fac,'Astrazeneca',date('Y-m-d'))) }}</td>
-                    <td class="text-center">{{ number_format(QuickCountController::countVaccinated($fac,'Sinovac',date('Y-m-d'))) }}</td>
-                    <td class="text-center">{{ number_format(QuickCountController::countVaccinated($fac,null,date('Y-m-d'))) }}</td>
-                    <th class="text-center">{{ number_format(QuickCountController::countVaccinated($fac,null,null)) }}</th>
+                    <td>{{ $fac->name }}</td>
+                    <td class="text-center">{{ number_format(QuickCountController::countVaccinated($fac->name,'Astrazeneca',date('Y-m-d'))) }}</td>
+                    <td class="text-center">{{ number_format(QuickCountController::countVaccinated($fac->name,'Sinovac',date('Y-m-d'))) }}</td>
+                    <td class="text-center">{{ number_format(QuickCountController::countVaccinated($fac->name,null,date('Y-m-d'))) }}</td>
+                    <th class="text-center">{{ number_format(QuickCountController::countVaccinated($fac->name,null,null)) }}</th>
                 </tr>
                 @endforeach
             </tbody>

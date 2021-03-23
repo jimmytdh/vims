@@ -74,9 +74,9 @@
                 <label>Facility <span class="required">*</span></label>
                 <select name="facility" class="custom-select" required>
                     <option value="">Select...</option>
-                    <?php $facilities = \App\Http\Controllers\VasController::facilities(); ?>
+                    <?php $facilities = \App\Models\Facility::orderBy('name','asc')->get(); ?>
                     @foreach($facilities as $facility)
-                        <option>{{ $facility }}</option>
+                        <option>{{ $facility->name }}</option>
                     @endforeach
                 </select>
             </div>
