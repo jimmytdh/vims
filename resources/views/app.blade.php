@@ -11,6 +11,15 @@
     <link rel="icon" href="{{ url('/') }}/images/favicon.png" sizes="16x16" type="image/png">
     <title>@yield('title','Vaccine Information Management System')</title>
     <!-- Custom styles for this template -->
+    <meta property="og:title" content="Vaccine Information Management System">
+    <meta property="og:description" content="The VIMS-IR is the solution being used to collect the master list of eligble vaccinee. It is use to estimate how many vaccines should be allotted per facility, LGU, and Region">
+    <meta property="og:image" content="{{ url('/images/banner.jpg') }}">
+    <meta property="og:url" content="{{ url('/') }}">
+
+    <meta property="twitter:title" content="Vaccine Information Management System">
+    <meta property="twitter:description" content="The VIMS-IR is the solution being used to collect the master list of eligble vaccinee. It is use to estimate how many vaccines should be allotted per facility, LGU, and Region">
+    <meta property="twitter:image" content="{{ url('/images/banner.jpg') }}">
+
     <link href="{{ url('/') }}/css/bootstrap.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/font-awesome.css" rel="stylesheet">
     <link href="{{ url('/') }}/css/loader.css" rel="stylesheet">
