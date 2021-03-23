@@ -74,9 +74,9 @@
                 <label>Facility</label>
                 <select name="facility" class="custom-select" >
                     <option value="">Select...</option>
-                    <?php $facilities = \App\Http\Controllers\VasController::facilities(); ?>
+                    <?php $facilities = \App\Models\Facility::orderBy('name','asc')->get(); ?>
                     @foreach($facilities as $facility)
-                        <option @if($data->facility==$facility) selected @endif>{{ $facility }}</option>
+                        <option @if($facility->name == $data->facility) selected @endif>{{ $facility->name }}</option>
                     @endforeach
                 </select>
             </div>
