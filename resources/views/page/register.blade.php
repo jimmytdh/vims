@@ -9,6 +9,17 @@
         }
     </style>
 @endsection
+
+@section('meta')
+    <meta property="og:title" content="Vaccine Information Management System">
+    <meta property="og:description" content="The VIMS-IR is the solution being used to collect the master list of eligble vaccinee. It is use to estimate how many vaccines should be allotted per facility, LGU, and Region">
+    <meta property="og:image" content="{{ url('/images/banner.jpg') }}">
+    <meta property="og:url" content="{{ url('/register') }}">
+
+    <meta property="twitter:title" content="Vaccine Information Management System">
+    <meta property="twitter:description" content="The VIMS-IR is the solution being used to collect the master list of eligble vaccinee. It is use to estimate how many vaccines should be allotted per facility, LGU, and Region">
+    <meta property="twitter:image" content="{{ url('/images/banner.jpg') }}">
+@endsection
 @section('content')
     <h2 class="title-header text-success">Immunization Registry</h2>
 
