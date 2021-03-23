@@ -108,6 +108,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/vaccine/',[VaccineController::class,'show']);
     Route::post('/vaccine/list',[VaccineController::class,'updateGroupList']);
     Route::post('/vaccine/transfer',[VaccineController::class,'transfer']);
+    Route::get('/vaccine/transfer',[VaccineController::class,'transfer']);
     Route::post('/vaccine/schedule/',[VaccineController::class,'updateSchedule']);
     Route::post('/vaccine/update/list',[VaccineController::class,'fixUpdate'])->name('vaccine.update.list');
     Route::get('/vaccine/{id}',[VaccineController::class,'show']);

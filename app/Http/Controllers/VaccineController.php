@@ -76,10 +76,11 @@ class VaccineController extends Controller
         }
     }
 
-    public function transfer(Request $request)
+    public static function transfer(Request $request)
     {
         $id_list = explode(',',$request->id_list);
         $date = $request->date;
+
         foreach($id_list as $id)
         {
             if($id == null)
@@ -110,6 +111,38 @@ class VaccineController extends Controller
             );
             $vac = Vas::updateOrCreate($match,$data);
             VasController::generateVaccinationDate($vac->id,$date);
+        }
+    }
+
+    public static function transferToVas($id)
+    {
+        $date = date('Y-m-d');
+        $list = FinalList::find($id);
+        $match = array(
+            'firstname' => utf8_decode($list->firstname),
+            'middlename' => utf8_decode($list->middlename),
+            'lastname' => utf8_decode($list->lastname),
+            'suffix' => utf8_decode($list->suffix),
+        );
+        $data = array(
+            'category' => $list->category,
+            'category_id' => $list->categoryid,
+            'category_id_number' => $list->categoryidnumber,
+            'philhealth_id' => $list->philhealthid,
+            'pwd_id' => $list->pwd_id,
+            'contact_no' => $list->contact_no,
+            'street_name' => $list->full_address,
+            'region' => $list->region,
+            'province' => $list->province,
+            'muncity' => $list->muncity,
+            'brgy' => $list->barangay,
+            'sex' => $list->sex,
+            'birthdate' => $list->birthdate,
+            'facility' => $list->employer_name,
+        );
+        $vas = Vas::updateOrCreate($match,$data);
+        if($vas->wasRecentlyCreated){
+            VasController::generateVaccinationDate($vas->id,$date);
         }
     }
 

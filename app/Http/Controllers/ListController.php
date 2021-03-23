@@ -9,6 +9,7 @@ use App\Models\Classification;
 use App\Models\EmploymentStatus;
 use App\Models\FinalList;
 use App\Models\Profession;
+use App\Models\Region;
 use App\Models\Vaccine;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -42,14 +43,25 @@ class ListController extends Controller
 
     public function data()
     {
-        $data = FinalList::orderBy('lastname','asc')->get();
+        $data = FinalList::select(
+                    'id',
+                    'firstname',
+                    'middlename',
+                    'lastname',
+                    'employer_name',
+                    'birthdate',
+                    'sex',
+                    'updated_at',
+                )
+                ->orderBy('lastname','asc')
+                ->get();
 
         return DataTables::of($data)
             ->addColumn('fullname',function ($data){
                 $middlename = substr($data->middlename,0,1);
                 $suffix = ($data->suffix!='NA') ? $data->suffix: '';
                 $name = "$data->lastname, $data->firstname $middlename. $suffix";
-                return "<span class='text-success'>$name</span>";
+                return "<label class='text-success' data-id='$data->lastname'><input type='checkbox' data-id='$data->id'> $name</label>";
             })
             ->addColumn('gender',function ($data){
                 return ($data->sex=='02_Male') ? 'Male' : 'Female';
@@ -58,57 +70,11 @@ class ListController extends Controller
                 $date = Carbon::parse($data->updated_at)->format('m/d H:i');
                 return "<span class='text-danger'>$date</span>";
             })
-            ->addColumn('history',function ($data){
-                return ($data->covid_history=='02_No') ? 'No' : '<span class="text-danger">Yes</span>';
-            })
-            ->addColumn('consent',function ($data){
-                $consent = 'Unknown';
-                $class = 'muted';
-                if($data->consent=='01_Yes'){
-                    $consent = 'Yes';
-                    $class = 'success';
-                }elseif($data->consent=='02_No'){
-                    $consent = 'No';
-                    $class = 'danger';
-                }
-                return "<span class='text-$class consent' id='consent' data-type='select' data-value='$data->consent' data-title='Confirmation' data-pk='$data->id'>$consent</span>";
-            })
+
             ->addColumn('age', function($data){
                 return Carbon::parse($data->birthdate)->diff(Carbon::now())->format('%y');
             })
-            ->addColumn('with_allergy', function($data){
-                $header = array(
-                    'allergy_01',
-                    'allergy_02',
-                    'allergy_03',
-                    'allergy_04',
-                    'allergy_05',
-                    'allergy_06',
-                    'allergy_07',
-                );
-                foreach($header as $row){
-                    if($data->$row=='01_Yes')
-                        return '<span class="text-danger">With Allergy</span>';
-                }
-                return 'No';
-            })
-            ->addColumn('with_comorbidity', function($data){
-                $header = array(
-                    'comorbidity_01',
-                    'comorbidity_02',
-                    'comorbidity_03',
-                    'comorbidity_04',
-                    'comorbidity_05',
-                    'comorbidity_06',
-                    'comorbidity_07',
-                    'comorbidity_08',
-                );
-                foreach($header as $row){
-                    if($data->$row=='01_Yes')
-                        return '<span class="text-danger">With Comorbidity</span>';
-                }
-                return 'No';
-            })
+
             ->addColumn('action', function($data){
                 $url = route('list.edit',$data->id);
                 $urlCard = route('list.card',$data->id);
@@ -117,7 +83,7 @@ class ListController extends Controller
                 $btn2 = "<a href='#deleteModal' data-toggle='modal' data-backdrop='static' data-url='$deleteUrl' data-title='Delete Record?' data-id='$data->id' class='btnDelete btn btn-sm btn-danger'><i class='fa fa-trash'></i></a>";
                 return "$btn1 $btn2";
             })
-            ->rawColumns(['date_updated','fullname','with_allergy','with_comorbidity','history','consent','action'])
+            ->rawColumns(['date_updated','fullname','action','radio'])
             ->make(true);
     }
 
@@ -283,6 +249,11 @@ class ListController extends Controller
         $profession = Profession::get();
         $classification = Classification::get();
 
+        $region = Region::get();
+        $provinces = AreaController::getProvinces($data->region);
+        $muncity = AreaController::getMuncity($data->province);
+        $brgy = AreaController::getBrgy($data->muncity);
+
         return view('admin.update',compact(
             'id',
             'data',
@@ -293,6 +264,10 @@ class ListController extends Controller
             'employment_status',
             'profession',
             'classification',
+            'region',
+            'provinces',
+            'muncity',
+            'brgy',
         ));
     }
 
@@ -305,6 +280,7 @@ class ListController extends Controller
             $post = array(
                 $row => $request->$row
             );
+            $data['facility'] = $request->facility;
             $data = array_merge($data,$post);
         }
         $consent = FinalList::find($id)->consent;

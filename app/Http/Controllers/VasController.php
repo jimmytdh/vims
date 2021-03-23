@@ -428,7 +428,6 @@ class VasController extends Controller
     public static function generateVaccinationDate($id,$date)
     {
         $check = Vaccination::where('vac_id',$id)
-                    ->where('vaccination_date',$date)
                     ->first();
         if($check)
             return 0;

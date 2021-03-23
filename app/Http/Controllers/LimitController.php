@@ -16,6 +16,7 @@ class LimitController extends Controller
         if(request()->ajax()){
             $data = FinalList::select('final_lists.*','vaccines.id as vac_id','vaccines.date_1','vaccines.date_2','vaccines.schedule','vaccines.list')
                         ->leftJoin('vaccines','vaccines.emp_id','=','final_lists.id')
+                        ->where('employer_name','Cebu South Medical Center')
                         ->orderBy('lastname','asc')->get();
 
             return DataTables::of($data)

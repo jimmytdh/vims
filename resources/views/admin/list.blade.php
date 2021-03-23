@@ -82,15 +82,12 @@
         <table id="dataTable" class="table table-sm table-striped">
             <thead>
             <tr>
+                <th>Full Name</th>
                 <th>Date Updated</th>
-                <th>Name</th>
                 <th>Gender</th>
                 <th>Age</th>
-                <th>COVID History</th>
-                <th>With Allergy?</th>
-                <th>With Comorbidity?</th>
-                <th>Consent</th>
-                <th></th>
+                <th>Facility</th>
+                <th>Action</th>
             </tr>
             </thead>
         </table>
@@ -105,28 +102,24 @@
         $(document).ready(function() {
             var table = $('#dataTable').DataTable({
                 processing: true,
-                serverSide: false,
+                serverSide: true,
                 ajax: "{{ route('list.data') }}",
                 columns: [
-                    { data: 'date_updated', name: 'date_updated'},
                     { data: 'fullname', name: 'fullname'},
+                    { data: 'date_updated', name: 'date_updated'},
                     { data: 'gender', name: 'gender'},
                     { data: 'age', name: 'age'},
-                    { data: 'history', name: 'history'},
-                    { data: 'with_allergy', name: 'with_allergy'},
-                    { data: 'with_comorbidity', name: 'with_comorbidity'},
-                    { data: 'consent', name: 'consent'},
+                    { data: 'employer_name', name: 'employer_name'},
                     { data: 'action', name: 'action'},
                 ],
                 drawCallback: function (settings) {
                     deleteModal();
                 },
                 columnDefs: [
-                    { className: 'text-center' , targets: [2,3,4]},
+                    { className: 'text-center' , targets: [3]},
                     { className: 'text-right' , targets: []},
                 ],
                 "pageLength": 25,
-                "order": [[ 1, "asc" ]],
                 dom: 'Bfrtip',
                 buttons: [
                     {
@@ -161,15 +154,7 @@
                     oTable.fnFilter(this.value);
                 }
             });
-            $('#dataTable tbody').on( 'click', 'tr', function () {
-                if ( $(this).hasClass('selected') ) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                    table.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
-            } );
+
             function deleteModal(){
                 $('.btnDelete').on('click',function(e){
                     e.preventDefault();

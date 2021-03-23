@@ -66,8 +66,6 @@ class RegistrationController extends Controller
         $row['lastname'] = strtoupper(utf8_encode($row['lastname']));
         $row['middlename'] =strtoupper(utf8_encode($row['middlename']));
 
-
-
         $match = array(
             'firstname' => $row['firstname'],
             'lastname' => $row['lastname'],
@@ -83,7 +81,8 @@ class RegistrationController extends Controller
             $status = 'duplicate';
         }
 
-        FinalList::updateOrCreate($match,$row);
+        $list = FinalList::updateOrCreate($match,$row);
+        VaccineController::transferToVas($list->id);
         return redirect()->back()->with($status,true);
     }
 

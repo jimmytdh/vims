@@ -10,7 +10,7 @@
     </style>
 @endsection
 @section('content')
-    <h2 class="title-header text-success">Registration (Immunization Registry)</h2>
+    <h2 class="title-header text-success">Immunization Registry</h2>
 
         @if(session('success'))
             <div class="alert alert-success">
@@ -220,22 +220,33 @@
         <h4 class="title-header text-danger mt-5">Employer</h4>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label>Employer Name <span class="required">*</span></label>
-                <input type="text" name="employer_name" value="Cebu South Medical Center" class="form-control" readonly>
+                <label>Facility <span class="required">*</span></label>
+                <select name="employer_name" class="custom-select" required>
+                    <option value="">Select...</option>
+                    <?php $facilities = \App\Models\Facility::orderBy('name','asc')->get(); ?>
+                    @foreach($facilities as $facility)
+                        <option>{{ $facility->name }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label>Employer Address <span class="required">*</span></label>
-                <input type="text" name="employer_address" value="San Isidro, City of Talisay, Cebu" class="form-control" readonly>
+                <input type="text" name="employer_address" class="form-control" value="">
             </div>
         </div>
         <div class="form-row mt-3">
             <div class="form-group col-md-6">
                 <label>LGU <span class="required">*</span></label>
-                <input type="text" name="employer_lgu" value="_72250_CITY_OF_TALISAY" class="form-control" readonly>
+                <select name="employer_lgu" id="address_muncity" class="custom-select" required>
+                    <option value="">Select Here...</option>
+                    @foreach($muncity as $row)
+                        <option value="{{ $row->vimsCode }}">{{ $row->citymunDesc }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label>Contact No. <span class="required">*</span></label>
-                <input type="text" name="employer_contact_no" value="(032) 273-3226" class="form-control" readonly>
+                <input type="text" name="employer_contact_no" value="" class="form-control">
             </div>
         </div>
 
@@ -454,7 +465,7 @@
             </div>
         </div>
         <hr>
-        <button class="btn btn-success btn-lg btn-block" type="submit">
+        <button class="btn btn-success btn-lg btn-flat btn-block" type="submit">
             <i class="fa fa-send"></i> Submit Data
         </button>
     </form>

@@ -164,25 +164,45 @@
             </div>
         </div>
 
-        <h4 class="title-header text-danger mt-5">Address <small class="text-muted text-italic">(Refer to Template for Address Coding)</small></h4>
+        <h4 class="title-header text-danger mt-5">Address <small class="text-muted text-italic"></small></h4>
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label>Region <span class="required">*</span></label>
-                <input type="text" name="region" value="{{ $data->region }}" class="form-control" readonly>
+                <select name="region" id="address_region" class="custom-select" required>
+                    <option value="">Select Here...</option>
+                    @foreach($region as $row)
+                        <option {{ ($row->vimsCode==$data->region) ? 'selected':'' }} value="{{ $row->vimsCode }}">{{ $row->regDesc }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group col-md-4">
                 <label>Province <span class="required">*</span></label>
-                <input type="text" name="province" value="{{ $data->province }}" class="form-control" readonly>
+                <select name="province" id="address_province" class="custom-select" required>
+                    <option value="">Select Here...</option>
+                    @foreach($provinces as $row)
+                        <option {{ ($row->vimsCode==$data->province) ? 'selected':'' }} value="{{ $row->vimsCode }}">{{ $row->provDesc }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group col-md-4">
                 <label>Municipality/City <span class="required">*</span></label>
-                <input type="text" name="muncity" value="{{ $data->muncity }}" class="form-control">
+                <select name="muncity" id="address_muncity" class="custom-select" required>
+                    <option value="">Select Here...</option>
+                    @foreach($muncity as $row)
+                        <option {{ ($row->vimsCode==$data->muncity) ? 'selected':'' }} value="{{ $row->vimsCode }}">{{ $row->citymunDesc }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
         <div class="form-row mt-3">
             <div class="form-group col-md-4">
                 <label>Barangay <span class="required">*</span></label>
-                <input type="text" name="barangay" value="{{ $data->barangay }}" class="form-control">
+                <select name="barangay" id="address_brgy" class="custom-select" required>
+                    <option value="">Select Here...</option>
+                    @foreach($brgy as $row)
+                        <option {{ ($row->vimsCode==$data->barangay) ? 'selected':'' }} value="{{ $row->vimsCode }}">{{ $row->brgyDesc }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group col-md-8">
                 <label>Unit/Building/House#/Street Name <span class="required">*</span></label>
@@ -195,7 +215,13 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label>Employer Name <span class="required">*</span></label>
-                <input type="text" name="employer_name" value="{{ $data->employer_name }}" class="form-control">
+                <select name="employer_name" class="custom-select" required>
+                    <option value="">Select...</option>
+                    <?php $facilities = \App\Models\Facility::orderBy('name','asc')->get(); ?>
+                    @foreach($facilities as $facility)
+                        <option @if($facility->name == $data->employer_name) selected @endif>{{ $facility->name }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label>Employer Address <span class="required">*</span></label>
@@ -205,7 +231,12 @@
         <div class="form-row mt-3">
             <div class="form-group col-md-6">
                 <label>LGU <span class="required">*</span></label>
-                <input type="text" name="employer_lgu" value="{{ $data->employer_lgu }}" class="form-control">
+                <select name="employer_lgu" id="address_muncity" class="custom-select" required>
+                    <option value="">Select Here...</option>
+                    @foreach($muncity as $row)
+                        <option @if($row->vimsCode==$data->employer_lgu) selected @endif value="{{ $row->vimsCode }}">{{ $row->citymunDesc }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label>Contact No. <span class="required">*</span></label>
@@ -428,8 +459,8 @@
             </div>
         </div>
         <hr>
-        <button class="btn btn-success btn-lg" type="submit">
-            <i class="fa fa-send"></i> Update Record
+        <button class="btn btn-info btn-flat btn-block btn-lg" type="submit">
+            <i class="fa fa-check"></i> Update Record
         </button>
     </form>
 
