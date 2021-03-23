@@ -116,6 +116,7 @@ class VaccineController extends Controller
 
     public static function transferToVas($id)
     {
+        $date = date('Y-m-d');
         $list = FinalList::find($id);
         $match = array(
             'firstname' => utf8_decode($list->firstname),
@@ -141,7 +142,7 @@ class VaccineController extends Controller
         );
         $vas = Vas::updateOrCreate($match,$data);
         if($vas->wasRecentlyCreated){
-            VasController::generateVaccinationDate($vas->id,null);
+            VasController::generateVaccinationDate($vas->id,$date, true);
         }
     }
 

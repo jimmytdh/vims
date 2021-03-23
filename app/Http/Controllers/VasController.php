@@ -425,10 +425,10 @@ class VasController extends Controller
         return redirect()->back()->with($status,true);
     }
 
-    public static function generateVaccinationDate($id,$date = null)
+    public static function generateVaccinationDate($id,$date,$registration = false)
     {
         $check = Vaccination::where('vac_id',$id);
-        if($date){
+        if(!$registration){
             $check = $check->where('vaccination_date',$date);
         }
         $check = $check->first();
