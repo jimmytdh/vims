@@ -721,6 +721,7 @@ class VasController extends Controller
 
         $data = Vas::leftJoin('vaccinations','vaccinations.vac_id','=','vas.id')
             ->where('vaccination_date',$date)
+            ->whereNotNull('vaccine_manufacturer')
             ->where('facility','Cebu South Medical Center')
             ->get();
         foreach($data as $row)
