@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Facility;
 use App\Models\Vaccination;
 use App\Models\Vas;
 use Carbon\Carbon;
@@ -107,5 +108,21 @@ class FacilityController extends Controller
             fclose($file);
         };
         return response()->stream($callback, 200, $headers);
+    }
+
+    public function overAll()
+    {
+        $start = '2021-03-18';
+        $tmpStart = $start;
+        $end = '2021-03-23';
+        $totalDays = Carbon::parse($start)->diff(Carbon::parse($end))->format("%d");
+        $facilities = Facility::orderBy('name','asc')->get();
+        return view('report.overall',compact(
+            'start',
+            'end',
+            'facilities',
+            'totalDays',
+            'tmpStart'
+        ));
     }
 }

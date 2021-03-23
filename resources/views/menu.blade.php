@@ -18,6 +18,7 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item {{ request()->is('report/cbcr') ? 'active' : '' }}" href="{{ url('/report/cbcr') }}"><i class="fa fa-area-chart mr-1"></i> CBCR Report</a>
                         <a class="dropdown-item {{ request()->is('report/facility') ? 'active' : '' }}" href="{{ url('/report/facility') }}"><i class="fa fa-building mr-1"></i> Facility Report</a>
+                        <a class="dropdown-item {{ request()->is('report/overall') ? 'active' : '' }}" href="{{ url('/report/overall') }}"><i class="fa fa-table mr-1"></i> Overall</a>
                     </div>
                 </li>
                 @if(auth()->user()->isAdmin())

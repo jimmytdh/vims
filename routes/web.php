@@ -156,4 +156,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/report/export',[FacilityController::class,'exportData']);
     Route::get('/report/facility',[FacilityController::class,'index']);
     Route::post('/report/facility',[FacilityController::class,'searchFacility']);
+
+    Route::get('/report/overall',[FacilityController::class,'overAll']);
 });
