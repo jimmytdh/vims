@@ -635,9 +635,9 @@ class VasController extends Controller
         $data = $this->csvToArray($path);
         foreach($data as $row)
         {
-            $row['firstname'] = utf8_encode($row['firstname']);
-            $row['lastname'] = utf8_encode($row['lastname']);
-            $row['middlename'] =utf8_encode($row['middlename']);
+            $row['firstname'] = $row['firstname'];
+            $row['lastname'] = $row['lastname'];
+            $row['middlename'] =$row['middlename'];
             $row['philhealth_id'] =utf8_encode($row['philhealth_id']);
             $row['street_name'] =utf8_encode($row['street_name']);
 
