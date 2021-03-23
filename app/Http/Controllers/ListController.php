@@ -152,11 +152,6 @@ class ListController extends Controller
             $row['middlename'] = utf8_encode(strtoupper($row['middlename']));
             $row['full_address'] =utf8_encode($row['full_address']);
 
-            $row['employer_name'] = "Cebu South Medical Center";
-            $row['employer_address'] = "San Isidro, Talisay City, Cebu";
-            $row['employer_lgu'] = "722 - CEBU";
-            $row['employer_contact_no'] = "(032) 273-3226";
-
             $row['suffix'] = ($row['suffix']) ? $row['suffix']: 'NA';
             $row['consent_update'] = Carbon::now();
 
@@ -174,7 +169,8 @@ class ListController extends Controller
             $countDuplicate += $count;
 //            if(!$check)
 //                FinalList::create($row);
-            FinalList::updateOrCreate($match,$row);
+            $list = FinalList::updateOrCreate($match,$row);
+            VaccineController::transferToVas($list->id);
         }
         $this->deleteFiles();
         $status = ($countDuplicate>0) ? 'duplicate': 'saved';
@@ -410,59 +406,6 @@ class ListController extends Controller
             'covid_classification',
             'consent',
         );
-        $data = array(
-            "Category",
-            "CategoryID",
-            "CategoryIDnumber",
-            "PhilHealthID",
-            "PWD_ID",
-            "Lastname",
-            "Firstname",
-            "Middlename",
-            "Suffix",
-            "Contact_no",
-            "Full_address",
-            "Region",
-            "Province",
-            "MunCity",
-            "Barangay",
-            "Sex",
-            "Birthdate_",
-            "Civilstatus",
-            "Employed",
-            "Direct_covid",
-            "Profession",
-            "Employer_name",
-            "Employer_LGU",
-            "Employer_address",
-            "Employer_contact_no",
-            "Preg_status",
-            "Allergy_01",
-            "Allergy_02",
-            "Allergy_03",
-            "Allergy_04",
-            "Allergy_05",
-            "Allergy_06",
-            "Allergy_07",
-            "W_comorbidities",
-            "Comorbidity_01",
-            "Comorbidity_02",
-            "Comorbidity_03",
-            "Comorbidity_04",
-            "Comorbidity_05",
-            "Comorbidity_06",
-            "Comorbidity_07",
-            "Comorbidity_08",
-            "covid_history",
-            "covid_date",
-            "covid_classification",
-            "Consent",
-        );
-        foreach($data as $row)
-        {
-            $str = strtolower($row);
-            echo "'$str',<br>";
-        }
     }
 
     public function export($id_list=null)
@@ -496,9 +439,6 @@ class ListController extends Controller
                     $row[$col] = utf8_decode($list->$col);
                 }
                 $dose = optional(Vaccine::where('emp_id',$list->id)->first());
-                $row['employer_name'] = "Cebu South Medical Center";
-                $row['employer_address'] = "San Isidro, Talisay City, Cebu";
-                $row['employer_contact_no'] = "(032) 273-3226";
                 $row['suffix'] = ($row['suffix']) ? $row['suffix']: 'NA';
                 $row['dose1'] = $dose->date_1;
                 $row['dose2'] = $dose->date_2;
