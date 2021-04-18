@@ -127,7 +127,8 @@ class QuickCountController extends Controller
 
     public static function countVaccinated($facility = null ,$vaccine = null,$date = null)
     {
-        $data = Vaccination::leftJoin('vas','vas.id','=','vaccinations.vac_id');
+        $data = Vaccination::select('vac_id')
+            ->leftJoin('vas','vas.id','=','vaccinations.vac_id');
         if($facility){
             $data = $data->where('facility',$facility);
         }
@@ -143,7 +144,8 @@ class QuickCountController extends Controller
                             $q->where('dose1','01_Yes')
                                 ->orwhere('dose2','01_Yes');
                         })
-                    ->count();
-        return $data;
+                    ->groupBy('vac_id')
+                    ->get();
+        return count($data);
     }
 }
